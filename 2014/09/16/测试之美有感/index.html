@@ -1,0 +1,444 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>测试之美有感 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="王小波说：这个世界上有两种人，一类人将有趣的事情做成无趣，一类人把无趣的事情做成有趣。软件测试原本是件很有趣的事情，可是网上有很多的人或者一些做测试的人很不幸将测试这件有趣的事做成了无趣的事情：觉得是日复一日的手工劳动，不断的和开发人员争执，等等……但其实不是这样的。测试是一个软件项目，公司成功的基">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/09/16/测试之美有感/" title="测试之美有感" itemprop="url">测试之美有感</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-09-16T13:29:33.000Z" itemprop="datePublished">9月 16 2014</time>
+    更新日期:<time datetime="2014-09-16T13:34:21.000Z" itemprop="dateModified">9月 16 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、性能测试，协作是关键"><span class="toc-number">1.</span> <span class="toc-text">一、性能测试，协作是关键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、模糊测试，让系统更可靠"><span class="toc-number">2.</span> <span class="toc-text">二、模糊测试，让系统更可靠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、自动化测试"><span class="toc-number">3.</span> <span class="toc-text">三、自动化测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、测试随机数发生器"><span class="toc-number">4.</span> <span class="toc-text">四、测试随机数发生器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、QA不是魔鬼"><span class="toc-number">5.</span> <span class="toc-text">五、QA不是魔鬼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、高效测试"><span class="toc-number">6.</span> <span class="toc-text">六、高效测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七、查找缺陷"><span class="toc-number">7.</span> <span class="toc-text">七、查找缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#八、测试分类"><span class="toc-number">8.</span> <span class="toc-text">八、测试分类</span></a></li></ol>
+		</div>
+		
+		<p>　　<strong>王小波说：这个世界上有两种人，一类人将有趣的事情做成无趣，一类人把无趣的事情做成有趣。</strong>软件测试原本是件很有趣的事情，可是网上有很多的人或者一些做测试的人很不幸将测试这件有趣的事做成了无趣的事情：觉得是日复一日的手工劳动，不断的和开发人员争执，等等……但其实不是这样的。测试是一个软件项目，公司成功的基石，是一种在成本、质量、效率、周期之间平衡的艺术。</p>
+<h3 id="一、性能测试，协作是关键">一、性能测试，协作是关键</h3>
+<p>　　性能测试是比较复杂的一个测试环节，比如对一个学生进度跟踪系统，客户会要求“100%的网页在5秒或者是更短的时间内显示出来，应用程序支持1000及以上用户同时使用，98%的情况下，课程将在第一次尝试时就完全正确下载”，等等。虽然这是客户的要求，在这样是不可以写进目标里的，因为这完全无法验证，不能讲模棱两可的性能指标写到合同义务中。性能测试应该做到可度量有价值。将其改为“对于内部版本（出现情况需上报），在任意数量的用户条件下，有超过5%的情况加载网页的时间超过5S，超过2%的情况，课程无法完整或正确的下载……对于外部版附有性能报告，包括在，任意数量的用户条件下，有超过5%的情况加载时间超过5S的网页，超过2%的情况无法完整或正确下载的课程……”。<br>　　<strong>对于性能测试的需求从承诺达到一定水平转变为承诺报告在什么样的条件下目标将无法实现。这个过程就涉及到项目经理，客户，开发人员之间的交流和协作。</strong><br>　　但是面对这样的目标还是无法给出测试用例，那么应该在系统中设置检查点，策略：收集系统性能指标基准，并验证使用模型中包括的每个功能任务，分别在1个用户的负荷下，10个用户，1000甚至更多负荷下载每一个包含该功能任务的性能测试中都达到性能需求，每一个下面都需要列出功能任务清单。一个系统的性能是客户最关注的，但是你无法不能性能测试所有的东西。文中用一个超级杯营销的案例，说明性能测试需要与其他测试人员协作，于项目管理协作，于客户协作，于开发团队协作，于IT人员协作，以及与最终用户协作。</p>
+<h3 id="二、模糊测试，让系统更可靠">二、模糊测试，让系统更可靠</h3>
+<p>　　模糊测试大多数用于办公软件，<strong>那什么是模糊测试：是通过对输入数据进行随机修改和破坏来测试程序的方法。</strong>他为测试和编程人员在开发软件时面临的棘手问题提供多种优美的解决方案。办公软件需要支持很多种格式，我们或许能找到特定格式的文档，但这些文档可能不准确或有丢失处。例如与其他软件之间的互操作性，我们就需要模拟其他复杂软件，或者用一个模糊器生成范围很广的各种文档来模拟各种应用软件和软件版本的差别。office2007在开发的时候就大量使用了模糊测试。<br>　　在进行模糊测试的时候需要准备一组有代表性的文档，一个模糊器，从常规模型到自定义模型。在测试过程中也要不断的修改你的模糊器，以产生更多的测试用例并去除可能影响输出的偏差。模糊测试擅长发现诸如崩溃和挂起的明显问题，但对判断正确性的作用很小。在办公软件领域，它对开发和测试人员所面临的操作性、安全性、和稳定性在内的许多复杂问题提供有创意且简洁的解决方案。</p>
+<h3 id="三、自动化测试">三、自动化测试</h3>
+<p>　　自动化测试不仅仅是简单的编写和运行那些不需要人为干预的测试用例。事实上，在很多测试人员看来，自动化这是由一些手动生成的，用来执行特定测试场景或一部分产品功能的测试脚本或代码组成。但是很多时候自动化测试并没有给测试人员带来方便，因为除了实际的执行程序之外，流程中的其他部分没有一个实现了自动化。那么为了实施自动化，特别是规模较大的自动化测试，整个过程从头到尾—从测试人员编写玩测试程序到结果被分析出来给人看，都必须自动化。如果没有这个层次上的自动化，测试人员在监控测试程序运行上所花的时间将会变成难以控制的增长。<br>　　在什么情况下自动化可以帮助测试团队，以及什么情况下自动化会妨碍测试的工作，应该百分百的自动化那些应该被自动化的测试，这一准则本身是简单多额，困难就在于决定那些是应该被自动化的，产品架构，相关参与者，都可以帮助测试团队做出正确的决定。很多自动化之所以失败的原因在在于测试人员花太多的时间进行自动化或者试着去自动化，并把时间花在了根本不值得自动化的目标任务上。<br>　　一个基本的自动化测试流程：编写自动化测试—-选择测试和测试平台—-运行测试—-收集用于报告的测试结果—-报告新的额bug解决已近修复的bug。自动化测试要成功的第一步是：测试代码要写得棒。必须要能够易于维护，要对测试带进行源代码控制，并且集中编译和创建。测试员可以成为设计和实现系统测试框架的专家，这于应用程序开发是不一样的。<strong>编写一个漂亮的测试自动化工具需要对被测系统的理解，需要对可能将要编写的测试的理解，需要知道哪些测试对项目最优价值，还需要知道哪些测试最可能在将来随着被测软件的变化而具有可维护性。</strong><br>　　<em>如果在某一阶段，测试通过率仅为94%，你会怎么做？对于合理的测试通过率目标，与其去设定一个神奇的数字，你真正需要的是100%的失败调研并确保那些失败中没有一个严重到阻碍发布。回答”这要看失败来定了，如果阻碍我么达到目标的错误不满足我们的门槛，我们就让他过去“</em></p>
+<h3 id="四、测试随机数发生器">四、测试随机数发生器</h3>
+<h3 id="五、QA不是魔鬼">五、QA不是魔鬼</h3>
+<p>　　测试人员是好的流程的促进者，能准确的发现（在发布之前）软件需求与实现之间不吻合的人，也是最广泛了解软件开发实践的人，对项目总体状态最了解的人。QA的工作是引导软件开发过程以提高成功率，以及建设性的批判软件开发过程而不是阻碍这个过程并成为拖后腿的人。<br>　　检验：通过重复的操作来确认事情做得正确的过程。<br>　　调查：反馈驱动的过程<br>　　很多人认为测试就是简单的触屏和点击，无聊的文本进行，是一个简单无聊的工作，如果这么想就错了，这样的工作不是调查而是检验。测试不仅仅是这些，测试往往需要和各类人员沟通，测试是对产品质量负责，保证每个产品能满足客户的需求及时上线。</p>
+<h3 id="六、高效测试">六、高效测试</h3>
+<p>　　软件测试中首要考虑的问题就是：安全性测试。导致用户数据的丢失是一件很糟糕的事情！安全性测试必须最早考虑，因为其贯穿在整个产品的架构之中。即架构上如果有所改动，那么几乎需要重新测试所有的东西，比如如果数据库的权限有问题，那么就不得不重新测试所有与数据库交互有关的测试用例，或者一旦程序和操作系统的交互存在安全问题，所有与操作系统交互有关的测试用例也必须重测。安全性对于应用程序的测试几乎会影响到每一个测试领域，需涉及到整个应用程序，对于安全性要求高的领域最好有相关的信息安全人员提供高级全面的解决方案。<br>　　在互联网应用程序中，可以考虑一下几个问题：跨站脚本、SQL注入、越权访问、信息泄露。</p>
+<h3 id="七、查找缺陷">七、查找缺陷</h3>
+<p>　　问：如果处于整个软件开发周期的最后一个环节：所有的新功能都实现了所有的测试用例也通过了，那么产品可以发布了吗？<br>　　理论上讲是测试用例都通过了就没有问题了，但是怎么保证你的测试集是完美的，如何才能知道你的测试集能有效的检查出缺陷。在这种情况下，可以系统化的植入认为的缺陷，然后测试集能否发现他们。测试集的代码覆盖率就是量化的度量测试集的质量指标（检查是否执行了程序的每一种状态）、分支覆盖率（保证代码中的分支至少被执行一次）、条件覆盖率（保证代码中每个条件分支子条件都经历过是和否的状态）。80%的缺陷都集中在20%的模块中。<br>　　覆盖率只能告诉你测试执行的情况并没有测试集本身的信息。可以使用变异测试，在程序中植入大量的人为的漏洞，并逐个对他们进行测试看哪些变异没有检测出来。然后系统化的改进这个测试集，知道所有的变异都能被检测出来。但是变异测试非常耗时。变异测试依赖于自动化测试。<br>　　问：怎么对程序进行变异呢？改变常量的值（对某一常量X，尝试用X-1,X+1，0来替换），用常量来替换变量的值，用变量来替换数组的引用，改变操作符，改变调用方法，将某一条件置返（判断条件c为非c）。改变数字操作符+改成-,&gt;&gt;改成&lt;&lt;。省略方法调用(将一个方法调用直接改为0.如果该方法不需要返回值，可以直接删除)。</p>
+<h3 id="八、测试分类">八、测试分类</h3>
+<p>　　黑盒和白盒测试是软件测试中最普遍的设计方法，在黑盒测试中，软件被看做是一个神秘的对象，他的内部结构和设计是未知的，他接受一些输入数据，对数据进行处理，然后输出结果。如果一个程序能正确处理数据并输出预期的结果，则认为测试师成功的。黑盒测试是以软件说明书为基础的，而白盒测试则需要具有软件内部实现的了解，并关注于程序的某一特定路径的测试。程序员要小心的选择测试用例以覆盖所有重要的代码单元。虽然黑盒和白盒测试方法是互相补充的，但二者都有一些共同的局限。其中主要的一个问题就是他们都不能对程序进行全面的测试。这就要求你富有创造型、有效的进行设计，甚至为了在用户使用软件之前将缺陷找到，还要开发出漂亮的测试来覆盖个整蛊你用例。<br>　　静态分析：白盒测试一种，不需要代码的执行，在于查找一般性错误确保代码满足所有重要的要求和标准。一般自动化执行。例如GCC编译器是静态分析工具。<br>　　单元测试：白盒测试一种，检查代码单元个体单个函数或模块是否正常工作，是否接受和处理数据u，并返回预期的值。<br>　　测试脚本：一系列逐步运行的指令集合，再现各种不同的条件来检查程序各项功能是否正常，模仿日常对应用程序的使用，给定在一系列牌值下下能否输出正确的的结果。不关心程序的内部细节。 </p>
+<hr>
+<p>　　<br>　　<em>这本书并不适合出学者看，建议有了一定的测试基础之后在过来看本书。以上的只是书里的一些摘录，对于测试的理解还不是很深入，但是对于测试会有一点大概的了解，书中提到的一些经验还是不错的，但是个人感觉这本书有点旧时了，不建议看。当然这个只能我个人的看法。</em></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/软测/">软测</a><a href="/tags/读书笔记/">读书笔记</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/笔记/">笔记</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/09/16/测试之美有感/" data-title="测试之美有感 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/09/16/小强升职记/" title="时间管理--小强升职记">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  时间管理--小强升职记</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/09/16/对艾扬格大师的光耀生命有感/"  title="对艾扬格大师的光耀生命有感">
+ <strong>NEXT:</strong><br/> 
+ <span>对艾扬格大师的光耀生命有感
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、性能测试，协作是关键"><span class="toc-number">1.</span> <span class="toc-text">一、性能测试，协作是关键</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、模糊测试，让系统更可靠"><span class="toc-number">2.</span> <span class="toc-text">二、模糊测试，让系统更可靠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、自动化测试"><span class="toc-number">3.</span> <span class="toc-text">三、自动化测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、测试随机数发生器"><span class="toc-number">4.</span> <span class="toc-text">四、测试随机数发生器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、QA不是魔鬼"><span class="toc-number">5.</span> <span class="toc-text">五、QA不是魔鬼</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六、高效测试"><span class="toc-number">6.</span> <span class="toc-text">六、高效测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七、查找缺陷"><span class="toc-number">7.</span> <span class="toc-text">七、查找缺陷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#八、测试分类"><span class="toc-number">8.</span> <span class="toc-text">八、测试分类</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/tags/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
