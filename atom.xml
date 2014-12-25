@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-12-25T13:57:16.181Z</updated>
+  <updated>2014-12-25T14:04:31.672Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2014/12/25/%E7%AE%80%E5%8D%95Xpath%E5%85%A5%E9%97%A8/"/>
     <id>http://yoursite.com/2014/12/25/简单Xpath入门/</id>
     <published>2014-12-25T13:54:52.000Z</published>
-    <updated>2014-12-25T13:56:24.000Z</updated>
+    <updated>2014-12-25T14:01:04.000Z</updated>
     <content type="html"><![CDATA[<p>　　XPath即为XML路径语言，它是一种用来确定XML（标准通用标记语言的子集）文档中某部分位置的语言。XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。XPath 是 XML 的查询语言，和 SQL 的角色很类似。以下面 XML 为例，介绍 XPath 的语法。</p>
 <pre><code><span class="pi">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span>
 <span class="tag">&lt;<span class="title">catalog</span>&gt;</span>
@@ -78,8 +78,6 @@
     
       <category term="selenium" scheme="http://yoursite.com/categories/selenium/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/selenium/%E8%BD%AF%E6%B5%8B/"/>
-    
   </entry>
   
   <entry>
@@ -87,7 +85,7 @@
     <link href="http://yoursite.com/2014/12/25/selenium-%E5%A4%A7%E5%AE%B6%E5%BA%AD%E4%BB%8B%E7%BB%8D/"/>
     <id>http://yoursite.com/2014/12/25/selenium-大家庭介绍/</id>
     <published>2014-12-25T13:29:10.000Z</published>
-    <updated>2014-12-25T13:55:51.000Z</updated>
+    <updated>2014-12-25T14:01:20.000Z</updated>
     <content type="html"><![CDATA[<p>安装好配置环境后，开始我的selenium之旅。简单的了解一下色，selenium大家庭的组成。</p>
 <p>Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Selenium使用JavaScript和Iframes在浏览器嵌入自动化测试引擎，可以在任何支持JavaScript的浏览器中进行工作，模拟用户在浏览器中进行的操作。Selenium的强大之处就在于可以使用集成开发环境，让用户使用自己最熟悉的开发语言进行调试操作。</p>
 <p><strong>Selenium的优势</strong>：<br>1）它是开源的    </p>
@@ -131,8 +129,6 @@
     
       <category term="selenium" scheme="http://yoursite.com/categories/selenium/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/selenium/%E8%BD%AF%E6%B5%8B/"/>
-    
   </entry>
   
   <entry>
@@ -140,7 +136,7 @@
     <link href="http://yoursite.com/2014/12/25/%E4%B8%80%E4%B8%AA%E7%BD%91%E9%A1%B5%E7%9A%84%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
     <id>http://yoursite.com/2014/12/25/一个网页的测试用例/</id>
     <published>2014-12-25T13:23:58.000Z</published>
-    <updated>2014-12-25T13:28:43.000Z</updated>
+    <updated>2014-12-25T14:03:45.000Z</updated>
     <content type="html"><![CDATA[<p>　　今天在看51testing的博客时，看到这么一个网页登录的测试用例，想到自己之前写的那个关于登录页面的简单的功能测试用例真的是太弱了，感觉很多都没有考虑进去。特此在这里记录下来，参考。具体需求： 有一个登陆页面， （假如上面有2个textbox, 一个提交按钮。 请针对这个页面设计30个以上的TestCase.）</p>
 <p>　　此题的考察目的：面试者是否熟悉各种测试方法，是否有丰富的web测试经验， 是否了解Web开发，以及设计Test case的能力<br>首先，你要了解用户的需求，比如这个登录界面应该是弹出窗口式的，还是直接在网页里面。对用户名的长度，和密码的强度（就是是不是必须多少位，大小写，特殊字符混搭）等。还有比如用户对界面的美观是不是有特殊的要求？（即是否要进行UI测试）。剩下的就是设计用例了 ，等价类，边界值等等。<br>　　请你记住一点，<strong>任何测试，不管测什么都是从了解需求开始的。</strong></p>
 <p><strong>功能测试(Function test)</strong><br>　　0.  什么都不输入，点击提交按钮，看提示信息。（非空检查）<br>　　1.输入正确的用户名和密码，点击提交按钮，验证是否能正确登录。（正常输入）<br>　　2.输入错误的用户名或者密码, 验证登录会失败，并且提示相应的错误信息。（错误校验）<br>　　3.登录成功后能否能否跳转到正确的页面（低）<br>　　4.用户名和密码，如果太短或者太长，应该怎么处理（安全性，密码太短时是否有提示）<br>　　5.用户名和密码，中有特殊字符（比如空格），和其他非英文的情况（是否做了过滤）<br>　　6.记住用户名的功能<br>　　7.登陆失败后，不能记录密码的功能<br>　　8.用户名和密码前后有空格的处理<br>　　9.密码是否加密显示（星号圆点等）<br>　　10.牵扯到验证码的，还要考虑文字是否扭曲过度导致辨认难度大，考虑颜色（色盲使用者），刷新或换一个按钮是否好用<br>　　11.登录页面中的注册、忘记密码，登出用另一帐号登陆等链接是否正确<br>　　12.输入密码的时候，大写键盘开启的时候要有提示信息。</p>
@@ -157,9 +153,9 @@
     
       <category term="测试用例" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
     
   </entry>
   
@@ -961,7 +957,7 @@ Singleton <span class="variable">singleton2 =</span> Singleton.getInstance();
     <link href="http://yoursite.com/2014/12/25/JUnit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/"/>
     <id>http://yoursite.com/2014/12/25/JUnit单元测试-小试牛刀/</id>
     <published>2014-12-25T07:51:46.000Z</published>
-    <updated>2014-12-25T09:41:01.000Z</updated>
+    <updated>2014-12-25T14:03:37.000Z</updated>
     <content type="html"><![CDATA[<p>单元测试更多的是在开发阶段完成，开发人员每写一个函数的时候都会写相应的单元测试。对于java代码，普遍使用的是jUnit，根据jUnit可以自己相应的开发一套自动化测试框架。这个的前提是要学会junit，先知道怎么用，才能知道怎么为我所用。</p>
 <p>学习JUnit的操作很简单，JUnit是一个敏捷编程的开发框架，他的设计很值得学习。这也是我学习JUnit的原因。</p>
 <p>JUnit最大的特点就是：各个方法之间是独立的，一个方法的失败不会影响另一个方法的执行。</p>
@@ -1130,7 +1126,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="JUnit" scheme="http://yoursite.com/tags/JUnit/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -1139,7 +1135,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/12/25/%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99/"/>
     <id>http://yoursite.com/2014/12/25/功能测试用例编写/</id>
     <published>2014-12-25T07:42:30.000Z</published>
-    <updated>2014-12-25T07:51:00.000Z</updated>
+    <updated>2014-12-25T14:03:44.000Z</updated>
     <content type="html"><![CDATA[<p>由于还不熟悉怎么用markdown来展现表格的内容，若想查看请移步我的博客园：<br><a href="http://www.cnblogs.com/silence-hust/p/4112055.html" target="_blank" rel="external">http://www.cnblogs.com/silence-hust/p/4112055.html</a></p>
 <p>感谢大家的关注，我会继续努力的……</p>
 <p>下面是幅我很喜欢的图片：人为什么要怎么努力，分享给大家<br>一定要看到最后哦！<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/人为什么要努力1.jpg" alt="人为什么要怎么努力"></p>
@@ -1150,9 +1146,9 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="测试用例" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
     
   </entry>
   
@@ -1161,7 +1157,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/12/25/web%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B0%8F%E7%82%B9/"/>
     <id>http://yoursite.com/2014/12/25/web前端性能测试小点/</id>
     <published>2014-12-25T06:57:34.000Z</published>
-    <updated>2014-12-25T07:04:46.000Z</updated>
+    <updated>2014-12-25T14:03:35.000Z</updated>
     <content type="html"><![CDATA[<p>关于前端性能的文章：<br> <a href="http://www.cnblogs.com/fnng/archive/2011/09/19/2181894.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/archive/2011/09/19/2181894.html</a></p>
 <p>　　web应用的前端性能响应时间指浏览器的页面加载时间。浏览器的页面加载时间包括对html的解析，对页面图片及css等文件的获取和加载、客户端脚本的执行时间以及对你页面进行展现所花费的时间。这个与并发用户量的大小并没有直接的关系，主要关注：如何提高浏览器下载和执行资源的并发性，如何让浏览器尽快开始渲染页面，如何让浏览器尽可能充分的利用缓存。在yahoo中，到少50个团队通过纯粹的前端性能相关的技巧，将最终用户的响应时间减少了25%以上。<br>　　<br>在了解web前端性能时，我们应该知道http协议。</p>
 <p>　　http协议采用请求/响应模型，客户端向服务器发送一个请求，请求头包含请求的方法、URI、协议版本等信息，服务器以一个状态行作为响应，响应的内容包括消息协议的版本、成功或者错误编码加上包含服务器的信息、实体元信息等内容。该协议是一种非面向连接的协议，每个http请求都是独立的。<br>　　<code>请求报文的格式</code>：请求行 | 通用信息头 | 请求头 | 实体头 | 报文主体   Method     Request-URI  HTTP-versionCRIF<br>　　<code>响应报文的格式</code>：状态行 | 通用信息头 | 响应头 | 实体头 | 报文主体</p>
@@ -1186,9 +1182,9 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -1197,7 +1193,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B%E9%9C%80%E6%B1%82%E5%BC%80%E5%8F%91/"/>
     <id>http://yoursite.com/2014/12/25/性能测试之需求开发/</id>
     <published>2014-12-25T06:54:52.000Z</published>
-    <updated>2014-12-25T08:24:31.000Z</updated>
+    <updated>2014-12-25T14:03:42.000Z</updated>
     <content type="html"><![CDATA[<p>以下内容大多来自jackei的博客，只是整理了下，增加了自己的理解。</p>
 <h4 id="一个实际的例子：">一个实际的例子：</h4>
 <p> 某证券行业系统中某个业务的实际需求<br>1、系统总容量达到日委托6000万笔，成交9000万笔<br>2、 系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔<br>3、实际股东帐号数3000万</p>
@@ -1234,9 +1230,9 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -1245,7 +1241,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5/"/>
     <id>http://yoursite.com/2014/12/25/性能测试之主要概念/</id>
     <published>2014-12-25T06:41:07.000Z</published>
-    <updated>2014-12-25T06:44:04.000Z</updated>
+    <updated>2014-12-25T14:03:43.000Z</updated>
     <content type="html"><![CDATA[<h4 id="什么是软件性能？">什么是软件性能？</h4>
 <p><code>交互式系统</code>：以用户感受到的响应时间来描述系统的性能<br><code>非交互式系统</code>（银行业务处理）：响应时间只系统对事件产生的响应所需要的时间</p>
 <h4 id="如何评价性能的好坏：">如何评价性能的好坏：</h4>
@@ -1289,9 +1285,9 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -1300,7 +1296,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%80%EF%BC%89---%E7%90%86%E5%8F%91%E5%BA%97%E6%A8%A1%E5%9E%8B/"/>
     <id>http://yoursite.com/2014/12/25/性能测试（一）---理发店模型/</id>
     <published>2014-12-25T02:24:38.000Z</published>
-    <updated>2014-12-25T05:06:31.000Z</updated>
+    <updated>2014-12-25T14:03:41.000Z</updated>
     <content type="html"><![CDATA[<p>　　这个理发店模型是在网络上看来的，之后对性能测试有了一定的了解之后，感觉写的很好，现在结合自己的一点想法，将理发店模型完整的记录下来。文中很多是来自jackei和虫师的博客，估计这两个博客大家都不陌生。</p>
 <h3 id="理发店模型">理发店模型</h3>
 <p>　　理发店模型，可以很好的用来理解很多性能测试的概念和理论，以及一些测试中遇到的问题，将本来抽象的概念具体化，联合实际，可能很多地方没有很好的切合，但是这个模型确实帮助我理解了很多点。</p>
@@ -1373,9 +1369,9 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     
       <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+      <category term="软件测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
-      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
@@ -1384,7 +1380,7 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
     <link href="http://yoursite.com/2014/10/26/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%B3%E5%81%9A%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%88%91%E7%9A%84%E6%B5%8B%E8%AF%95%E5%BC%80%E7%AB%AF/"/>
     <id>http://yoursite.com/2014/10/26/为什么想做测试之我的测试开端/</id>
     <published>2014-10-26T02:06:00.000Z</published>
-    <updated>2014-12-25T12:08:08.000Z</updated>
+    <updated>2014-12-25T14:01:50.000Z</updated>
     <content type="html"><![CDATA[<p>&emsp;&emsp;这个问题曾经纠结了我很久，开发还是测试？最终出于自己内心的渴望与求知决定我要从事软测这个行业。</p>
 <p>&emsp;&emsp;从本科我就开始接触主流的编程语言，也一直以为自己以后会从事软件设计这份工作，直到大三找实习的时候接触到软测，加上身边很多人都说女孩子适合做软测，不累，当初就抱着这么单纯的想法，懵懵懂懂的就想往测试这个方向走了，算是在心里种下了一颗种子。当时也是为了增加项目经历和拥有开发经验（当时觉得有开发经历能找到好工作）就选择了现在所在的实验室，进入实验室后才发现这个环境和我所想的不一样，不到半年，我就对自己的前途感到迷茫了，看不清楚路在哪里。实验室的研究方向变了，周围有很多人都鄙视做软测的，都说测试没有开发的工资高，测试是很low的一个工作，本科生大专生才做的，根本没有技术含量，在一些公司根本不重要，各种不好的话语动摇了我的决心，于是之前种下的种子没有浇水施肥，还忍受着虫害，时间一长，渐渐地快死了。</p>
 <p>&emsp;&emsp;就在这纠结的期间，实验室师姐拉了我一把，师姐是想做前端的，跟我介绍了前端的各种技术，于是在我不确定的情况下，我跟着师姐断断续续学习了将近2个月的前端知识，从一点基础都没有的情况下，学到了：</p>
@@ -1424,8 +1420,6 @@ public class AllCalculatorTests <span class="keyword">...</span>{}
       <category term="心路历程" scheme="http://yoursite.com/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/"/>
     
       <category term="杂感" scheme="http://yoursite.com/categories/%E6%9D%82%E6%84%9F/"/>
-    
-      <category term="软测" scheme="http://yoursite.com/categories/%E6%9D%82%E6%84%9F/%E8%BD%AF%E6%B5%8B/"/>
     
   </entry>
   
