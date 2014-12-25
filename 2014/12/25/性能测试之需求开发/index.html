@@ -1,0 +1,476 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>性能测试之需求开发 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="以下内容大多来自jackei的博客，只是整理了下，增加了自己的理解。
+一个实际的例子：
+ 某证券行业系统中某个业务的实际需求1、系统总容量达到日委托6000万笔，成交9000万笔2、 系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔3、实际股东帐号数3000万
+从上面例子中可以看出几个明">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/性能测试之需求开发/" title="性能测试之需求开发" itemprop="url">性能测试之需求开发</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T06:54:52.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T06:55:51.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一个实际的例子："><span class="toc-number">1.</span> <span class="toc-text">一个实际的例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是“有效的”性能需求？"><span class="toc-number">2.</span> <span class="toc-text">什么是“有效的”性能需求？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何获得有效的性能需求："><span class="toc-number">3.</span> <span class="toc-text">如何获得有效的性能需求：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#性能测试点选取："><span class="toc-number">4.</span> <span class="toc-text">性能测试点选取：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#需求获取的小例子："><span class="toc-number">5.</span> <span class="toc-text">需求获取的小例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于性能需求的一点补充："><span class="toc-number">6.</span> <span class="toc-text">关于性能需求的一点补充：</span></a></li></ol>
+		</div>
+		
+		<p>以下内容大多来自jackei的博客，只是整理了下，增加了自己的理解。</p>
+<h4 id="一个实际的例子：">一个实际的例子：</h4>
+<p> 某证券行业系统中某个业务的实际需求<br>1、系统总容量达到日委托6000万笔，成交9000万笔<br>2、 系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔<br>3、实际股东帐号数3000万</p>
+<p>从上面例子中可以看出几个明确的需求：<br>1、最佳并发用户数需求：每秒7300笔<br>2、最大并发用户数需求：峰值处理能力达到每秒10000笔<br>3、基础数据容量：实际股东帐号数3000万<br>4、业务数据容量：日委托6000万笔，成交9000万笔——可以根据这个推算出每周、每月、每年系统容量的增长模型</p>
+<h4 id="什么是“有效的”性能需求？">什么是“有效的”性能需求？</h4>
+<p>　　要想获得有效的性能需求，就要先了解什么样的需求是“有效的”。有效的性能需求应该符合以下三个条件。</p>
+<p>1、 明确的数字，而不是模糊的语句。</p>
+<p>　　结合上面的例子来看，相信这个应该不难理解。但是有的时候有了数字未必就不模糊。例如常见的一种需求是“系统需要支持5000用户”，或者“最大在线用户数为8000”。这些有数字的需求仍然不够明确，因为还需要考虑区分系统中不同业务模块的负载，以及区分在线用户和并发用户的区别。</p>
+<p>2、有凭有据，合理，有实际意义。</p>
+<p>　　通常来说，性能需求要么由客户提出，要么由开发方提出。对于第一种情况，要保证需求是合理的，有现实意义的，不能由着客户使劲往高处说，要让客户明白性能是有成本的。对于第二种情况，性能需求不能简单的来源于项目组成员、PM或者测试工程师的估计或者猜测，要保证性能需求的提出是有根据的，所使用的数据和计算公式是有出处的。</p>
+<p>3、相关人员达成一致。</p>
+<p>　　如果相关人不能对性能需求达成一致，可能测了也白测——特别是在客户没有提出明确的性能需求而由开发方提出时。这里要注意“相关人员”的识别，通常项目型的项目的需要与客户方的项目经理或负责人进行确认，产品型的项目需要与直属领导或者市场部进行确认。如果实在不知道该找谁确认，那就把这个责任交给你的直属领导。</p>
+<h4 id="如何获得有效的性能需求：">如何获得有效的性能需求：</h4>
+<p>1、 客户方提出<br>　　这是最理想的一种方式，通常电信、金融、保险、证券以及一些其他运营商级系统的客户——特别是国外的客户都会提出比较明确的性能需求。<br>　　<br>2、根据历史数据来分析<br>　　根据客户以往的业务情况来分析客户的业务量以及每年、每月、每周、每天的峰值业务量。如果客户有旧的系统，可以根据已有系统的访问日志，数据库记录，业务报表来分析。要特别注意的是，不同行业、不同应用、不同的业务是有各自的特点的。例如，购物网站在平时的负载主要集中在晚上，但是节假日时访问量和交易量会是平时的数倍；而地铁的售票系统面临的高峰除了周末，还有周一到周五的一早一晚上下班时间。<br>　　<br>3、参考历史项目的数据<br>　　如果该产品已有其他客户使用，并且规模类似的，可以参考其他客户的需求。例如在线购物网站，或者超市管理系统，各行业的进销存系统。<br>　　<br>4、参考其他同行类似项目的数据<br>　　如果本企业没有做过类似的项目，那么可以参考其他同行企业的公布出来的数据——通常在企业公布的新闻或者成功解决方案中会提到，包括系统容量，系统所能承受的负载以及系统响应能力等。<br>　　<br>5、参考其他类似行业应用的数据<br>　　如果无法找打其他同行的数据，也可以参考类似的应用的需求。例如做IPTV或者DVB计费系统的测试，可以参考电信计费系统的需求——虽然不能完全照搬数据，但是可以通过其他行业成熟的需求来了解需要测试的项目有哪些，应该考虑到的情况有哪些种。<br>　　<br>6、参考新闻或其他资料中的数据<br>　　最后的一招，特别是对于一些当前比较引人关注的行业，涉及到所谓的“政绩”的行业，通常可以通过各种新闻媒体找到一些可供参考的数据，但是需要耐心的寻找。例如我们在IPTV和DVB系统的测试中，可以根据新闻中公布的各省、各市，以及国外各大运营商的用户发展情况和用户使用习惯来估算系统容量和系统各个模块的并发量。</p>
+<h4 id="性能测试点选取：">性能测试点选取：</h4>
+<ul>
+<li>发生频率非常高的（例如：某邮箱核心业务系统中的登录、收发邮件等业务，它们在每天的业务总量中占到90%以上）</li>
+<li>关键程度非常高的（产品经理认为绝对不能出现问题的，如登录等）</li>
+<li>资源占用非常严重的（导致磁盘I/O非常大的，例如某个业务进行结果提交时需要向数十个表存取数据，或者一个查询提交请求时会检索出大量的数据记录）</li>
+</ul>
+<h4 id="需求获取的小例子：">需求获取的小例子：</h4>
+<p>　　去年全年处理“WEB登录”交易约 100 万笔，考虑到 3 年后交易量递增到每年 200万笔。假设每年交易量集中在 8 个月，每个月 20 个工作日，每个工作日 8 小时，试采用 80～20 原理估算系统服务器高峰期“WEB登录”的交易吞吐量应达到怎样的一个处理能力　<br>200万/8=25万/月<br>25万/20=1.25万/日<br>1.25万<em>80%/(8</em>20%*3600)=1.74TPS</p>
+<h4 id="关于性能需求的一点补充：">关于性能需求的一点补充：</h4>
+<p>　　在软件开发过程中，需求管理要远远简单于需求开发，CMMI中也体现了这一点，并且实际工作中也常常需要我们为客户来开发这部分的性能需求。考虑一下，如何根据客户的实际使用或粗线条的性能要求来开发满足客户需要的性能需求来。就拿例子来说，客户告诉我们“系统总容量达到日委托6000万笔，成交9000万笔；系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔”，那我们将客户的这个要求管理起来并实现了这一点，这叫需求管理；而如果我们根据以下2个假设：<br>　　<br>1、采用2/8比例，即80%的业务在20%的峰值时间内完成，20%的业务在80%的非峰值时间内完成，那么我们可以得到峰值处理业务量1.5亿的80%为1.2亿，非峰值处理业务量1.5亿的20%为3000万；<br>2、1天系统运行时间为20小时，另4小时为非营业的后台处理时间，那么峰值时间20小时的20%为4小时，非峰值时间20小时的80%为16小时。</p>
+<p>我们可以计算到：</p>
+<p>3、平均峰值处理速度1.2亿/4<em>3600秒接近9000个/秒；<br>4、平均非峰值处理速度3000万/16</em>3600秒约500个/秒；</p>
+<p>　　考虑到特殊情况的发生，我们建议实际峰值处理速度要能达到理论计算的平均峰值处理速度的1.5到2倍，所以最终确定下来的建议峰值处理速度为9000个/ 秒<em>2=18000个/秒。我们拿这个结果向客户说明，告诉他们原来的需求很可能在发生特殊情况时无法有效处理，客户最终接受了我们的说法并调整了他们的需求。<br>　　<br>　　这叫需求开发，通过分析修正了客户的不合理需求，满足了他们最根本的需要“系统总容量达到日委托6000万笔，成交9000万笔”，而处理速度是他们根据自己的需要估算出来的，并不准确。<br>　　<em>*所谓需求开发，也就是根绝客户的核心需求，为客户设计完整的需求体系，甚至根据客户的业务发展需要，为客户设计核心需求和需求体系。</em></em></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/性能测试/">性能测试</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/软测/">软测</a>►<a class="article-category-link" href="/categories/软测/性能测试/">性能测试</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/性能测试之需求开发/" data-title="性能测试之需求开发 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/web前端性能测试小点/" title="web前端性能测试小点">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  web前端性能测试小点</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/25/性能测试之主要概念/"  title="性能测试之主要概念">
+ <strong>NEXT:</strong><br/> 
+ <span>性能测试之主要概念
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一个实际的例子："><span class="toc-number">1.</span> <span class="toc-text">一个实际的例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是“有效的”性能需求？"><span class="toc-number">2.</span> <span class="toc-text">什么是“有效的”性能需求？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何获得有效的性能需求："><span class="toc-number">3.</span> <span class="toc-text">如何获得有效的性能需求：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#性能测试点选取："><span class="toc-number">4.</span> <span class="toc-text">性能测试点选取：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#需求获取的小例子："><span class="toc-number">5.</span> <span class="toc-text">需求获取的小例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关于性能需求的一点补充："><span class="toc-number">6.</span> <span class="toc-text">关于性能需求的一点补充：</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>6</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>1</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

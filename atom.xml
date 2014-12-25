@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-12-24T14:28:25.761Z</updated>
+  <updated>2014-12-25T08:18:17.564Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,388 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[JUnit单元测试--小试牛刀]]></title>
+    <link href="http://yoursite.com/2014/12/25/JUnit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/"/>
+    <id>http://yoursite.com/2014/12/25/JUnit单元测试-小试牛刀/</id>
+    <published>2014-12-25T07:51:46.000Z</published>
+    <updated>2014-12-25T08:16:46.000Z</updated>
+    <content type="html"><![CDATA[<p>单元测试更多的是在开发阶段完成，开发人员每写一个函数的时候都会写相应的单元测试。对于java代码，普遍使用的是jUnit，根据jUnit可以自己相应的开发一套自动化测试框架。这个的前提是要学会junit，先知道怎么用，才能知道怎么为我所用。</p>
+<p>学习JUnit的操作很简单，JUnit是一个敏捷编程的开发框架，他的设计很值得学习。这也是我学习JUnit的原因。</p>
+<p>JUnit最大的特点就是：各个方法之间是独立的，一个方法的失败不会影响另一个方法的执行。</p>
+<p>JUnit 3：是基于反射机制的方法，有命名的约束，必须以test开头。每一个类都继承了TestCase类，而TestCase的父类是Assert类。即所有测试类都是TestCase类的子类。</p>
+<p>JUnit 4：引入了注解(annotation)，通过解析注解就可以为测试提供相应的信息。@Test表明这是要执行的测试方法，不管测试方法的名字是什么，都会执行。每一个类可以不继承任何类，可以是一个普通类也可以去继承一个类或实现一个接口，要实现测试只需要在要测试的方法之前加@Test注释就可以了，但是仍然可以直接使用断言，静态导入import static org.junit.Assert.*；</p>
+<p>为了更好地理解junit测试用例，我找了一个简单的例子来练习：</p>
+<p>例如有这么一个类Greeting，根据每天不同的时间来返回不同的问候语：</p>
+<pre><code><span class="keyword">package</span> com.test.one;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Greeting</span> </span>{
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GREETING_MORNING = <span class="string">"Good Morning Sunshine!"</span>;
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GREETING_AFTERNOON = <span class="string">"Just a few more hours before quiting time!"</span>;
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String GREETING_EVENING = <span class="string">"I am outta here"</span>;
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_HOUR_MORNING = <span class="number">12</span>;
+  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAX_HOUR_AFTERNOON = <span class="number">17</span>;
+  <span class="keyword">private</span> java.sql.Timestamp iGreetingTime = <span class="keyword">null</span>;
+  <span class="keyword">public</span> <span class="title">Greeting</span>(){
+    <span class="keyword">this</span>(System.currentTimeMillis());
+  }
+  <span class="keyword">public</span> <span class="title">Greeting</span>(<span class="keyword">long</span> greetingTime) {
+    <span class="keyword">super</span>();
+    iGreetingTime = <span class="keyword">new</span>  java.sql.Timestamp(greetingTime);
+}
+  <span class="keyword">public</span> String <span class="title">getGreeting</span>(){
+
+    <span class="keyword">if</span>(iGreetingTime.getHours()&lt;MAX_HOUR_MORNING){
+        <span class="keyword">return</span> GREETING_MORNING;
+    }<span class="keyword">else</span> <span class="keyword">if</span> (iGreetingTime.getHours()&lt;MAX_HOUR_AFTERNOON) {
+        <span class="keyword">return</span> GREETING_AFTERNOON;
+    }<span class="keyword">else</span> {
+        <span class="keyword">return</span> GREETING_EVENING;
+    }
+  }
+}
+</code></pre><p>我们需要测试这个类，看是否可以根据时间的不同，来呈现不同的问候语。创建junit的测试用例需要遵循一下几点：</p>
+<p>1、Junit类需继承TestCase<br>2、setUp（）和setDown（）为每个方法准备或销毁测试装备<br>3、创建public的方法，方法名为test开头，如testMorningGreeting（），使用assert判断实际返回的值和期望。<br>4、super（testMethod）为每个测试方法生成实例。首先执行setUp()，然后执行testMethod ，最后执行tearDown（）。</p>
+<pre><code><span class="keyword">package</span> com.test.test;
+
+<span class="keyword">import</span> java.sql.Time;
+
+<span class="keyword">import</span> com.test.one.Greeting;
+
+<span class="keyword">import</span> junit.framework.TestCase;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GreetingTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span> </span>{
+
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">setUp</span>() <span class="keyword">throws</span> Exception {
+        <span class="keyword">super</span>.setUp();
+    }
+
+    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">tearDown</span>() <span class="keyword">throws</span> Exception{
+        <span class="keyword">super</span>.tearDown();
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testMorningGreeting</span>() <span class="keyword">throws</span> Exception {
+        Time time = <span class="keyword">new</span> Time(<span class="number">9</span>, <span class="number">0</span>, <span class="number">0</span>);
+        Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+        assertEquals(<span class="string">"the morning greeting expected"</span>, Greeting.GREETING_MORNING, greeting.getGreeting());
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAfternoonGreeting</span>() <span class="keyword">throws</span> Exception {
+        Time time = <span class="keyword">new</span> Time(<span class="number">12</span>, <span class="number">0</span>, <span class="number">0</span>);
+        Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+        assertEquals(<span class="string">"the Afternoon greeting expected"</span>, Greeting.GREETING_AFTERNOON, greeting.getGreeting());
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testEveningGreeting</span>() <span class="keyword">throws</span> Exception {
+        Time time = <span class="keyword">new</span> Time(<span class="number">18</span>, <span class="number">0</span>, <span class="number">0</span>);
+        Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+        assertEquals(<span class="string">"the Evening greeting expected"</span>, Greeting.GREETING_EVENING, greeting.getGreeting());
+    }
+
+    <span class="keyword">public</span> <span class="title">GreetingTest</span>(String testMethod){
+        <span class="keyword">super</span>(testMethod);
+    }
+}
+</code></pre><p>这个只是单个测试用例，junit也提供了测试套件组织想要执行的测试用例。</p>
+<p>如果你已经有了两个测试用例，AddJobCmdImpTest、RemoveJobCmdImpTest等TestCase的子类别，如果想一次运行这两个测试，需要使用AllTest的类，代表一个测试套件。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> AllTest {
+<span class="keyword">public</span> <span class="keyword">static</span> Test <span class="title">suite</span>(){
+    TestSuite suite = <span class="keyword">new</span> TestSuite(<span class="string">"Test for XXXX"</span>);
+    suite.addTest(<span class="keyword">new</span> TestSuite(AddJobCmdImpTest.class));
+    suite.addTest(<span class="keyword">new</span> TestSuite(RemoveJobCmdImpTest.class));
+    <span class="keyword">return</span> suite;
+}
+}
+</code></pre><p>以下是JUnit4的代码：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GreetingTest</span> <span class="keyword">extends</span> <span class="title">TestCase</span> </span>{
+
+<span class="annotation">@Before</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span>() <span class="keyword">throws</span> Exception {
+    <span class="keyword">super</span>.setUp();
+
+}
+<span class="annotation">@After</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">tearDown</span>() <span class="keyword">throws</span> Exception{
+    <span class="keyword">super</span>.tearDown();
+}
+ <span class="annotation">@Test</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ttrestMorningGreeting</span>() <span class="keyword">throws</span> Exception {
+    Time time = <span class="keyword">new</span> Time(<span class="number">9</span>, <span class="number">0</span>, <span class="number">0</span>);
+    Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+    assertEquals(<span class="string">"the morning greeting expected"</span>, Greeting.GREETING_MORNING, greeting.getGreeting());
+}
+ <span class="annotation">@Test</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testAfternoonGreeting</span>() <span class="keyword">throws</span> Exception {
+    Time time = <span class="keyword">new</span> Time(<span class="number">12</span>, <span class="number">0</span>, <span class="number">0</span>);
+    Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+    assertEquals(<span class="string">"the Afternoon greeting expected"</span>, Greeting.GREETING_AFTERNOON, greeting.getGreeting());
+}
+ <span class="annotation">@Test</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testEveningGreeting</span>() <span class="keyword">throws</span> Exception {
+    Time time = <span class="keyword">new</span> Time(<span class="number">18</span>, <span class="number">0</span>, <span class="number">0</span>);
+    Greeting greeting  = <span class="keyword">new</span> Greeting(time.getTime());
+    assertEquals(<span class="string">"the Evening greeting expected"</span>, Greeting.GREETING_EVENING, greeting.getGreeting());
+}
+}
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p>单元测试更多的是在开发阶段完成，开发人员每写一个函数的时候都会写相应的单元测试。对于java代码，普遍使用的是jUnit，根据jUnit可以自己相应的开发一套自动化测试框架。这个的前提是要学会junit，先知道怎么用，才能知道怎么为我所用。</p>
+<p>学习JUnit的操]]>
+    </summary>
+    
+      <category term="JUnit" scheme="http://yoursite.com/tags/JUnit/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[功能测试用例编写]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E5%8A%9F%E8%83%BD%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%BC%96%E5%86%99/"/>
+    <id>http://yoursite.com/2014/12/25/功能测试用例编写/</id>
+    <published>2014-12-25T07:42:30.000Z</published>
+    <updated>2014-12-25T07:51:00.000Z</updated>
+    <content type="html"><![CDATA[<p>由于还不熟悉怎么用markdown来展现表格的内容，若想查看请移步我的博客园：<br><a href="http://www.cnblogs.com/silence-hust/p/4112055.html" target="_blank" rel="external">http://www.cnblogs.com/silence-hust/p/4112055.html</a></p>
+<p>感谢大家的关注，我会继续努力的……</p>
+<p>下面是幅我很喜欢的图片：人为什么要怎么努力，分享给大家<br>一定要看到最后哦！<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/人为什么要努力1.jpg" alt="人为什么要怎么努力"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>由于还不熟悉怎么用markdown来展现表格的内容，若想查看请移步我的博客园：<br><a href="http://www.cnblogs.com/silence-hust/p/4112055.html" target="_blank" rel="external">ht]]>
+    </summary>
+    
+      <category term="测试用例" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[web前端性能测试小点]]></title>
+    <link href="http://yoursite.com/2014/12/25/web%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E5%B0%8F%E7%82%B9/"/>
+    <id>http://yoursite.com/2014/12/25/web前端性能测试小点/</id>
+    <published>2014-12-25T06:57:34.000Z</published>
+    <updated>2014-12-25T07:04:46.000Z</updated>
+    <content type="html"><![CDATA[<p>关于前端性能的文章：<br> <a href="http://www.cnblogs.com/fnng/archive/2011/09/19/2181894.html" target="_blank" rel="external">http://www.cnblogs.com/fnng/archive/2011/09/19/2181894.html</a></p>
+<p>　　web应用的前端性能响应时间指浏览器的页面加载时间。浏览器的页面加载时间包括对html的解析，对页面图片及css等文件的获取和加载、客户端脚本的执行时间以及对你页面进行展现所花费的时间。这个与并发用户量的大小并没有直接的关系，主要关注：如何提高浏览器下载和执行资源的并发性，如何让浏览器尽快开始渲染页面，如何让浏览器尽可能充分的利用缓存。在yahoo中，到少50个团队通过纯粹的前端性能相关的技巧，将最终用户的响应时间减少了25%以上。<br>　　<br>在了解web前端性能时，我们应该知道http协议。</p>
+<p>　　http协议采用请求/响应模型，客户端向服务器发送一个请求，请求头包含请求的方法、URI、协议版本等信息，服务器以一个状态行作为响应，响应的内容包括消息协议的版本、成功或者错误编码加上包含服务器的信息、实体元信息等内容。该协议是一种非面向连接的协议，每个http请求都是独立的。<br>　　<code>请求报文的格式</code>：请求行 | 通用信息头 | 请求头 | 实体头 | 报文主体   Method     Request-URI  HTTP-versionCRIF<br>　　<code>响应报文的格式</code>：状态行 | 通用信息头 | 响应头 | 实体头 | 报文主体</p>
+<p>响应报文的状态码如下：</p>
+<blockquote>
+<p>1XX：信息响应类，表示接收到请求并继续处<br>2XX：处理成功响应类，表示动作被成功接收、理解和接收<br>3XX：重定向响应类，表示为了完成指定的动作，必须接收进一步处理<br>4XX：客户端错误，表示客户请求包含语法错误或不能正确的执行<br>5XX：服务端错误，表示服务器不能正确执行一个正确的请求</p>
+</blockquote>
+<p>与前端性能相关的头信息：</p>
+<p> 1、accept-encoding：告诉服务器所接受的页面的编码方式，gzip使用gzip压缩，deflate不压缩，压缩可以减少下载所需的时间。</p>
+<p>2、connection：因为HTTP是费面向连接的，无状态的协议，每一个HTTP请求都会经过“建立连接—请求页面或资源—获得资源—断开连接”的过程。对于小的资源可能建立连接的时间都会超过对资源的处理时间，为了减少时间引入了持久连接。当浏览器和服务器约定好后，当某个资源传输完成后并不立即断开连接，而是等待一段时间，在这段时间内若传输其他的资源就复用该连接，否则就关闭。当值为keep-alive时有持久连接。</p>
+<p>3、expires：用于只是返回数据的到期时间。到期时间之前都是从缓存处直接获取相应的资源，之后才会向服务器发送请求获取。</p>
+<p>提高前端性能的方法：</p>
+<blockquote>
+<p>1、减少页面加载的时间，<br>2、减少网络时间：CDN技术，DNS缓存技术，减少文件的尺寸<br>3、减少发送的请求量：利用浏览器缓存<br>4、让页面尽早的开始显示</p>
+</blockquote>
+<h4 id="对于前段性能测试的理解：">对于前段性能测试的理解：</h4>
+<p>　　由于自己之前有两三个月的时间接触了前端，对于前端的知识点比较熟悉，在这方面理解起来不是很困难，对于http协议，用户响应请求的过程都熟悉，但是那个时候并没有详细的考虑到页面的加载时间问题，只是想着将页面呈现出来，而忽略了对于响应时间的要求。由于自己都是在本机上实现的，所以每次想看结果的时候都要等很久，这就是没有使用性能的思想，去减少页面的加载时间，没有考虑周全。现在对于这方面有了更深的理解。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>关于前端性能的文章：<br> <a href="http://www.cnblogs.com/fnng/archive/2011/09/19/2181894.html" target="_blank" rel="external">http://www.cnblogs.co]]>
+    </summary>
+    
+      <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[性能测试之需求开发]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B%E9%9C%80%E6%B1%82%E5%BC%80%E5%8F%91/"/>
+    <id>http://yoursite.com/2014/12/25/性能测试之需求开发/</id>
+    <published>2014-12-25T06:54:52.000Z</published>
+    <updated>2014-12-25T06:55:51.000Z</updated>
+    <content type="html"><![CDATA[<p>以下内容大多来自jackei的博客，只是整理了下，增加了自己的理解。</p>
+<h4 id="一个实际的例子：">一个实际的例子：</h4>
+<p> 某证券行业系统中某个业务的实际需求<br>1、系统总容量达到日委托6000万笔，成交9000万笔<br>2、 系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔<br>3、实际股东帐号数3000万</p>
+<p>从上面例子中可以看出几个明确的需求：<br>1、最佳并发用户数需求：每秒7300笔<br>2、最大并发用户数需求：峰值处理能力达到每秒10000笔<br>3、基础数据容量：实际股东帐号数3000万<br>4、业务数据容量：日委托6000万笔，成交9000万笔——可以根据这个推算出每周、每月、每年系统容量的增长模型</p>
+<h4 id="什么是“有效的”性能需求？">什么是“有效的”性能需求？</h4>
+<p>　　要想获得有效的性能需求，就要先了解什么样的需求是“有效的”。有效的性能需求应该符合以下三个条件。</p>
+<p>1、 明确的数字，而不是模糊的语句。</p>
+<p>　　结合上面的例子来看，相信这个应该不难理解。但是有的时候有了数字未必就不模糊。例如常见的一种需求是“系统需要支持5000用户”，或者“最大在线用户数为8000”。这些有数字的需求仍然不够明确，因为还需要考虑区分系统中不同业务模块的负载，以及区分在线用户和并发用户的区别。</p>
+<p>2、有凭有据，合理，有实际意义。</p>
+<p>　　通常来说，性能需求要么由客户提出，要么由开发方提出。对于第一种情况，要保证需求是合理的，有现实意义的，不能由着客户使劲往高处说，要让客户明白性能是有成本的。对于第二种情况，性能需求不能简单的来源于项目组成员、PM或者测试工程师的估计或者猜测，要保证性能需求的提出是有根据的，所使用的数据和计算公式是有出处的。</p>
+<p>3、相关人员达成一致。</p>
+<p>　　如果相关人不能对性能需求达成一致，可能测了也白测——特别是在客户没有提出明确的性能需求而由开发方提出时。这里要注意“相关人员”的识别，通常项目型的项目的需要与客户方的项目经理或负责人进行确认，产品型的项目需要与直属领导或者市场部进行确认。如果实在不知道该找谁确认，那就把这个责任交给你的直属领导。</p>
+<h4 id="如何获得有效的性能需求：">如何获得有效的性能需求：</h4>
+<p>1、 客户方提出<br>　　这是最理想的一种方式，通常电信、金融、保险、证券以及一些其他运营商级系统的客户——特别是国外的客户都会提出比较明确的性能需求。<br>　　<br>2、根据历史数据来分析<br>　　根据客户以往的业务情况来分析客户的业务量以及每年、每月、每周、每天的峰值业务量。如果客户有旧的系统，可以根据已有系统的访问日志，数据库记录，业务报表来分析。要特别注意的是，不同行业、不同应用、不同的业务是有各自的特点的。例如，购物网站在平时的负载主要集中在晚上，但是节假日时访问量和交易量会是平时的数倍；而地铁的售票系统面临的高峰除了周末，还有周一到周五的一早一晚上下班时间。<br>　　<br>3、参考历史项目的数据<br>　　如果该产品已有其他客户使用，并且规模类似的，可以参考其他客户的需求。例如在线购物网站，或者超市管理系统，各行业的进销存系统。<br>　　<br>4、参考其他同行类似项目的数据<br>　　如果本企业没有做过类似的项目，那么可以参考其他同行企业的公布出来的数据——通常在企业公布的新闻或者成功解决方案中会提到，包括系统容量，系统所能承受的负载以及系统响应能力等。<br>　　<br>5、参考其他类似行业应用的数据<br>　　如果无法找打其他同行的数据，也可以参考类似的应用的需求。例如做IPTV或者DVB计费系统的测试，可以参考电信计费系统的需求——虽然不能完全照搬数据，但是可以通过其他行业成熟的需求来了解需要测试的项目有哪些，应该考虑到的情况有哪些种。<br>　　<br>6、参考新闻或其他资料中的数据<br>　　最后的一招，特别是对于一些当前比较引人关注的行业，涉及到所谓的“政绩”的行业，通常可以通过各种新闻媒体找到一些可供参考的数据，但是需要耐心的寻找。例如我们在IPTV和DVB系统的测试中，可以根据新闻中公布的各省、各市，以及国外各大运营商的用户发展情况和用户使用习惯来估算系统容量和系统各个模块的并发量。</p>
+<h4 id="性能测试点选取：">性能测试点选取：</h4>
+<ul>
+<li>发生频率非常高的（例如：某邮箱核心业务系统中的登录、收发邮件等业务，它们在每天的业务总量中占到90%以上）</li>
+<li>关键程度非常高的（产品经理认为绝对不能出现问题的，如登录等）</li>
+<li>资源占用非常严重的（导致磁盘I/O非常大的，例如某个业务进行结果提交时需要向数十个表存取数据，或者一个查询提交请求时会检索出大量的数据记录）</li>
+</ul>
+<h4 id="需求获取的小例子：">需求获取的小例子：</h4>
+<p>　　去年全年处理“WEB登录”交易约 100 万笔，考虑到 3 年后交易量递增到每年 200万笔。假设每年交易量集中在 8 个月，每个月 20 个工作日，每个工作日 8 小时，试采用 80～20 原理估算系统服务器高峰期“WEB登录”的交易吞吐量应达到怎样的一个处理能力　<br>200万/8=25万/月<br>25万/20=1.25万/日<br>1.25万<em>80%/(8</em>20%*3600)=1.74TPS</p>
+<h4 id="关于性能需求的一点补充：">关于性能需求的一点补充：</h4>
+<p>　　在软件开发过程中，需求管理要远远简单于需求开发，CMMI中也体现了这一点，并且实际工作中也常常需要我们为客户来开发这部分的性能需求。考虑一下，如何根据客户的实际使用或粗线条的性能要求来开发满足客户需要的性能需求来。就拿例子来说，客户告诉我们“系统总容量达到日委托6000万笔，成交9000万笔；系统处理速度每秒7300笔，峰值处理能力达到每秒10000笔”，那我们将客户的这个要求管理起来并实现了这一点，这叫需求管理；而如果我们根据以下2个假设：<br>　　<br>1、采用2/8比例，即80%的业务在20%的峰值时间内完成，20%的业务在80%的非峰值时间内完成，那么我们可以得到峰值处理业务量1.5亿的80%为1.2亿，非峰值处理业务量1.5亿的20%为3000万；<br>2、1天系统运行时间为20小时，另4小时为非营业的后台处理时间，那么峰值时间20小时的20%为4小时，非峰值时间20小时的80%为16小时。</p>
+<p>我们可以计算到：</p>
+<p>3、平均峰值处理速度1.2亿/4<em>3600秒接近9000个/秒；<br>4、平均非峰值处理速度3000万/16</em>3600秒约500个/秒；</p>
+<p>　　考虑到特殊情况的发生，我们建议实际峰值处理速度要能达到理论计算的平均峰值处理速度的1.5到2倍，所以最终确定下来的建议峰值处理速度为9000个/ 秒<em>2=18000个/秒。我们拿这个结果向客户说明，告诉他们原来的需求很可能在发生特殊情况时无法有效处理，客户最终接受了我们的说法并调整了他们的需求。<br>　　<br>　　这叫需求开发，通过分析修正了客户的不合理需求，满足了他们最根本的需要“系统总容量达到日委托6000万笔，成交9000万笔”，而处理速度是他们根据自己的需要估算出来的，并不准确。<br>　　<em>*所谓需求开发，也就是根绝客户的核心需求，为客户设计完整的需求体系，甚至根据客户的业务发展需要，为客户设计核心需求和需求体系。</em></em></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>以下内容大多来自jackei的博客，只是整理了下，增加了自己的理解。</p>
+<h4 id="一个实际的例子：">一个实际的例子：</h4>
+<p> 某证券行业系统中某个业务的实际需求<br>1、系统总容量达到日委托6000万笔，成交9000万笔<br>2、 系统处理速度每]]>
+    </summary>
+    
+      <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[性能测试之主要概念]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%E4%B9%8B%E4%B8%BB%E8%A6%81%E6%A6%82%E5%BF%B5/"/>
+    <id>http://yoursite.com/2014/12/25/性能测试之主要概念/</id>
+    <published>2014-12-25T06:41:07.000Z</published>
+    <updated>2014-12-25T06:44:04.000Z</updated>
+    <content type="html"><![CDATA[<h4 id="什么是软件性能？">什么是软件性能？</h4>
+<p><code>交互式系统</code>：以用户感受到的响应时间来描述系统的性能<br><code>非交互式系统</code>（银行业务处理）：响应时间只系统对事件产生的响应所需要的时间</p>
+<h4 id="如何评价性能的好坏：">如何评价性能的好坏：</h4>
+<p>　　用户视角：对于用户，最终使用者而言评价系统的性能好坏只有一个字——“快“。最终用户并不需要关心系统当前的状态——即使系统这时正在处理着成千上万的请求，对于用户来说，由他所发出的这个请求是他唯一需要关心的，系统对用户请求的响应速度决定了用户对系统性能的评价。简单点就是，用户单击一个按钮，发出一条指令或是在web页面上单击一个连接考试，到应用系统把本次操作的结果以用户能察觉的方式展示出来的过程所消耗的时间就是用户对软件性能的直观印象。</p>
+<p>　　系统的运营商和开发商：期望的是能够让尽可能多的用户在任意时刻都拥有最好的体验，这就要确保系统能够在同一时间内处理更多的用户请求。系统的负载（并发用户数）与吞吐量（每秒事务数）、响应时间以及资源利用率（包括软硬件资源）之间存在着一个“此消彼长”的关系。因此，从系统的运营商和开发商的角度来看，所谓的“性能”是一个整体的概念，<strong>是系统的负载与吞吐量、可接受的响应时间以及资源利用率之间的平衡。</strong></p>
+<p><strong>好的系统意味着更大的最佳并发用户数和最大并发用户数。</strong></p>
+<p>　　另外，从系统的视角来看，所需要关注的还包括三个与“性能”有关的属性：<code>可靠性（Reliability）</code>，<code>可伸缩性（Scalability）</code>和<code>可恢复性（Recoverability）</code>　</p>
+<h4 id="响应时间：">响应时间：</h4>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/xysj.jpg" alt="响应时间"><br>图中是一个请求的响应时间的组成，包括</p>
+<p>C1：用户请求发出前在客户端需要完成的预处理所需要的时间；</p>
+<p>C2：客户端收到服务器返回的响应后，对数据进行处理并呈现所需要的时间；</p>
+<p>A1：Web/App Server 对请求进行处理所需要的时间；</p>
+<p>A2：DB Server 对请求进行处理所需的时间；</p>
+<p>A3：Web/App Server 对 DB Server 返回的结果进行处理所需的时间；</p>
+<p>N1：请求由客户端发出并达到Web/App Server 所需要的时间；</p>
+<p>N2：如果需要进行数据库相关的操作，由Web/App Server 将请求发送至DB Server 所需要的时间；</p>
+<p>N3：DB Server 完成处理并将结果返回Web/App Server 所需的时间；</p>
+<p>N4：Web/App Server 完成处理并将结果返回给客户端所需的时间；</p>
+<p>　从用户的角度来看，响应时间＝(C1+C2)+(A1+A2+A3)+(N1+N2+N3+N4)；但是从系统的角度来看，响应时间只包括(A1+A2+A3)+(N1+N2+N3+N4)。理解响应时间的组成可以帮助我们通过对响应时间的分析来更好的识别和定位系统的性能瓶颈。<br>　　从用户的角度看，所体会到的响应时间有主观和客观之分，客观来说就是上面提到的从用户操作开始到所有数据返回完成的整个耗时，主观上说如果采用一种优化的数据呈现策略，当少部分数据返回之后就立马将数据呈现在用户面前，则用户感受到的响应时间就会远远小于实际的实物响应时间。<br>　　对于一个web应用来说，响应时间的标准是2/5/10秒，而对于一个OA系统，每次可能只使用一次该系统，当点击提交时就算系统在20分钟后才响应，用户仍然不会觉得不能接受。所以合理的响应时间取决于<code>实际的用户需求</code>。</p>
+<h4 id="吞吐量：">吞吐量：</h4>
+<p>单位时间内系统处理的客户请求的数量。在web系统中主要以请求数（单击数）/秒、页面数/秒来体现。</p>
+<ol>
+<li><p>用户协助设计性能测试场景，以及衡量性能测试场景是否达到了预期的设计目标：在设计性能测试场景时，吞吐量可被用户协助设计性能测试场景，根据估算的吞吐量数据，可以对应到测试场景的事务发生频率，事务发生次数等；另外，在测试完成后，根据实际的吞吐量可以衡量测试是否达到了预期的目标。</p>
+</li>
+<li><p>用于协助分析性能瓶颈：吞吐量的限制是性能瓶颈的一种重要表现形式，因此，有针对性地对吞吐量设计测试，可以协助尽快定位到性能冰晶所在位置。</p>
+</li>
+</ol>
+<p><strong>并发用户数 ≠ 每秒请求数</strong>：</p>
+<p>　　简单说，当你在性能测试工具或者脚本中设置了100并发用户数后，并不能期望着一定会有每秒100个请求发给服务器。事实上，对于一个虚拟用户来说，每秒发出多少请求只跟服务器返回响应的速度有关。如果虚拟用户在0.5秒内就收到了响应，那么它会立即发出第二个请求；而如果要一直等待3秒才能得到响应，它将会一直等到收到响应后才发出第二个请求。也就是说，并发用户数的设置只是保证服务器在任一时刻都有100个请求需要处理，而并不一定是保证每秒中发送100个请求给服务器。<br>　　所以，只有当响应时间恰好是1秒时，并发用户数才会等于每秒请求数；否则，每秒请求数可能大于并发用户数或小于并发用户数。<br>　　<strong>并发用户数取决于具体的业务场景，它体现的时服务器端承受的最大并发访问数。</strong></p>
+<h4 id="举个例子：">举个例子：</h4>
+<p>　　一个系统有2000用户（系统用户数），最高峰时有500人在线（同时在线人数），那么系统的并发用户数呢？<br>　　500是整个系统使用时最大的业务并发用户数，并不表示服务器实际承受的压力，这与具体的用户访问模式有关。例如这500人中，有40%在看公告，20%在填写表格（表格只有在点击提交时才会对服务器产生负担），20%在发呆，20%在切换页面，这种情况下只有20%的用户真正的对服务器构成了压力。<br>　　<br><strong>性能计数器</strong>：<br>描述服务器或操作系统性能的一些数据指标，在performance test中发挥这监控和分析的关键作用。</p>
+<p><strong>性能测试包括</strong>：<br>验收性能测试（acceptance performance testing）<br>负载测试（load testing）<br>压力测试（stress testing）<br>配置测试（configuration testing）<br>并发测试（concurrency testing）<br>可靠性测试（reliability testing）<br>失败恢复测试（failure testing）</p>
+<h4 id="对性能测试的一点理解：">对性能测试的一点理解：</h4>
+<p>　　性能测试重要的一点在于对需求的理解，如果没有正确的理解需求，而充忙的去搭建环境，配置信息，最后得到的会是不正确的测试结果。而往往一些用户或者客户并不十分明确对性能的要求，他们只会给出一个宽泛的表示，那么这时就需要我们自己去寻找需求，从要求中提炼出准确的需求。明确了需求之后才好进行下一部的操作。<br>　　当然在这之前对于性能测试的主要内容需要掌握，性能的知识点也不是很多，重要的是在实践中的领悟，性能测试并不是功能测试，它是从一个系统，站在更大的立场上去宏观的把握产品，去对系统进行测试，但是并不代表在功能测试的同时不能进行性能测试。性能的要求也会更高，需要了解的知识会更多，对系统的架构要有一定的熟悉度。所以想要真正做好性能测试，任重而道远。加油！</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h4 id="什么是软件性能？">什么是软件性能？</h4>
+<p><code>交互式系统</code>：以用户感受到的响应时间来描述系统的性能<br><code>非交互式系统</code>（银行业务处理）：响应时间只系统对事件产生的响应所需要的时间</p>
+<h4 id="如]]>
+    </summary>
+    
+      <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[性能测试（一）---理发店模型]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%80%EF%BC%89---%E7%90%86%E5%8F%91%E5%BA%97%E6%A8%A1%E5%9E%8B/"/>
+    <id>http://yoursite.com/2014/12/25/性能测试（一）---理发店模型/</id>
+    <published>2014-12-25T02:24:38.000Z</published>
+    <updated>2014-12-25T05:06:31.000Z</updated>
+    <content type="html"><![CDATA[<p>　　这个理发店模型是在网络上看来的，之后对性能测试有了一定的了解之后，感觉写的很好，现在结合自己的一点想法，将理发店模型完整的记录下来。文中很多是来自jackei和虫师的博客，估计这两个博客大家都不陌生。</p>
+<h3 id="理发店模型">理发店模型</h3>
+<p>　　理发店模型，可以很好的用来理解很多性能测试的概念和理论，以及一些测试中遇到的问题，将本来抽象的概念具体化，联合实际，可能很多地方没有很好的切合，但是这个模型确实帮助我理解了很多点。</p>
+<p>在我们的这个理发店中，我们事先做了如下的假设：</p>
+<ol>
+<li><p>理发店共有3名理发师；</p>
+</li>
+<li><p>每位理发师剪一个发的时间都是1小时；</p>
+</li>
+<li><p>我们顾客们都是很有时间观念的人而且非常挑剔，他们对于每次光顾理发店时所能容忍的等待时间+剪发时间是3小时，而且等待时间越长，顾客的满意度越低。如果3个小时还不能剪完头发，顾客会立马生气的走人。</p>
+</li>
+</ol>
+<p>通过上面的假设可以想象出下面的这些场景：</p>
+<ol>
+<li><p>当理发店内只有1位顾客时，只需要有1名理发师为他提供服务，其他两名理发师可能继续等着，也可能会帮忙打打杂。1小时后，这位顾客剪完头发出门走了。那么在这1个小时里，整个理发店只服务了1位顾客，这位顾客花费在这次剪发的时间是1小时；</p>
+</li>
+<li><p>当理发店内同时有两位顾客时，就会同时有两名理发师在为顾客服务，另外1位发呆或者打杂帮忙。仍然是1小时后，两位顾客剪完头发出门。在这1小时里，理发店服务了两位顾客，这两位顾客花费在剪发的时间均为1小时；</p>
+</li>
+<li><p>很容易理解，当理发店内同时有三位顾客时，理发店可以在1小时内同时服务三位顾客，每位顾客花费在这次剪发的时间仍然是均为1小时。</p>
+</li>
+</ol>
+<p>从上面几个场景中我们可以发现，在理发店同时服务的顾客数量从１位增加到3位的过程中，随着顾客数量的增多，理发店的整体工作效率在提高，但是每位顾客在理发店内所呆的时间并未延长。当然，我们可以假设当只有1位顾客和2位顾客时，空闲的理发师可以帮忙打杂，使得其他理发师的工作效率提高，并使每位顾客的剪发时间小于1小时。不过即使根据这个假设，虽然随着顾客数量的增多，每位顾客的服务时间有所延长，但是这个时间始终还被控制在顾客可接受的范围之内，并且顾客是不需要等待的。</p>
+<p>　　不过随着理发店的生意越来越好，顾客也越来越多，新的场景出现了。假设有一次顾客A、B、C刚进理发店准备剪发，外面一推门又进来了顾客D、E、F。因为A、B、C三位顾客先到，所以D、E、F三位只好坐在长板凳上等着。1小时后，A、B、C三位剪完头发走了，他们每个人这次剪发所花费的时间均为1小时。可是D、E、F三位就没有这么好运，因为他们要先等A、B、C三位剪完才能剪，所以他们每个人这次剪发所花费的时间均为2小时——包括等待1小时和剪发1小时。<br>　　<br>　　通过上面这个场景我们可以发现，对于理发店来说，都是每小时服务三位顾客——第1个小时是A、B、C，第二个小时是D、E、F；但是对于顾客D、E、F来说，“响应时间”延长了。如果你可以理解上面的这些场景，就可以继续往下看了。<br>　　<br>　　在新的场景中，我们假设这次理发店里一次来了9位顾客，根据我们上面的场景，相信你不难推断，这9位顾客中有3位的“响应时间”为1小时，有3位的“响应时间”为2小时（等待1小时+剪发1小时），还有3位的“响应时间”为3小时（等待2小时+剪发1小时）——已经到达用户所能忍受的极限。假如在把这个场景中的顾客数量改为10，那么我们已经可以断定，一定会有1位顾客因为“响应时间”过长而无法忍受，最终离开理发店走了。<br>　　<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/blogxn1.jpg" alt="性能"></p>
+<p>　　这张图中展示的是1个标准的软件性能模型。在图中有三条曲线，分别表示<strong>资源的利用情况</strong>（Utilization，包括硬件资源和软件资源）、<strong>吞吐量</strong>（Throughput，这里是指每秒事务数）以及<strong>响应时间</strong>（Response Time）。图中坐标轴的横轴从左到右表现了并发用户数（Number of Concurrent Users）的不断增长。在这张图中我们可以看到，最开始，随着并发用户数的增长，资源占用率和吞吐量会相应的增长，但是响应时间的变化不大；不过当并发用户数增长到一定程度后，资源占用达到饱和，吞吐量增长明显放缓甚至停止增长，而响应时间却进一步延长。如果并发用户数继续增长，你会发现软硬件资源占用继续维持在饱和状态，但是吞吐量开始下降，响应时间明显的超出了用户可接受的范围，并且最终导致用户放弃了这次请求甚至离开。</p>
+<p>　　根据这种性能表现，图中划分了三个区域，分别是Light Load（较轻的压力）、Heavy Load（较重的压力）和Buckle Zone（用户无法忍受并放弃请求）。在Light Load和Heavy Load 两个区域交界处的并发用户数，我们称为“最佳并发用户数（The Optimum Number of Concurrent Users）”，而Heavy Load和Buckle Zone两个区域交界处的并发用户数则称为“最大并发用户数（The Maximum Number of Concurrent Users）”。</p>
+<p>　　当系统的负载等于最佳并发用户数时，系统的整体效率最高，没有资源被浪费，用户也不需要等待；当系统负载处于最佳并发用户数和最大并发用户数之间时，系统可以继续工作，但是用户的等待时间延长，满意度开始降低，并且如果负载一直持续，将最终会导致有些用户无法忍受而放弃；而当系统负载大于最大并发用户数时，将注定会导致某些用户无法忍受超长的响应时间而放弃。</p>
+<h3 id="理解：">理解：</h3>
+<p><code>最佳并发用户数</code>：每小时3位顾客，即理发店收入最多（理发师傅没有休息时间，一直在理发），顾客满意度最高（顾客随时到随时理，无需要等待）。</p>
+<p><code>最大并发用户数</code>：每小时9位顾客，理发店的最大承受状态，理发店收入最多（理发师傅没有休息时间，一直在理发），顾客的最大忍耐度（来的顾客等待+理发需要等上三个小时）。当每小时都有9个顾客到来时，前几个小时来的顾客还可以忍受，但是随着等待的顾客人数越来越多，等待时间越来越长，最终还是会有顾客无法忍受而离开。同时，随着理发店里顾客人数的增多和理发师工作时间的延长，理发师会逐渐产生疲劳，还要多花一些时间来清理环境和维持秩序，这些因素将最终导致理发师的工作效率随着顾客人数的增多和工作的延长而逐渐的下降，到最后可能要1.5小时甚至2个小时才能剪完1个发了。如果一开始就有10个顾客到来，则注定有1位顾客剪不到头发了。当然，理发店还会不断的来新的顾客，不断有等了三小时而没有得到服务的顾客离开，但对于理发店而言，他们在一个时间点上，能服务的最大用户数是9（3位正在接受服务、3位已经等待一小时，3位已经等待两小时）。</p>
+<p>　　对于一个确定的被测系统来说，在某个具体的软硬件环境下，它的“最佳并发用户数”和“最大并发用户数”都是客观存在。以“最佳并发用户数”为例，假如一个系统的最佳并发用户数是50，那么一旦并发量超过这个值，系统的吞吐量和响应时间必然会 “此消彼长”；如果系统负载长期大于这个数，必然会导致用户的满意度降低并最终达到一种无法忍受的地步。所以我们应该 保证最佳并发用户数要大于系统的平均负载。要补充的一点是，当我们需要对一个系统长时间施加压力——例如连续加压3-5天，来验证系统的可靠性或者说稳定性时，我们所使用的并发用户数应该等于或小于“最佳并发用户数”</p>
+<p> 对于最大并发用户数的识别，需要考虑和鉴别一下以下两种情况：</p>
+<blockquote>
+<ol>
+<li><p>在理发店里很大，可以容纳很多位顾客（大于9），总有一部分在这里等待了三小时而没有得到服务离开，不要把等待了三小时而没有得到服务的顾客纳入最大用户数里。也就是说3小时前理发店内的顾客数量才是我们要找的“最大并发用户数”。而且，这位顾客的离开只是一个开始，可能有会更多的顾客随后也因为无法忍受超长的等待时间而离开；</p>
+</li>
+<li><p>在响应时间还没有到达用户可忍受的最大限度前，有可能已经出现了用户请求的失败。假如理发店很小，最多只能容纳六位顾客，当第七个顾客来时，虽然，我们知道他只需要等待两小时就可得到服务（这个时间是他可以接受的等待时间），但由于理发店容量有量，这第七个顾客只有改天再来了。</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>对于一个系统来说，我们应该确保系统的最大并发用户数要大于系统需要承受的峰值负载。</strong></p>
+<h3 id="理发店模型的进一步扩展">理发店模型的进一步扩展</h3>
+<blockquote>
+<p>扩展场景1：有些顾客已经是理发店的老顾客，他们和理发师已经非常熟悉，理发师可以不用花费太多时间沟通就知道这位顾客的想法。并且理发师对这位顾客的脑袋的形状也很熟悉，所以可以更快的完成一次理发的工作。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景2：理发店并不是只有剪发一种业务，还提供了烫发染发之类的业务，那么当顾客提出新的要求时，理发师服务一位顾客的时间可能会超过标准的1小时。而且这时如果要计算每位顾客的等待时间就变得复杂了很多，有些顾客的排队时间会比原来预计的延长，并最终导致他们因为无法忍受而离开。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景3：随着烫发和染发业务的增加，理发师们决定分工，两位专门剪发，一位专门负责烫发和染发。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景4：理发店的生意越来越好，理发师的数量和理发店的门面已经无法满足顾客的要求，于是理发店的老板决定在旁边再开一家店，并招聘一些工作能力更强的理发师。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景5：理发店的生意变得极为火爆了，两家店都无法满足顾客数量增长的需求，并且有些顾客开始反映到理发店的路途太远，到了以后又因为烫发和染发的人太多而等太久。可是理发店的老板也明白烫发和染发的收入要远远高于剪发阿，于是他脑筋一转，决定继续改变策略，在附近的几个大型小区租用小的铺面开设分店，专职剪发业务；再在市区的繁华路段开设旗舰店，专门为烫发、染发的顾客，以及VIP顾客服务。并增设800电话，当顾客想要剪发时，可以拨打这个电话，并由服务人员根据顾客的居住地点，将其指引到距离最近的一家分店去。</p>
+</blockquote>
+<h4 id="对模型的理解：">对模型的理解：</h4>
+<p>　　理发店就相当于我们的系统，顾客就我们向服务器所发送的请求，最佳用户数和最大用户数是我们衡量一个系统的处理能力的一种方法。理发师们的分工就是在对服务器处理不同请求的分工，扩展的场景就是对b/s的系统的一个缩影，随着生意越来越好，网站流量越来越多，系统的整体架构需要发生相应的改变，一满足用户的需求。在遇到难以理解的术语时，时常想想这个理发店模型就可以很好的理解性能测试。一个CPU相当于一个理发师，一个服务器又有几个CPU，当业务扩展的时候，需要增加CPU，再增长的时候需要增加服务器；业务达到一定的水准的时候分成专门的服务器提供具体的服务；电话相当于一个域名解析服务器，根据不同的提交服务转到不同的服务器。 针对不同的用户的性能需求可以将功能分解起来测试。 </p>
+<p>　　微观上来说，在单CPU的情况下，并不存在真正意义上的并发响应（并发请求是可能的），那么3个理发师同时工作如何解释上述问题？操作系统实际上是分时处理的系统，CPU 时间被以时间片为单位轮流分配给不同的进程——但是操作系统的这种做法本身也是为了让每个进程都感觉到自己在独占 CPU。从这个角度来说，如果我们的理发师可以以极为快速（例如10ms一个间隔）的速度在三位顾客之间切换，而且这个切换是我们根本无法发现或者识别的，我们是否可以认为相当于有三位理发师同时在为顾客服务呢？ </p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　这个理发店模型是在网络上看来的，之后对性能测试有了一定的了解之后，感觉写的很好，现在结合自己的一点想法，将理发店模型完整的记录下来。文中很多是来自jackei和虫师的博客，估计这两个博客大家都不陌生。</p>
+<h3 id="理发店模型">理发店模型</h3>
+<p>　]]>
+    </summary>
+    
+      <category term="性能测试" scheme="http://yoursite.com/tags/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="性能测试" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[为什么想做测试之我的测试开端]]></title>
     <link href="http://yoursite.com/2014/10/26/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%B3%E5%81%9A%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%88%91%E7%9A%84%E6%B5%8B%E8%AF%95%E5%BC%80%E7%AB%AF/"/>
     <id>http://yoursite.com/2014/10/26/为什么想做测试之我的测试开端/</id>
     <published>2014-10-26T02:06:00.000Z</published>
-    <updated>2014-12-24T14:18:01.000Z</updated>
+    <updated>2014-12-25T02:03:17.000Z</updated>
     <content type="html"><![CDATA[<p>&emsp;&emsp;这个问题曾经纠结了我很久，开发还是测试？最终出于自己内心的渴望与求知决定我要从事软测这个行业。</p>
 <p>&emsp;&emsp;从本科我就开始接触主流的编程语言，也一直以为自己以后会从事软件设计这份工作，直到大三找实习的时候接触到软测，加上身边很多人都说女孩子适合做软测，不累，当初就抱着这么单纯的想法，懵懵懂懂的就想往测试这个方向走了，算是在心里种下了一颗种子。当时也是为了增加项目经历和拥有开发经验（当时觉得有开发经历能找到好工作）就选择了现在所在的实验室，进入实验室后才发现这个环境和我所想的不一样，不到半年，我就对自己的前途感到迷茫了，看不清楚路在哪里。实验室的研究方向变了，周围有很多人都鄙视做软测的，都说测试没有开发的工资高，测试是很low的一个工作，本科生大专生才做的，根本没有技术含量，在一些公司根本不重要，各种不好的话语动摇了我的决心，于是之前种下的种子没有浇水施肥，还忍受着虫害，时间一长，渐渐地快死了。</p>
 <p>&emsp;&emsp;就在这纠结的期间，实验室师姐拉了我一把，师姐是想做前端的，跟我介绍了前端的各种技术，于是在我不确定的情况下，我跟着师姐断断续续学习了将近2个月的前端知识，从一点基础都没有的情况下，学到了：</p>
@@ -44,9 +421,9 @@
 <p>&emsp;&emsp;按每年的招生情况来说最多也就8000多人进行选课，排除一半（因为体育课是两个学期上的）加上部分不重视选课的学生，那么最多就是2000左右的人会有可能同时登入系统，但却不一定在同一个时段，偌大一个学校的管理系统会承受不住2000人同时登入，进入让系统崩溃达一天？研发出来的系统是如何保证一上线后就可以满足高并发量的要求的，就像淘宝双十一？如何确定开发出来的系统可以满足多少人同时进行某一项操作的？这些让我很迷惑。我知道这些问题是属于测试技术范畴的，只有测试人员可以告诉我。于是我就在<code>测试和开发</code>之间两难了。</p>
 <p>&emsp;&emsp;就在我不知道如何抉择的时候？小微金服来了。2014年4月20日，阿里旗下的<code>小微金服</code>带着他的测试技术团队，在我们学校开了一堂<code>测试技术大讲堂</code>。一天6个人分享了在测试不同领域的技术和感受，从<strong>测试流程</strong>、<strong>测试设计和测试分析</strong>、<strong>性能测试</strong>、<strong>自动化测试</strong>到<strong>测试架构平台搭建</strong>，让我豁然开朗，让我彻底明白之前我对测试的狭隘认识，是多么的愚蠢，多么的单纯。他们带我见识了真正的测试领域是怎么样的，真正的测试工作是怎样的，让我看到测试的魅力所在。测试是一个技术岗位，而不是简简单单的点击几下鼠标就行的。这一天坚定了我要做软测的决心，让我摇摆不定的心终于有了航行的方向。更加确定自己的目标，我要进阿里，我要进小微金服团队。</p>
 <p>&emsp;&emsp;于是我找了很多书看，关注了一些有名的技术博客，留意测试行业的发展，结合自身的兴趣，对互联网web的发展和手机移动端发展的关注，从事web测试、或者移动端测试（app测试）方向，想让我手下的产品能做到让用户不卸载，能做到零体验bug，能承受大量用户对某一业务的同时操作和请求，能让产品更好的服务于用户。<em>所有的这些需要我有扎实的测试知识和理念思想作为基础。</em></p>
-<p>&emsp;&emsp;测试人员是第一批接触产品的人，是代表用户使用和反馈产品问题的人，一个产品若最后通不过测试这一关是无法上线的，可以说测试人员握有生杀大权，相应的<code>身上的责任就很重，给予的成就感于会很强，而我喜欢这样的感觉，开发创造了世界，而我们将拯救世界，让产品要么不上线，要么就永久的在线上获得用户的青睐，而不是短暂的一闪而过，</code>各种问题导致用户卸载。</p>
-<p>&emsp;&emsp;<code>当接触开发越多的时候，会对测试的重要性有更深的体会，熟知开发流程，知道bug最有可能出现在哪里？分析bug产生因素时有很清晰的流程，可以很好的和开发交流，可以结合测试的需求快速的开发适合的测试工具，可以实现自动化测试。</code></p>
-<p>&emsp;&emsp;当你交付给客户的产品出现性能问题，出现功能需求无响应问题，出现质量问题的时候，你不得不重新返工，不得不遭受用户的质疑，造成用户的流失，公司的损失巨大。<code>可以用金钱弥补的损失就不算是大损失，但让用户体验差，失去用户，失去用户的信任才是最大的损失，一旦失去用户将很难在将来把用户召集回来。</code></p>
+<p>&emsp;&emsp;测试人员是第一批接触产品的人，是代表用户使用和反馈产品问题的人，一个产品若最后通不过测试这一关是无法上线的，可以说测试人员握有生杀大权，相应的<strong>身上的责任就很重，给予的成就感于会很强，而我喜欢这样的感觉，开发创造了世界，而我们将拯救世界，让产品要么不上线，要么就永久的在线上获得用户的青睐，而不是短暂的一闪而过，</strong>各种问题导致用户卸载。</p>
+<p>&emsp;&emsp;<strong>当接触开发越多的时候，会对测试的重要性有更深的体会，熟知开发流程，知道bug最有可能出现在哪里？分析bug产生因素时有很清晰的流程，可以很好的和开发交流，可以结合测试的需求快速的开发适合的测试工具，可以实现自动化测试。</strong></p>
+<p>&emsp;&emsp;当你交付给客户的产品出现性能问题，出现功能需求无响应问题，出现质量问题的时候，你不得不重新返工，不得不遭受用户的质疑，造成用户的流失，公司的损失巨大。<strong>可以用金钱弥补的损失就不算是大损失，但让用户体验差，失去用户，失去用户的信任才是最大的损失，一旦失去用户将很难在将来把用户召集回来。</strong></p>
 <p><strong>这些是我对测试的一点浅浅的理解，有不对的或理解错误的望各位指教。</strong></p>
 ]]></content>
     <summary type="html">

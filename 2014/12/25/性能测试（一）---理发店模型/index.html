@@ -1,0 +1,511 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>性能测试（一）---理发店模型 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="这个理发店模型是在网络上看来的，之后对性能测试有了一定的了解之后，感觉写的很好，现在结合自己的一点想法，将理发店模型完整的记录下来。文中很多是来自jackei和虫师的博客，估计这两个博客大家都不陌生。
+理发店模型
+　　理发店模型，可以很好的用来理解很多性能测试的概念和理论，以及一些测试中遇到的问题，">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/性能测试（一）---理发店模型/" title="性能测试（一）---理发店模型" itemprop="url">性能测试（一）---理发店模型</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T02:24:38.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T05:06:31.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#理发店模型"><span class="toc-number">1.</span> <span class="toc-text">理发店模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解："><span class="toc-number">2.</span> <span class="toc-text">理解：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理发店模型的进一步扩展"><span class="toc-number">3.</span> <span class="toc-text">理发店模型的进一步扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对模型的理解："><span class="toc-number">3.1.</span> <span class="toc-text">对模型的理解：</span></a></li></ol></li></ol>
+		</div>
+		
+		<p>　　这个理发店模型是在网络上看来的，之后对性能测试有了一定的了解之后，感觉写的很好，现在结合自己的一点想法，将理发店模型完整的记录下来。文中很多是来自jackei和虫师的博客，估计这两个博客大家都不陌生。</p>
+<h3 id="理发店模型">理发店模型</h3>
+<p>　　理发店模型，可以很好的用来理解很多性能测试的概念和理论，以及一些测试中遇到的问题，将本来抽象的概念具体化，联合实际，可能很多地方没有很好的切合，但是这个模型确实帮助我理解了很多点。</p>
+<p>在我们的这个理发店中，我们事先做了如下的假设：</p>
+<ol>
+<li><p>理发店共有3名理发师；</p>
+</li>
+<li><p>每位理发师剪一个发的时间都是1小时；</p>
+</li>
+<li><p>我们顾客们都是很有时间观念的人而且非常挑剔，他们对于每次光顾理发店时所能容忍的等待时间+剪发时间是3小时，而且等待时间越长，顾客的满意度越低。如果3个小时还不能剪完头发，顾客会立马生气的走人。</p>
+</li>
+</ol>
+<p>通过上面的假设可以想象出下面的这些场景：</p>
+<ol>
+<li><p>当理发店内只有1位顾客时，只需要有1名理发师为他提供服务，其他两名理发师可能继续等着，也可能会帮忙打打杂。1小时后，这位顾客剪完头发出门走了。那么在这1个小时里，整个理发店只服务了1位顾客，这位顾客花费在这次剪发的时间是1小时；</p>
+</li>
+<li><p>当理发店内同时有两位顾客时，就会同时有两名理发师在为顾客服务，另外1位发呆或者打杂帮忙。仍然是1小时后，两位顾客剪完头发出门。在这1小时里，理发店服务了两位顾客，这两位顾客花费在剪发的时间均为1小时；</p>
+</li>
+<li><p>很容易理解，当理发店内同时有三位顾客时，理发店可以在1小时内同时服务三位顾客，每位顾客花费在这次剪发的时间仍然是均为1小时。</p>
+</li>
+</ol>
+<p>从上面几个场景中我们可以发现，在理发店同时服务的顾客数量从１位增加到3位的过程中，随着顾客数量的增多，理发店的整体工作效率在提高，但是每位顾客在理发店内所呆的时间并未延长。当然，我们可以假设当只有1位顾客和2位顾客时，空闲的理发师可以帮忙打杂，使得其他理发师的工作效率提高，并使每位顾客的剪发时间小于1小时。不过即使根据这个假设，虽然随着顾客数量的增多，每位顾客的服务时间有所延长，但是这个时间始终还被控制在顾客可接受的范围之内，并且顾客是不需要等待的。</p>
+<p>　　不过随着理发店的生意越来越好，顾客也越来越多，新的场景出现了。假设有一次顾客A、B、C刚进理发店准备剪发，外面一推门又进来了顾客D、E、F。因为A、B、C三位顾客先到，所以D、E、F三位只好坐在长板凳上等着。1小时后，A、B、C三位剪完头发走了，他们每个人这次剪发所花费的时间均为1小时。可是D、E、F三位就没有这么好运，因为他们要先等A、B、C三位剪完才能剪，所以他们每个人这次剪发所花费的时间均为2小时——包括等待1小时和剪发1小时。<br>　　<br>　　通过上面这个场景我们可以发现，对于理发店来说，都是每小时服务三位顾客——第1个小时是A、B、C，第二个小时是D、E、F；但是对于顾客D、E、F来说，“响应时间”延长了。如果你可以理解上面的这些场景，就可以继续往下看了。<br>　　<br>　　在新的场景中，我们假设这次理发店里一次来了9位顾客，根据我们上面的场景，相信你不难推断，这9位顾客中有3位的“响应时间”为1小时，有3位的“响应时间”为2小时（等待1小时+剪发1小时），还有3位的“响应时间”为3小时（等待2小时+剪发1小时）——已经到达用户所能忍受的极限。假如在把这个场景中的顾客数量改为10，那么我们已经可以断定，一定会有1位顾客因为“响应时间”过长而无法忍受，最终离开理发店走了。<br>　　<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/blogxn1.jpg" alt="性能"></p>
+<p>　　这张图中展示的是1个标准的软件性能模型。在图中有三条曲线，分别表示<strong>资源的利用情况</strong>（Utilization，包括硬件资源和软件资源）、<strong>吞吐量</strong>（Throughput，这里是指每秒事务数）以及<strong>响应时间</strong>（Response Time）。图中坐标轴的横轴从左到右表现了并发用户数（Number of Concurrent Users）的不断增长。在这张图中我们可以看到，最开始，随着并发用户数的增长，资源占用率和吞吐量会相应的增长，但是响应时间的变化不大；不过当并发用户数增长到一定程度后，资源占用达到饱和，吞吐量增长明显放缓甚至停止增长，而响应时间却进一步延长。如果并发用户数继续增长，你会发现软硬件资源占用继续维持在饱和状态，但是吞吐量开始下降，响应时间明显的超出了用户可接受的范围，并且最终导致用户放弃了这次请求甚至离开。</p>
+<p>　　根据这种性能表现，图中划分了三个区域，分别是Light Load（较轻的压力）、Heavy Load（较重的压力）和Buckle Zone（用户无法忍受并放弃请求）。在Light Load和Heavy Load 两个区域交界处的并发用户数，我们称为“最佳并发用户数（The Optimum Number of Concurrent Users）”，而Heavy Load和Buckle Zone两个区域交界处的并发用户数则称为“最大并发用户数（The Maximum Number of Concurrent Users）”。</p>
+<p>　　当系统的负载等于最佳并发用户数时，系统的整体效率最高，没有资源被浪费，用户也不需要等待；当系统负载处于最佳并发用户数和最大并发用户数之间时，系统可以继续工作，但是用户的等待时间延长，满意度开始降低，并且如果负载一直持续，将最终会导致有些用户无法忍受而放弃；而当系统负载大于最大并发用户数时，将注定会导致某些用户无法忍受超长的响应时间而放弃。</p>
+<h3 id="理解：">理解：</h3>
+<p><code>最佳并发用户数</code>：每小时3位顾客，即理发店收入最多（理发师傅没有休息时间，一直在理发），顾客满意度最高（顾客随时到随时理，无需要等待）。</p>
+<p><code>最大并发用户数</code>：每小时9位顾客，理发店的最大承受状态，理发店收入最多（理发师傅没有休息时间，一直在理发），顾客的最大忍耐度（来的顾客等待+理发需要等上三个小时）。当每小时都有9个顾客到来时，前几个小时来的顾客还可以忍受，但是随着等待的顾客人数越来越多，等待时间越来越长，最终还是会有顾客无法忍受而离开。同时，随着理发店里顾客人数的增多和理发师工作时间的延长，理发师会逐渐产生疲劳，还要多花一些时间来清理环境和维持秩序，这些因素将最终导致理发师的工作效率随着顾客人数的增多和工作的延长而逐渐的下降，到最后可能要1.5小时甚至2个小时才能剪完1个发了。如果一开始就有10个顾客到来，则注定有1位顾客剪不到头发了。当然，理发店还会不断的来新的顾客，不断有等了三小时而没有得到服务的顾客离开，但对于理发店而言，他们在一个时间点上，能服务的最大用户数是9（3位正在接受服务、3位已经等待一小时，3位已经等待两小时）。</p>
+<p>　　对于一个确定的被测系统来说，在某个具体的软硬件环境下，它的“最佳并发用户数”和“最大并发用户数”都是客观存在。以“最佳并发用户数”为例，假如一个系统的最佳并发用户数是50，那么一旦并发量超过这个值，系统的吞吐量和响应时间必然会 “此消彼长”；如果系统负载长期大于这个数，必然会导致用户的满意度降低并最终达到一种无法忍受的地步。所以我们应该 保证最佳并发用户数要大于系统的平均负载。要补充的一点是，当我们需要对一个系统长时间施加压力——例如连续加压3-5天，来验证系统的可靠性或者说稳定性时，我们所使用的并发用户数应该等于或小于“最佳并发用户数”</p>
+<p> 对于最大并发用户数的识别，需要考虑和鉴别一下以下两种情况：</p>
+<blockquote>
+<ol>
+<li><p>在理发店里很大，可以容纳很多位顾客（大于9），总有一部分在这里等待了三小时而没有得到服务离开，不要把等待了三小时而没有得到服务的顾客纳入最大用户数里。也就是说3小时前理发店内的顾客数量才是我们要找的“最大并发用户数”。而且，这位顾客的离开只是一个开始，可能有会更多的顾客随后也因为无法忍受超长的等待时间而离开；</p>
+</li>
+<li><p>在响应时间还没有到达用户可忍受的最大限度前，有可能已经出现了用户请求的失败。假如理发店很小，最多只能容纳六位顾客，当第七个顾客来时，虽然，我们知道他只需要等待两小时就可得到服务（这个时间是他可以接受的等待时间），但由于理发店容量有量，这第七个顾客只有改天再来了。</p>
+</li>
+</ol>
+</blockquote>
+<p><strong>对于一个系统来说，我们应该确保系统的最大并发用户数要大于系统需要承受的峰值负载。</strong></p>
+<h3 id="理发店模型的进一步扩展">理发店模型的进一步扩展</h3>
+<blockquote>
+<p>扩展场景1：有些顾客已经是理发店的老顾客，他们和理发师已经非常熟悉，理发师可以不用花费太多时间沟通就知道这位顾客的想法。并且理发师对这位顾客的脑袋的形状也很熟悉，所以可以更快的完成一次理发的工作。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景2：理发店并不是只有剪发一种业务，还提供了烫发染发之类的业务，那么当顾客提出新的要求时，理发师服务一位顾客的时间可能会超过标准的1小时。而且这时如果要计算每位顾客的等待时间就变得复杂了很多，有些顾客的排队时间会比原来预计的延长，并最终导致他们因为无法忍受而离开。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景3：随着烫发和染发业务的增加，理发师们决定分工，两位专门剪发，一位专门负责烫发和染发。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景4：理发店的生意越来越好，理发师的数量和理发店的门面已经无法满足顾客的要求，于是理发店的老板决定在旁边再开一家店，并招聘一些工作能力更强的理发师。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>扩展场景5：理发店的生意变得极为火爆了，两家店都无法满足顾客数量增长的需求，并且有些顾客开始反映到理发店的路途太远，到了以后又因为烫发和染发的人太多而等太久。可是理发店的老板也明白烫发和染发的收入要远远高于剪发阿，于是他脑筋一转，决定继续改变策略，在附近的几个大型小区租用小的铺面开设分店，专职剪发业务；再在市区的繁华路段开设旗舰店，专门为烫发、染发的顾客，以及VIP顾客服务。并增设800电话，当顾客想要剪发时，可以拨打这个电话，并由服务人员根据顾客的居住地点，将其指引到距离最近的一家分店去。</p>
+</blockquote>
+<h4 id="对模型的理解：">对模型的理解：</h4>
+<p>　　理发店就相当于我们的系统，顾客就我们向服务器所发送的请求，最佳用户数和最大用户数是我们衡量一个系统的处理能力的一种方法。理发师们的分工就是在对服务器处理不同请求的分工，扩展的场景就是对b/s的系统的一个缩影，随着生意越来越好，网站流量越来越多，系统的整体架构需要发生相应的改变，一满足用户的需求。在遇到难以理解的术语时，时常想想这个理发店模型就可以很好的理解性能测试。一个CPU相当于一个理发师，一个服务器又有几个CPU，当业务扩展的时候，需要增加CPU，再增长的时候需要增加服务器；业务达到一定的水准的时候分成专门的服务器提供具体的服务；电话相当于一个域名解析服务器，根据不同的提交服务转到不同的服务器。 针对不同的用户的性能需求可以将功能分解起来测试。 </p>
+<p>　　微观上来说，在单CPU的情况下，并不存在真正意义上的并发响应（并发请求是可能的），那么3个理发师同时工作如何解释上述问题？操作系统实际上是分时处理的系统，CPU 时间被以时间片为单位轮流分配给不同的进程——但是操作系统的这种做法本身也是为了让每个进程都感觉到自己在独占 CPU。从这个角度来说，如果我们的理发师可以以极为快速（例如10ms一个间隔）的速度在三位顾客之间切换，而且这个切换是我们根本无法发现或者识别的，我们是否可以认为相当于有三位理发师同时在为顾客服务呢？ </p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/性能测试/">性能测试</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/软测/">软测</a>►<a class="article-category-link" href="/categories/软测/性能测试/">性能测试</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/性能测试（一）---理发店模型/" data-title="性能测试（一）---理发店模型 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/性能测试之主要概念/" title="性能测试之主要概念">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  性能测试之主要概念</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/10/26/为什么想做测试之我的测试开端/"  title="为什么想做测试之我的测试开端">
+ <strong>NEXT:</strong><br/> 
+ <span>为什么想做测试之我的测试开端
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#理发店模型"><span class="toc-number">1.</span> <span class="toc-text">理发店模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理解："><span class="toc-number">2.</span> <span class="toc-text">理解：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#理发店模型的进一步扩展"><span class="toc-number">3.</span> <span class="toc-text">理发店模型的进一步扩展</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#对模型的理解："><span class="toc-number">3.1.</span> <span class="toc-text">对模型的理解：</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>6</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>1</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

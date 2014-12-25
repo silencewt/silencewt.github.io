@@ -4,12 +4,15 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>时间管理--小强升职记 | Silence 婷婷 Blog</title>
+    <title>性能测试之主要概念 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="书中已对话的形式，主管老付如何教会小强对自己时间进行管理，如何高效的完成工作，培养其成为主管。　　在我们觉得时间很多的时候，他就偷偷的溜走了，时间对于每个人都是公平的。我们每天在忙忙碌碌的日子里过去，是否过得有意义，浑浑噩噩的日子真的是我们所要的吗？到底我自己追求的是什么？每天工作学习是为了什么？什">
+    <meta name="description" content="什么是软件性能？
+交互式系统：以用户感受到的响应时间来描述系统的性能非交互式系统（银行业务处理）：响应时间只系统对事件产生的响应所需要的时间
+如何评价性能的好坏：
+　　用户视角：对于用户，最终使用者而言评价系统的性能好坏只有一个字——“快“。最终用户并不需要关心系统当前的状态——即使系统这时正在处理">
     
     
     
@@ -120,15 +123,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/09/16/小强升职记/" title="时间管理--小强升职记" itemprop="url">时间管理--小强升职记</a>
+      <a href="/2014/12/25/性能测试之主要概念/" title="性能测试之主要概念" itemprop="url">性能测试之主要概念</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://yoursite.com" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-09-16T13:42:41.000Z" itemprop="datePublished">9月 16 2014</time>
-    更新日期:<time datetime="2014-09-16T13:47:36.000Z" itemprop="dateModified">9月 16 2014</time>
+    <time datetime="2014-12-25T06:41:07.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T06:44:04.000Z" itemprop="dateModified">12月 25 2014</time>
     
   </p>
 </header>
@@ -137,36 +140,63 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#目标"><span class="toc-number">1.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#习惯"><span class="toc-number">2.</span> <span class="toc-text">习惯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思维导图"><span class="toc-number">3.</span> <span class="toc-text">思维导图</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是软件性能？"><span class="toc-number">1.</span> <span class="toc-text">什么是软件性能？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何评价性能的好坏："><span class="toc-number">2.</span> <span class="toc-text">如何评价性能的好坏：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应时间："><span class="toc-number">3.</span> <span class="toc-text">响应时间：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#吞吐量："><span class="toc-number">4.</span> <span class="toc-text">吞吐量：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子："><span class="toc-number">5.</span> <span class="toc-text">举个例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对性能测试的一点理解："><span class="toc-number">6.</span> <span class="toc-text">对性能测试的一点理解：</span></a></li></ol>
 		</div>
 		
-		<p>　　书中已对话的形式，主管老付如何教会小强对自己时间进行管理，如何高效的完成工作，培养其成为主管。<br>　　在我们觉得时间很多的时候，他就偷偷的溜走了，时间对于每个人都是公平的。我们每天在忙忙碌碌的日子里过去，是否过得有意义，浑浑噩噩的日子真的是我们所要的吗？到底我自己追求的是什么？每天工作学习是为了什么？什么样的人生才有意义?我们需要站在一个更高的位置上审视自己。问问自己什么才是真正想要的。<br>　　<br>　　我们的时间总是在无意义的事情上面一点点的浪费掉。确实如此，以前总是每次开电脑的时候。登下QQ，看下新闻什么的，以为这样浪费不了多少时间，可是每次都没有忍住，还有点像滚雪球似的的越滚越长，结果一看时间已经10:00多了，过一会就要吃饭了，自然就没有心思学习了，或者每次时间很轻易的就被同学打断，被QQ消息打断，那么在要集中注意就很难，就是这样的时间黑洞将我们的时间吞噬掉。<br>　　<br>　　有时候也会有同时有很多事情向我袭来，很多时候就应该根据自己的价值观，给他们分出优先级，找出核心事件，及时解决这些问题。时间管理的方法有很多，四象限法则，时间投资法，衣柜整理法等，具体哪一种是适合你的，还是需要自己去摸索，去实践才知道什么是适合自己的。书里的时间资本法，对于时间价值的计算让我忽然醒来，原来我的时间就剩这么一点了，可是我想要的生活还没有实现。。<br>　　<img src="/images/zbjs2.png" alt="资本计算2"><br>    <img src="/images/zbjs.png" alt="资本计算"><br>　　很典型的，在今后工作的日子里，只有8年是在工作，有10年是在睡觉，其他时间是13年，有人曾统计过一个人活得72岁时对时间的消费情况：睡觉21年，工作14奶奶，个人卫生7年，吃饭6年，旅行6年，排队5年，学习4年，开会3年，打电话2年，找东西1年，其他3年。如果加上我们的年新来计算时间资本，那么很廉价。。</p>
-<h3 id="目标">目标</h3>
-<p>　　时间，是一个非常奇怪的东西，当你想挥霍它的时候，它会尽量的满足你，让你觉得怎么挥霍都用不完。但是当你想要珍惜它的时候，他又会i特别的吝啬，让你觉得时光飞逝，转眼已是尽头。<br>　　对于一个项目或是什么要有明确的目标，具体的下一步行动，一个行动清单。对人生有规划，有明确的目标是很好的，但如果沉迷在未来美好生活的幻想中，而不是执行它，只是做个梦想家，我们要将目标化为行动，做个建筑家，梦想的缔造者。<br>　　当然，目标也不是有了完美的计划就能达成的，我们需要方法避免失败。<br>　　1、找到最大的石头，就是要问问自己实现这个目标最大的石头（障碍）在哪里，如果最大的石头没有移除，你除去了99%的小石头也是没有用的。<br>　　2、有什么想法计划一定要写下来，白字黑子是最好的契约，写到了才可以做到，那么所有的想想就不再只是想想了，而是需要实现的东西了。<br>　　3、拒绝第一次失败，万事开头难，很多目标的夭折都是从第一次失败开始的。所以我们要重视第一次的是吧，摆正心态不让它产生连锁反应。我们有一种很可怕的适应性，不敢是对好习惯还是坏习惯的适应。失败了，我们更应该找出原因，为什么会失败？到底为什么成功？花时间思考这两个问题是非常重要的。</p>
-<h3 id="习惯">习惯</h3>
-<p>　　习惯是个很可怕的东西，对于长期做在电脑前的上班族，最重要的一点就是要养成健身的习惯，平时我们可能没有大把的时间可以去运动，为了身体的健康，每天坚持一个小时的锻炼。向着你要养成多习惯，每天去做一些你不愿意的事情，这样你就不会为那些真正需要你完成的责任而痛苦。</p>
-<h3 id="思维导图">思维导图</h3>
-<p><img src="/images/swdt.bmp" alt="思维导图"></p>
+		<h4 id="什么是软件性能？">什么是软件性能？</h4>
+<p><code>交互式系统</code>：以用户感受到的响应时间来描述系统的性能<br><code>非交互式系统</code>（银行业务处理）：响应时间只系统对事件产生的响应所需要的时间</p>
+<h4 id="如何评价性能的好坏：">如何评价性能的好坏：</h4>
+<p>　　用户视角：对于用户，最终使用者而言评价系统的性能好坏只有一个字——“快“。最终用户并不需要关心系统当前的状态——即使系统这时正在处理着成千上万的请求，对于用户来说，由他所发出的这个请求是他唯一需要关心的，系统对用户请求的响应速度决定了用户对系统性能的评价。简单点就是，用户单击一个按钮，发出一条指令或是在web页面上单击一个连接考试，到应用系统把本次操作的结果以用户能察觉的方式展示出来的过程所消耗的时间就是用户对软件性能的直观印象。</p>
+<p>　　系统的运营商和开发商：期望的是能够让尽可能多的用户在任意时刻都拥有最好的体验，这就要确保系统能够在同一时间内处理更多的用户请求。系统的负载（并发用户数）与吞吐量（每秒事务数）、响应时间以及资源利用率（包括软硬件资源）之间存在着一个“此消彼长”的关系。因此，从系统的运营商和开发商的角度来看，所谓的“性能”是一个整体的概念，<strong>是系统的负载与吞吐量、可接受的响应时间以及资源利用率之间的平衡。</strong></p>
+<p><strong>好的系统意味着更大的最佳并发用户数和最大并发用户数。</strong></p>
+<p>　　另外，从系统的视角来看，所需要关注的还包括三个与“性能”有关的属性：<code>可靠性（Reliability）</code>，<code>可伸缩性（Scalability）</code>和<code>可恢复性（Recoverability）</code>　</p>
+<h4 id="响应时间：">响应时间：</h4>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/xysj.jpg" alt="响应时间"><br>图中是一个请求的响应时间的组成，包括</p>
+<p>C1：用户请求发出前在客户端需要完成的预处理所需要的时间；</p>
+<p>C2：客户端收到服务器返回的响应后，对数据进行处理并呈现所需要的时间；</p>
+<p>A1：Web/App Server 对请求进行处理所需要的时间；</p>
+<p>A2：DB Server 对请求进行处理所需的时间；</p>
+<p>A3：Web/App Server 对 DB Server 返回的结果进行处理所需的时间；</p>
+<p>N1：请求由客户端发出并达到Web/App Server 所需要的时间；</p>
+<p>N2：如果需要进行数据库相关的操作，由Web/App Server 将请求发送至DB Server 所需要的时间；</p>
+<p>N3：DB Server 完成处理并将结果返回Web/App Server 所需的时间；</p>
+<p>N4：Web/App Server 完成处理并将结果返回给客户端所需的时间；</p>
+<p>　从用户的角度来看，响应时间＝(C1+C2)+(A1+A2+A3)+(N1+N2+N3+N4)；但是从系统的角度来看，响应时间只包括(A1+A2+A3)+(N1+N2+N3+N4)。理解响应时间的组成可以帮助我们通过对响应时间的分析来更好的识别和定位系统的性能瓶颈。<br>　　从用户的角度看，所体会到的响应时间有主观和客观之分，客观来说就是上面提到的从用户操作开始到所有数据返回完成的整个耗时，主观上说如果采用一种优化的数据呈现策略，当少部分数据返回之后就立马将数据呈现在用户面前，则用户感受到的响应时间就会远远小于实际的实物响应时间。<br>　　对于一个web应用来说，响应时间的标准是2/5/10秒，而对于一个OA系统，每次可能只使用一次该系统，当点击提交时就算系统在20分钟后才响应，用户仍然不会觉得不能接受。所以合理的响应时间取决于<code>实际的用户需求</code>。</p>
+<h4 id="吞吐量：">吞吐量：</h4>
+<p>单位时间内系统处理的客户请求的数量。在web系统中主要以请求数（单击数）/秒、页面数/秒来体现。</p>
+<ol>
+<li><p>用户协助设计性能测试场景，以及衡量性能测试场景是否达到了预期的设计目标：在设计性能测试场景时，吞吐量可被用户协助设计性能测试场景，根据估算的吞吐量数据，可以对应到测试场景的事务发生频率，事务发生次数等；另外，在测试完成后，根据实际的吞吐量可以衡量测试是否达到了预期的目标。</p>
+</li>
+<li><p>用于协助分析性能瓶颈：吞吐量的限制是性能瓶颈的一种重要表现形式，因此，有针对性地对吞吐量设计测试，可以协助尽快定位到性能冰晶所在位置。</p>
+</li>
+</ol>
+<p><strong>并发用户数 ≠ 每秒请求数</strong>：</p>
+<p>　　简单说，当你在性能测试工具或者脚本中设置了100并发用户数后，并不能期望着一定会有每秒100个请求发给服务器。事实上，对于一个虚拟用户来说，每秒发出多少请求只跟服务器返回响应的速度有关。如果虚拟用户在0.5秒内就收到了响应，那么它会立即发出第二个请求；而如果要一直等待3秒才能得到响应，它将会一直等到收到响应后才发出第二个请求。也就是说，并发用户数的设置只是保证服务器在任一时刻都有100个请求需要处理，而并不一定是保证每秒中发送100个请求给服务器。<br>　　所以，只有当响应时间恰好是1秒时，并发用户数才会等于每秒请求数；否则，每秒请求数可能大于并发用户数或小于并发用户数。<br>　　<strong>并发用户数取决于具体的业务场景，它体现的时服务器端承受的最大并发访问数。</strong></p>
+<h4 id="举个例子：">举个例子：</h4>
+<p>　　一个系统有2000用户（系统用户数），最高峰时有500人在线（同时在线人数），那么系统的并发用户数呢？<br>　　500是整个系统使用时最大的业务并发用户数，并不表示服务器实际承受的压力，这与具体的用户访问模式有关。例如这500人中，有40%在看公告，20%在填写表格（表格只有在点击提交时才会对服务器产生负担），20%在发呆，20%在切换页面，这种情况下只有20%的用户真正的对服务器构成了压力。<br>　　<br><strong>性能计数器</strong>：<br>描述服务器或操作系统性能的一些数据指标，在performance test中发挥这监控和分析的关键作用。</p>
+<p><strong>性能测试包括</strong>：<br>验收性能测试（acceptance performance testing）<br>负载测试（load testing）<br>压力测试（stress testing）<br>配置测试（configuration testing）<br>并发测试（concurrency testing）<br>可靠性测试（reliability testing）<br>失败恢复测试（failure testing）</p>
+<h4 id="对性能测试的一点理解：">对性能测试的一点理解：</h4>
+<p>　　性能测试重要的一点在于对需求的理解，如果没有正确的理解需求，而充忙的去搭建环境，配置信息，最后得到的会是不正确的测试结果。而往往一些用户或者客户并不十分明确对性能的要求，他们只会给出一个宽泛的表示，那么这时就需要我们自己去寻找需求，从要求中提炼出准确的需求。明确了需求之后才好进行下一部的操作。<br>　　当然在这之前对于性能测试的主要内容需要掌握，性能的知识点也不是很多，重要的是在实践中的领悟，性能测试并不是功能测试，它是从一个系统，站在更大的立场上去宏观的把握产品，去对系统进行测试，但是并不代表在功能测试的同时不能进行性能测试。性能的要求也会更高，需要了解的知识会更多，对系统的架构要有一定的熟悉度。所以想要真正做好性能测试，任重而道远。加油！</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/读书笔记/">读书笔记</a>
+  <span></span> <a href="/tags/性能测试/">性能测试</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/笔记/">笔记</a>
+  <a class="article-category-link" href="/categories/软测/">软测</a>►<a class="article-category-link" href="/categories/软测/性能测试/">性能测试</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/09/16/小强升职记/" data-title="时间管理--小强升职记 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/12/25/性能测试之主要概念/" data-title="性能测试之主要概念 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -176,18 +206,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/09/16/opencv函数系列-fillfood/" title="opencv函数系列---漫水填充floodfill">
+ <a href="/2014/12/25/性能测试之需求开发/" title="性能测试之需求开发">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  opencv函数系列---漫水填充floodfill</span>
+  性能测试之需求开发</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/09/16/测试之美有感/"  title="测试之美有感">
+<a href="/2014/12/25/性能测试（一）---理发店模型/"  title="性能测试（一）---理发店模型">
  <strong>NEXT:</strong><br/> 
- <span>测试之美有感
+ <span>性能测试（一）---理发店模型
 </span>
 </a>
 </div>
@@ -204,7 +234,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#目标"><span class="toc-number">1.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#习惯"><span class="toc-number">2.</span> <span class="toc-text">习惯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#思维导图"><span class="toc-number">3.</span> <span class="toc-text">思维导图</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#什么是软件性能？"><span class="toc-number">1.</span> <span class="toc-text">什么是软件性能？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#如何评价性能的好坏："><span class="toc-number">2.</span> <span class="toc-text">如何评价性能的好坏：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#响应时间："><span class="toc-number">3.</span> <span class="toc-text">响应时间：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#吞吐量："><span class="toc-number">4.</span> <span class="toc-text">吞吐量：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#举个例子："><span class="toc-number">5.</span> <span class="toc-text">举个例子：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#对性能测试的一点理解："><span class="toc-number">6.</span> <span class="toc-text">对性能测试的一点理解：</span></a></li></ol>
   </div>
 
 <div id="asidepart">
