@@ -1,0 +1,534 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>java--面向抽象编程 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="所谓面向抽象编程是指当设计某种重要的类时，不让该类面向具体的类，而是面向抽象类，及所设计类中的重要数据是抽象类声明的对象，而不是具体类声明的对象。就是利用abstract来设计实现用户需求。
+比如：我们有一个Circle圆类，计算其面积。
+public class Circle extends Ge">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/java-面向抽象编程/" title="java--面向抽象编程" itemprop="url">java--面向抽象编程</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T13:09:48.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T13:10:15.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>　　所谓面向抽象编程是指当设计某种重要的类时，不让该类面向具体的类，而是面向抽象类，及所设计类中的重要数据是抽象类声明的对象，而不是具体类声明的对象。就是利用abstract来设计实现用户需求。</p>
+<p>比如：我们有一个Circle圆类，计算其面积。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">extends</span> <span class="title">Geometry</span></span>{
+<span class="keyword">double</span> r;
+Circle(<span class="keyword">double</span> r){
+    <span class="keyword">this</span>.r = r;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span>(){
+    <span class="keyword">return</span> (<span class="number">3.14</span>*r*r);
+}
+}
+</code></pre><p>现在要设计一个Pillar（柱类），getvolume（）可以计算柱体的体积。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Pillar{
+Circle bottom;
+<span class="keyword">double</span> height;
+Pillar(Circle bottom, <span class="keyword">double</span> height){
+    <span class="keyword">this</span>.bottom = bottom;
+    <span class="keyword">this</span>.height = height;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getVolume</span>(){
+    <span class="keyword">return</span> bottom.getArea() * height;
+}
+}
+</code></pre><p>　　在Pillar（柱类）中，bottom是用具体类Circle声明的对象，如果不涉及用户需求的变化，上面Pillar（柱类）的设计没有什么不妥，但是在某个时候，用户希望Pillar（柱类）能创建出底部是三角形的柱体。显然上面的Pillar（柱类）就无法创建出这样的柱体，即上述设计的Pillar（柱类）不能应对用户的这中需求。</p>
+<p>　　重新修改Pillar（柱类）。注意到柱体的计算体积的关键是计算出底面积，一个柱体在计算底面积是不应该关心他的底是社么形状的具体图案，应该只关心这种图像是否具有计算出面积的方法。因此，在设计Pillar（柱类）的时候不应当让他的底是某个具体类的声明的对象，一旦这么做，Pillar（柱类）就会依赖具体类，缺乏弹性，难以应对需求的变化。</p>
+<p><strong>第一步</strong>：定义一个抽象类Geometry，类中定义一个抽象的getArea（）方法，Geometry类如下。这个抽象类将所有计算面积的方法都抽象为一个标识：getArea（）无需考虑算法细节。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Geometry{
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">getArea</span>();
+}
+</code></pre><p><strong>第二步</strong>：Pillar（柱类）可以面向Geometry类编写代码，即Pillar（柱类）应当把Geometry类作为自己的成员，该成员可以调用Geometry的子类重写的getArea（）方法。这样，Pillar（柱类）就将计算底面积的任务指派个Geometry类的子类的实例，不再依赖于某一个具体的类，而是面向Geometry类的，即Pillar（柱类）的bottom是用抽象类Geometry声明的对象，而不是具体的某一类，新的Pillar（柱类）如下：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Pillar{
+Geometry botom;
+<span class="keyword">double</span> height;
+Pillar(Geometry bottom, <span class="keyword">double</span> height){
+    <span class="keyword">this</span>.bottom = bottom;
+    <span class="keyword">this</span>.height = height;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getVolume</span>(){
+    <span class="keyword">return</span> bottom.getArea() * height;
+}
+}
+</code></pre><p>在新增Geometry的子类时就不需要修改Pillar（柱类）的任何代码，只需要增加一个Triangle类（三角形）。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">extends</span> <span class="title">Geometry</span></span>{
+<span class="keyword">double</span> a,b;
+Circle(<span class="keyword">double</span> a, <span class="keyword">double</span> b){
+    <span class="keyword">this</span>.a = a;
+    <span class="keyword">this</span>.b = b;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span>(){
+    <span class="keyword">return</span> (a*b);
+}
+}
+</code></pre><p>应用：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Application{
+<span class="keyword">public</span> state <span class="keyword">void</span> <span class="title">main</span>(String args[]){
+    Pillar pillar;
+    Geometry bottom;
+    bottom = <span class="keyword">new</span> Circle(<span class="number">10</span>);             <span class="comment">//子类的上转型对象</span>
+    pillar = <span class="keyword">new</span> Pillar(bottom, <span class="number">10</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"圆柱体的体积"</span> + pillar.getVolume());
+    bottom = <span class="keyword">new</span> Rectangle(<span class="number">10</span>,<span class="number">10</span>);
+    pillar = <span class="keyword">new</span> Pillar(bottom, <span class="number">10</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"矩形底的体积"</span> + pillar.getVolume());
+}
+}
+</code></pre><p><strong>总结</strong>：面向抽象编程目的是为了应对用户需求的变化，将某个类中经常因需求变化而需要改变的代码从类中分离出去。其核心是让类中每种可能的变化对应的交给抽象类的一个子类去负责，从而让该类的设计者不去关心具体的实现，避免所设计的类依赖于具体的实现。</p>
+<p><strong>关于抽象类</strong>：</p>
+<ul>
+<li>对于抽象类不能用new创建该类的对象，但可以成为其子类的上转型对象，从而该对象可以调用子类重写的方法。</li>
+<li>一个非抽象类是某个抽象类的子类，那么它必须重写父类的抽象方法，给出方法体。</li>
+</ul>
+<p>　　</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/java-面向抽象编程/" data-title="java--面向抽象编程 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/9本java程序员必读的书/" title="9本java程序员必读的书">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  9本java程序员必读的书</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/25/java-面向接口编程/"  title="java--面向接口编程">
+ <strong>NEXT:</strong><br/> 
+ <span>java--面向接口编程
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/selenium/软测/" title="软测">软测<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>7</sup></a></li>
+		
+			<li><a href="/categories/杂感/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

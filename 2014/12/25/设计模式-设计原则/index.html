@@ -1,0 +1,490 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>设计模式---设计原则 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。　　1）单一职责原则
+　　问题由来：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/设计模式-设计原则/" title="设计模式---设计原则" itemprop="url">设计模式---设计原则</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T09:42:49.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T09:57:16.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>　　设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。<br>　　<br>1）<strong>单一职责原则</strong></p>
+<p>　　<em>问题由来</em>：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<p>　　<em>解决方案</em>：遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
+<p>　　如果一个类具有很多不同的功能，比如超人拥有很多的技能，当我们想对其中一种技能进行修改或者升级的时候就不得不停止超人其他的功能，而这期间如果有事情发生，超人是无法提供帮助的，那么是否可以让超人简单点呢？在维护世界和平的时候，也能够帮助人们除草呢？</p>
+<p>　　这就是单一职责——对于一个类，应该只有一个引起她变化的原因。实际上，往往会碰到职责分块的问题，会遇到将职责A划分为职责A1和A2，这时就需要重新设计类，尽量降低类的复杂度，提高类的可读性。</p>
+<p><em>遵循单一职责原的优点有</em>：</p>
+<p>（1）可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；</p>
+<p>（2）提高类的可读性，提高系统的可维护性；</p>
+<p>（3）变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。</p>
+<p>2）<strong>里氏代换原则</strong></p>
+<p>　　<em>问题由来</em>：有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<p>　　<em>解决方案</em>：当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>　　反映父类和子类的关系。B类继承A类，属于B的对象就具有A类的全部属性和方法。里氏代换的原则就是：子类型必须能够完全替换掉他们的父类型。即子类可以以父类的身份出现，并且不影响程序的功能时父类才能真正得到复用。所有引用基类的地方必须能透明地使用其子类的对象。通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。</p>
+<p>3）<strong>开放-封闭原则</strong></p>
+<p>　　<em>问题由来</em>：在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<p>　　<em>解决方案</em>：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<p>　　在面向对象编程时，如果要实现一个新的功能，添加一个新类来完成往往要比修改现有的类更加方便和安全。封装变化，降低耦合。OCP的原则是：程序的实体对象（模块、类、函数）应该可以进行扩张，但不应该可以修改。对于扩展是开放的，对于修改是封闭的。绝对的封闭很难做到，那么在面对需求变化时，设计人员就应该对自己设计的模块决定选择哪种变化封闭，保证无需对原码进行修改。</p>
+<p>　　具体的实现就是<code>面向抽象编程</code>，继承抽象父类，通过重写其方法来改变固有行为，从实现新的扩展方法。</p>
+<p>4）<strong>依赖倒转原则</strong></p>
+<p>　　<em>问题由来</em>：类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
+<p> 　　<em>解决方案</em>：将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
+<p>　　定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。核心思想是面向接口编程。</p>
+<p>　　程序的高层模块不应该依赖于低层模块，但两者都应依赖于抽象：抽象不应该依赖于具体细节，而细节应该依赖于抽象，简而言之就是针对接口编程，不应该是针对实现编程。即通过抽象（接口或抽象类）是各个类或模块的实现彼此独立，不互相影响。程序的依赖关系终止于接口或抽象。</p>
+<p>5）<strong>合成聚合复用原则</strong></p>
+<p>　　尽量不使用类继承，而尽量使用合成/聚合。聚合是一种比较弱的拥有关系，具体表现是甲对象中可以包括乙对象，但乙对象不是甲对象的一部分；合成则是一种比较强的拥有关系，体现的是严格整体和部分的关系，并且整体和部分有相同的生命周期。如果两个类的关系是Has-a，则不应该设计成继承。这个原则有一个去缺点，就是系统中会有很多对象需要管理。</p>
+<p>6）<strong>迪米特法则</strong></p>
+<p>　　也叫做最少知识原则，一个对象尽可能少的了解其他对象，不和陌生人说话。每个类要尽可能的减少对其他类的依赖，不希望类之间建立直接的接触，如果需要接触则希望通过友元类（第三方）来传达（转发调用），这样会导致系统中存在大量的友元类。</p>
+<p>　　<em>问题由来</em>：类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</p>
+<p>　　<em>解决方案</em>：尽量降低类与类之间的耦合。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Design-pattern/">Design pattern</a><a href="/tags/Java/">Java</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/设计模式-设计原则/" data-title="设计模式---设计原则 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/设计模式-工厂模式/" title="设计模式---工厂模式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  设计模式---工厂模式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/25/JUnit单元测试-小试牛刀/"  title="JUnit单元测试--小试牛刀">
+ <strong>NEXT:</strong><br/> 
+ <span>JUnit单元测试--小试牛刀
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/selenium/软测/" title="软测">软测<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>7</sup></a></li>
+		
+			<li><a href="/categories/杂感/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

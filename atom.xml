@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-12-25T08:24:44.877Z</updated>
+  <updated>2014-12-25T13:57:16.181Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,11 +15,953 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[简单Xpath入门]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E7%AE%80%E5%8D%95Xpath%E5%85%A5%E9%97%A8/"/>
+    <id>http://yoursite.com/2014/12/25/简单Xpath入门/</id>
+    <published>2014-12-25T13:54:52.000Z</published>
+    <updated>2014-12-25T13:56:24.000Z</updated>
+    <content type="html"><![CDATA[<p>　　XPath即为XML路径语言，它是一种用来确定XML（标准通用标记语言的子集）文档中某部分位置的语言。XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。XPath 是 XML 的查询语言，和 SQL 的角色很类似。以下面 XML 为例，介绍 XPath 的语法。</p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span>
+<span class="tag">&lt;<span class="title">catalog</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"USA"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Empire Burlesque<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bob Dylan<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>10.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"UK__time"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Hide your heart<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bonnie Tyler<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"UK"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Hide your heart<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bonnie Tyler<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"USA"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Greatest Hits<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Dolly Parton<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span><span class="tag">&lt;/<span class="title">catalog</span>&gt;</span>
+</code></pre><p><strong>定位节点</strong></p>
+<p>　　XML 是树状结构，类似档案系统内数据夹的结构，XPath 也类似档案系统的路径命名方式。不过 XPath 是一种模式(Pattern)，可以选出 XML 档案中，路径符合某个模式的所有节点出来。<br>1）要选 catalog 底下的 cd 中所有 price 元素可以用：<br>　　 /catalog/cd/price<br> 　 如果 XPath 的开头是一个斜线（/）代表这是绝对路径。如果开头是两个斜线（//）表示文件中所有符合模式的元素都会被选出来，即使是处于树中不同的层级也会被选出来。</p>
+<p>2）选出文件中所有叫做 cd 的元素（在树中的任何层级都会被选出来）：<br>　　//cd　　使用星号（Wildcards,＊）可以选择未知的元素。</p>
+<p>3）选出/catalog/cd 的所有子元素：<br>　　/catalog/cd/*</p>
+<p>4）选出所有 catalog 的子元素中，包含有 price 作为子元素的元素。<br>　　/catalog/*/price</p>
+<p>5）选出有两层父节点，叫做 price 的所有元素。<br>　　/<em>/</em>/price</p>
+<p>6）选择出文件中的所有元素。<br>　　//<em>　<br>　　要注意的是，想要存取不分层级的元素，XPath 语法必须以两个斜线开头(//)，想要存取未知元素才用星号(</em>)，星号只能代表未知名称的元素，不能代表未知层级的元素。</p>
+<p><strong>选择分支</strong><br>使用中括号可以选择分支。</p>
+<p>1）从 catalog 的子元素中取出第一个叫做 cd 的元素。XPath 的定义中没有第0元素<br>　　/catalog/cd[1]</p>
+<p>2）选择 catalog 中的最后一个 cd 元素： XPath 没有定义 first() 这种函式，用上例的 [1]就可以取出第一个元素。<br>　　/catalog/cd[last()]</p>
+<p>3）选出含有 price 子元素的所有/catalog/cd 元素。<br>　　/catalog/cd[price]</p>
+<p>4）选出 price 元素的值等于10.90的所有/catalog/cd 元素<br>　　/catalog/cd[price=10.90]</p>
+<p>5）选出 price 元素的值等于10.90的所有/catalog/cd 元素 的 price 元素<br>　　/catalog/cd[price=10.90]/price</p>
+<p><strong>选择一个以上的路径</strong></p>
+<p>使用 Or 操作数(|)就可以选择一个以上的路径</p>
+<p>1）选择所有 title 以及 artist 元素<br>　　//title | //artist</p>
+<p>2）选择所有 title 以及 artist 以及 price 元素<br>　　//title | //artist | //price</p>
+<p><strong>选择属性</strong> </p>
+<p>在XPath的属性。除了选择元素以外，也可以选择属性，属性都是以@开头。</p>
+<p>1）选择文件中所有叫做 country的属性。<br>　　//@conutry</p>
+<p>2）选择所有含有country 这个属性的 cd元素。<br>　　//cd[@country]</p>
+<p>3) 选择出country属性值为UK的cd元素<br>　　//country[@country==’UK’]</p>
+<p><strong>部分匹配</strong></p>
+<p>有些属性的值具有一定的规律，例如上面的UK就是前缀，一部分是不变的。也可以用start-with</p>
+<p>1）定位属性值前缀为UK<em>的元素<br>　　//cd[containers(@country，’UK</em>‘)]<br>　　//cd[start-with(@country，’UK_’)]  </p>
+<p>这是在某个文档里面学习来的，感觉简单又易上手，故摘录于此。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　XPath即为XML路径语言，它是一种用来确定XML（标准通用标记语言的子集）文档中某部分位置的语言。XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。XPath 是 XML 的查询语言，和 SQL 的角色很类似。以下面 XML 为例，介绍 XPath ]]>
+    </summary>
+    
+      <category term="selenium" scheme="http://yoursite.com/tags/selenium/"/>
+    
+      <category term="selenium" scheme="http://yoursite.com/categories/selenium/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/selenium/%E8%BD%AF%E6%B5%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[selenium--大家庭介绍]]></title>
+    <link href="http://yoursite.com/2014/12/25/selenium-%E5%A4%A7%E5%AE%B6%E5%BA%AD%E4%BB%8B%E7%BB%8D/"/>
+    <id>http://yoursite.com/2014/12/25/selenium-大家庭介绍/</id>
+    <published>2014-12-25T13:29:10.000Z</published>
+    <updated>2014-12-25T13:55:51.000Z</updated>
+    <content type="html"><![CDATA[<p>安装好配置环境后，开始我的selenium之旅。简单的了解一下色，selenium大家庭的组成。</p>
+<p>Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Selenium使用JavaScript和Iframes在浏览器嵌入自动化测试引擎，可以在任何支持JavaScript的浏览器中进行工作，模拟用户在浏览器中进行的操作。Selenium的强大之处就在于可以使用集成开发环境，让用户使用自己最熟悉的开发语言进行调试操作。</p>
+<p><strong>Selenium的优势</strong>：<br>1）它是开源的    </p>
+<p>2）简单，易于安装，易于工作    </p>
+<p>3）提供Selenium IDE ，一个FireFox plugin，能自动记录用户的操作，生成测试脚本。生成的测试脚本可以基于Selenium RC放入Java，C#，Ruby的单元测试用例中自动运行。selenium ide是selenium的唯一可以在浏览器窗口上记录用户行为的组件     </p>
+<p>4）除了火狐上的事件外不会记录你电脑上的任何其他事件    </p>
+<p>5）Selenium支持多种浏览器，能够运行与多种操作系统，因此更容易帮助测试人员发现应用程序在不同浏览器上的兼容性问题。通过在不同浏览器中运行测试，更容易发现浏览器的不兼容性. </p>
+<p>6）通过编写模仿用户操作的 Selenium 测试脚本，可以从终端用户的角度来测试应用程序；可以操作 Web 页面上的各种元素，诸如：点击按钮、输入文本框，以及断言 Web 页面上存在某些文本与 Web 元素等。<br><br>7）测试用例调用实际的浏览器(如IE、FireFox)来执行测试。和有些开源方案自行实现Web解释引擎相比，实际的浏览器能模拟更多用户交互和JS语法。    </p>
+<p> 8） SELENIUM录制的脚本比较灵活，因为它生成的是PERL的脚本程序。作为几乎最为强大和最广泛使用语言之一，PERL这种程序给予我最大的灵活性和控制度。</p>
+<p><strong>Selenium IDE</strong> 支持并且只支持 Firefox 浏览器，支持的浏览器太少，而依附于 Firefox 也不便于日后开展自动化测试，但是，它的录制快捷好用！并且有代码 转换功能，可以把 Selenium 语言测试案例转为 C#,Java 等语言的测试案例，使用 Selenium IDE + FireBug 进行测试案例的编写，然后转为其他语言的测试案例后，再调用 Selenium RC运行测试案例。</p>
+<p><strong>Selenium RC</strong> 它支持很多浏览器，可以使用 C#，Java 等语言编写测试案例，易于维护，同时提供了很好的扩展性，将使用Selenium RC 测试工具。</p>
+<p>selenium 和 WebDriver 合幵后创建了一个新的 Selenium 2 框架。 Selenium 是一个针对网页应用测试非常好的框架。他有着一些积极的影响。WebDriver 也不像 Selenium 1 一样需要一个代理。你可以直接和浏览器进行对话。这也非常受人们欢迎的，因为可以加快测试的执行速度，不需要一个“中间人”进行传递消息。</p>
+<p><strong>Selenium IDE</strong>：右Command、target、value组成的表格就是脚本，每个脚本都是一条条的action行为组成，action有CTV 三者组成，command就是api中的各种函数，target就是web中的某个目标对象，比如：输入框、按钮等，使用xpath选取对象。Value：根据实际内容填写。</p>
+<p>　　在这里可以手动的增加两种页面校验：verify和assert。他们都能对显示内容，输出内等做验证，区别在于：</p>
+<ul>
+<li>verify：验证失败了，会抛出期望结果不存在的错误，但是测试过程会继续执行下面的步骤，但会显示成淡红的。</li>
+<li>assert：验证失败，测试不会继续执行下去。</li>
+</ul>
+<p>Selenium 没有指明会等到需要交互的元素出现，所以你最好等到需要交互元素出现时再迕行交互，即利用wait指令。如带有下拉菜单，带有ajax的页面都要有所等待，等页面元素准备好了再进行下一步的操作。</p>
+<p>Selenium RC：有两部分组成</p>
+<ul>
+<li>Selenium Server：负责控制浏览器行为，包括三个部分：launcher、http proxy、Selenium core，其中Selenium core是Selenium server嵌入到浏览器页面中的，Selenium core是一堆JS函数的集合，从而实现对浏览器的操作。</li>
+<li>Selenium Clientlibrary：写测试案例时用来控制server的库。</li>
+</ul>
+<p>支持很多浏览器，可以使用C#，Java 等语言编写测试案例，易于维护，同时提供了很好的扩展性。</p>
+<p><strong>Selenium Grid</strong>允许创建很多个 Selenium RC实例，由一个中心来发送 Selenium RC命令。拥有一个中心点 Hub， 测试可以连接到此点，  测试命令会推送到连接在此集线器上的Remote RC 实例上。 这个中心有一个 web 界面（localhost：4444/console）， 告诉你连接在此集线器上的Selenium RC 实例，和返些实例是否正在使用的状态。</p>
+<blockquote>
+<p>启动Selenium Server<br>java –jar selenium-server-standalone-2.22.0.jar -port 4444<br>启动Selenium Grid的Hub<br>java –jar selenium-server-standalone-2.22.0.jar -port 4000 -role hub<br>启动Selenium Grid的Node，其中的-hub参数，是Selenium Grid的Hub的URL<br>java -jar selenium-server-standalone-2.22.0.jar -port 4001 -role node -hub <a href="http://127.0.0.1:4000/grid/register" target="_blank" rel="external">http://127.0.0.1:4000/grid/register</a></p>
+</blockquote>
+<p>显然，可以启动多个Node：<br>java -jar selenium-server-standalone-2.22.0.jar -port 4002 -role node -hub <a href="http://127.0.0.1:4000/grid/register" target="_blank" rel="external">http://127.0.0.1:4000/grid/register</a></p>
+<h4 id="WebDriver">WebDriver</h4>
+<p>　　WebDriver 提供一个先进技术来定位 web 页面元素。其实WebDriver就是基于Selenium的一个自动化测试类库，但它不再是运行在浏览器内的JS程序，而是自己可以控制浏览器。webdriver提供了很多方式来定位元素，对于不同平台的语言都有相关的api，如C#、java、python、ruby等等。</p>
+<p>　　前段时间利用空余的时间学习这方面的知识，现将其一点点的整理出来。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>安装好配置环境后，开始我的selenium之旅。简单的了解一下色，selenium大家庭的组成。</p>
+<p>Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Selenium使用JavaScript和Iframes在浏览器嵌入自动化测试引擎]]>
+    </summary>
+    
+      <category term="selenium" scheme="http://yoursite.com/tags/selenium/"/>
+    
+      <category term="selenium" scheme="http://yoursite.com/categories/selenium/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/selenium/%E8%BD%AF%E6%B5%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[一个网页的测试用例]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E4%B8%80%E4%B8%AA%E7%BD%91%E9%A1%B5%E7%9A%84%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+    <id>http://yoursite.com/2014/12/25/一个网页的测试用例/</id>
+    <published>2014-12-25T13:23:58.000Z</published>
+    <updated>2014-12-25T13:28:43.000Z</updated>
+    <content type="html"><![CDATA[<p>　　今天在看51testing的博客时，看到这么一个网页登录的测试用例，想到自己之前写的那个关于登录页面的简单的功能测试用例真的是太弱了，感觉很多都没有考虑进去。特此在这里记录下来，参考。具体需求： 有一个登陆页面， （假如上面有2个textbox, 一个提交按钮。 请针对这个页面设计30个以上的TestCase.）</p>
+<p>　　此题的考察目的：面试者是否熟悉各种测试方法，是否有丰富的web测试经验， 是否了解Web开发，以及设计Test case的能力<br>首先，你要了解用户的需求，比如这个登录界面应该是弹出窗口式的，还是直接在网页里面。对用户名的长度，和密码的强度（就是是不是必须多少位，大小写，特殊字符混搭）等。还有比如用户对界面的美观是不是有特殊的要求？（即是否要进行UI测试）。剩下的就是设计用例了 ，等价类，边界值等等。<br>　　请你记住一点，<strong>任何测试，不管测什么都是从了解需求开始的。</strong></p>
+<p><strong>功能测试(Function test)</strong><br>　　0.  什么都不输入，点击提交按钮，看提示信息。（非空检查）<br>　　1.输入正确的用户名和密码，点击提交按钮，验证是否能正确登录。（正常输入）<br>　　2.输入错误的用户名或者密码, 验证登录会失败，并且提示相应的错误信息。（错误校验）<br>　　3.登录成功后能否能否跳转到正确的页面（低）<br>　　4.用户名和密码，如果太短或者太长，应该怎么处理（安全性，密码太短时是否有提示）<br>　　5.用户名和密码，中有特殊字符（比如空格），和其他非英文的情况（是否做了过滤）<br>　　6.记住用户名的功能<br>　　7.登陆失败后，不能记录密码的功能<br>　　8.用户名和密码前后有空格的处理<br>　　9.密码是否加密显示（星号圆点等）<br>　　10.牵扯到验证码的，还要考虑文字是否扭曲过度导致辨认难度大，考虑颜色（色盲使用者），刷新或换一个按钮是否好用<br>　　11.登录页面中的注册、忘记密码，登出用另一帐号登陆等链接是否正确<br>　　12.输入密码的时候，大写键盘开启的时候要有提示信息。</p>
+<p><strong>界面测试(UI Test)</strong><br>　　1.布局是否合理，2个testbox 和一个按钮是否对齐<br>　　2.testbox和按钮的长度，高度是否复合要求<br>　　3. 界面的设计风格是否与UI的设计风格统一<br>　　4. 界面中的文字简洁易懂，没有错别字。</p>
+<p><strong>性能测试(performance test)</strong><br>　　1.打开登录页面，需要几秒<br>　　2.输入正确的用户名和密码后，登录成功跳转到新页面，不超过5秒</p>
+<p><strong>安全性测试(Security test)</strong><br>　　1.登录成功后生成的Cookie，是否是httponly (否则容易被脚本盗取)<br>　　2.用户名和密码是否通过加密的方式，发送给Web服务器<br>　　3.用户名和密码的验证，应该是用服务器端验证， 而不能单单是在客户端用javascript验证<br>　　4.用户名和密码的输入框，应该屏蔽SQL注入攻击<br>　　5.用户名和密码的的输入框，应该禁止输入脚本 （防止XSS攻击）<br>　　6.错误登陆的次数限制（防止暴力破解）<br>　　7. 考虑是否支持多用户在同一机器上登录；<br>　　8. 考虑一用户在多台机器上登录</p>
+<p><strong>可用性测试(Usability Test)</strong><br>　　1. 是否可以全用键盘操作，是否有快捷键<br>　　2. 输入用户名，密码后按回车，是否可以登陆<br>　　3. 输入框能否可以以Tab键切换</p>
+<p><strong>兼容性测试（Compatibility Test）</strong><br>　　1.主流的浏览器下能否显示正常已经功能正常（IE,6,7,8,9, Firefox, Chrome, Safari,等）<br>　　2.不同的平台是否能正常工作，比如Windows, Mac<br>　　3.移动设备上是否正常工作，比如Iphone, Andriod<br>　　4.不同的分辨率</p>
+<p><strong>本地化测试（Localization test）</strong><br>　　1. 不同语言环境下，页面的显示是否正确。<br>　　软件辅助性测试 （Accessibility test）<br>　　软件辅助功能测试是指测试软件是否向残疾用户提供足够的辅助功能<br>　　2. 高对比度下能否显示正常 （视力不好的人使用）</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　今天在看51testing的博客时，看到这么一个网页登录的测试用例，想到自己之前写的那个关于登录页面的简单的功能测试用例真的是太弱了，感觉很多都没有考虑进去。特此在这里记录下来，参考。具体需求： 有一个登陆页面， （假如上面有2个textbox, 一个提交按钮。 请针对]]>
+    </summary>
+    
+      <category term="测试用例" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+    
+      <category term="软测" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/"/>
+    
+      <category term="测试用例" scheme="http://yoursite.com/categories/%E8%BD%AF%E6%B5%8B/%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[9本java程序员必读的书]]></title>
+    <link href="http://yoursite.com/2014/12/25/9%E6%9C%ACjava%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E8%AF%BB%E7%9A%84%E4%B9%A6/"/>
+    <id>http://yoursite.com/2014/12/25/9本java程序员必读的书/</id>
+    <published>2014-12-25T13:11:05.000Z</published>
+    <updated>2014-12-25T13:22:59.000Z</updated>
+    <content type="html"><![CDATA[<p>来源：<a href="http://mp.weixin.qq.com/s?__biz=MjM5NzA1MTcyMA==&amp;mid=202904638&amp;idx=2&amp;sn=21dd20438e32a24e78e8c33dd4a0991e&amp;scene=1#rd" target="_blank" rel="external">http://mp.weixin.qq.com/s?__biz=MjM5NzA1MTcyMA==&amp;mid=202904638&amp;idx=2&amp;sn=21dd20438e32a24e78e8c33dd4a0991e&amp;scene=1#rd</a></p>
+<p>　　本文列出的9本书在Java程序员界都是被认为很棒的书。当一个程序员开始初学Java时，他的第一个问题应该是如何选择一本书来作为指导学习Java。这个问题也就表明，相对于其他的教程和博客，Java书籍还是很重要的参考，主要表现在以下两点</p>
+<p>●通常书籍是由比较权威的程序员来撰写的。</p>
+<p>●相比其他媒介，书籍对于内容的描述更加详细，解释更加明确。</p>
+<p>　　本文列出的九本书是我个人非常喜欢的Java书籍，当我有时间的时候，我就会将它们捧在手里阅读。甚至有些书我反复读过很多遍，每次重新读的时候总会有新的收获。因此这些书也是大部分Java程序员喜欢的书籍。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java1.jpg" alt="javabook1"><br>　　Head　First Java是所有编程或者Java初学者最适合的书籍，我很喜欢轻松和寓教于乐的Head First风格，这应该是最有意思的关于Java的书。无论是初级，中级还是高级都能从中有所收获。学习本书，你可以了解到类，对象，线程，集合等编程知识，还可以了解到泛型，枚举，可变参数和自动装箱等语言特性。本书中还涉及到了Java高级编程中的Swing，网络编程，IO操作等，可以让初学者对Java有比较完整地概念。如果你是一位Java初学者，不要犹豫，这本书最适合你了。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java2.jpg" alt="javabook２"><br>　　Head First设计模式又是一部Head First系列的书籍。作者为Kathy Sierra及其团队。当我在2006年开始读这本书的时候，我对设计模式并不是很了解。设计模式解决什么问题，怎么解决问题，如何使用设计模式，设计模式有什么好处，这些问题我几乎都无法回答出来。但是当我读完这本书的时候，一切都豁然开朗。在本书介绍继承和组合一章，使用简单有趣的例子，一步一步提出问题并解决问题，最终得出最优解。本书中会有很多要点总结，幽默对话，练习题还有有名的单词接龙等帮助你更好地了解设计模式。如果你想了解Java中的设计模式，请带走这本书。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java3.jpg" alt="javabook3"><br>　　Effective Java这本书也是一本我最喜欢的。本书为领导开发Java集合框架和并发API包的 约书亚·布洛克 大神所著。本书适合于有着数年开发经验Java程序员，通过本书我们可以很多编程中的最佳实践，并且可以从JDK贡献者布洛克大神这里汲取经验。Effective Java从质量，内容和问题解答方式上来说都是一本评价很高的书，因此读这本书会是一种感觉很棒的体验。另外本书的章节相对比较轻量，与其他章节耦合度较低，因此在旅行或者闲暇时间阅读也是可以的。在内容方面，Effective Java包含了从静态工厂，序列化，equals和hashcode到泛型，枚举，可变参数以及反射的最佳解决方法。本书对Java各方面知识点的讲解会让你受益匪浅。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java4.jpg" alt="enter image description here"><br>又一部 约书亚·布洛克 大神的经典之作，当然本书的另一位主作者为 Doug Lea（影响两次Java历史上的大变革的大神）。这本书几乎就是Java并发和多线程编程方面的权威，同时也是核心Java开发人员必读的一本书。本书的强大主要表现在</p>
+<ul>
+<li>本书非常详细地描述了多线程和并发中的诸多(小)细节。</li>
+<li>本书并非聚焦于核心Java代码的实现，而是关注并发引起的问题，比如死锁，饥饿，线程安全，竞争条件，然后提供可行的方法来解决这些问题。因此这本书可以很好地帮助开发者了解并掌握并发包以及其中的CountDownLatch，CyclicBarrier，BlockingQueue，Semaphore这些类。这也是我一遍一遍阅读这本书的原因。</li>
+<li>书中的例子简明扼要清晰，很能描述问题。</li>
+<li>解释明确：本书很好地解释了什么是错的，为什么错，怎样改正。这也是本书畅销的原因之一。</li>
+</ul>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/java5.jpg" alt="enter image description here"><br>　　这本书是来自O’Reilly的一本成功之作，作者为Naftalin和Philip Wadler。正如书名可知，这本书的内容关注于泛型和集合这两个Java语言的核心方面。本书对于那些有编程经验的程序员加强对集合和泛型的理解和掌握有很大的帮助。本书详细介绍了每一个集合的API，Set, List, Map, Queue，以及他们的实现，对比不同场景下它们的性能优劣。每个章节最后的对比图表很不错。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java6.jpg" alt="enter image description here"><br>　　本书为我个人的最爱，本书重点关注性能监视，性能剖析以及如何使用工具对性能分析。本书不同于其他的编程书籍，因为本书中涉及到很多Java虚拟机的细节，垃圾回收机制，Java堆内存监视以及对程序性能剖析。其中讲述JVM的章节写的很不错，很值得咀嚼。注意，这本书属于编程高级层次，阅读需要具有足够的Java编程经验。初级和中级Java开发者也可以阅读本书也会学到不同程度的干货。所以，你想进行性能调优，把这本书放到你的书架上吧。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java7.jpg" alt="enter image description here"><br>　　再介绍一本 约书亚·布洛克 大神写的书。本书的另一位作者为Neal Gafter（已转到微软做Donet Compiler技术Lead）。本书讲述了Java语言中的极端情况和陷阱。相对于C++，Java更加安全低风险，JVM有着垃圾回收机制，让Java程序员不用关心内存分配和释放，大大提高了程序的开发效率。但是有些时候，即便是经验丰富的程序员也会被Java中的极端情况或陷阱给绊倒。本书列举并详细描述了Java中的这些陷阱。如果你喜欢刨根问底，钻牛角尖，这本书就是为你而写。通过本书，你可以了解很多java的核心知识并对自己的Java水平有所知晓。本人更加喜欢上面提到的 约书亚·布洛克 的 Effective Java 和 Concurrency Practice in Java。但是如果你感兴趣，还是可以去尝试的。为了让收获最大化，你可以先尝试解决书中的问题，然后对着书中的解释进行比较。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java8.jpg" alt="enter image description here"><br>　　这是一本属于Head First系列的关于面向对象编程的书。本书建议和Head First设计模式结合阅读，效果更佳。本书关注于面向对象设计原则，比如多用组合少用继承，针对接口编程而非针对实现编程，不要重复你自己等。这本书可以帮助你写出好代码并且参考最佳实践进行优化改善。当然本书中的内容也适合使用其他面向对象的语言的程序员。想学好面向对象编码和设计规则，现在就开始读这本书哈。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/java9.jpg" alt="enter image description here"><br> 　　Thinking in Java book应该是Java中文界最有名的书籍了，中文又名 Java编程思想。作者为Bruce Eckel，他也是Thinking in C++的作者，他用自己很独特的观点讲述了Java。据我所知，这本书获得了很高的认可，本书是一本介绍齐全的Java学习参考书。如果你不喜欢Head First类似小人书那样的讲解，可以尝试这本书。本书的内容讲解详细，成熟（相对Head First有种教科书的感觉）。</p>
+<p>　　这就是我的关于Java编程相关的推荐的书，这些都可以说是看成经典中的经典。像Effective Java 和 Head First 系列我已经反复阅读了很多遍。相信看完本文，根据自己的水平和想要提升的知识侧重，你应该能选出最适合自己的书了。<br>　　Mark下，以后慢慢看。。。。。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>来源：<a href="http://mp.weixin.qq.com/s?__biz=MjM5NzA1MTcyMA==&amp;mid=202904638&amp;idx=2&amp;sn=21dd20438e32a24e78e8c33dd4a0991e&amp;scen]]>
+    </summary>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[java--面向抽象编程]]></title>
+    <link href="http://yoursite.com/2014/12/25/java-%E9%9D%A2%E5%90%91%E6%8A%BD%E8%B1%A1%E7%BC%96%E7%A8%8B/"/>
+    <id>http://yoursite.com/2014/12/25/java-面向抽象编程/</id>
+    <published>2014-12-25T13:09:48.000Z</published>
+    <updated>2014-12-25T13:10:15.000Z</updated>
+    <content type="html"><![CDATA[<p>　　所谓面向抽象编程是指当设计某种重要的类时，不让该类面向具体的类，而是面向抽象类，及所设计类中的重要数据是抽象类声明的对象，而不是具体类声明的对象。就是利用abstract来设计实现用户需求。</p>
+<p>比如：我们有一个Circle圆类，计算其面积。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Circle</span> <span class="keyword">extends</span> <span class="title">Geometry</span></span>{
+<span class="keyword">double</span> r;
+Circle(<span class="keyword">double</span> r){
+    <span class="keyword">this</span>.r = r;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span>(){
+    <span class="keyword">return</span> (<span class="number">3.14</span>*r*r);
+}
+}
+</code></pre><p>现在要设计一个Pillar（柱类），getvolume（）可以计算柱体的体积。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Pillar{
+Circle bottom;
+<span class="keyword">double</span> height;
+Pillar(Circle bottom, <span class="keyword">double</span> height){
+    <span class="keyword">this</span>.bottom = bottom;
+    <span class="keyword">this</span>.height = height;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getVolume</span>(){
+    <span class="keyword">return</span> bottom.getArea() * height;
+}
+}
+</code></pre><p>　　在Pillar（柱类）中，bottom是用具体类Circle声明的对象，如果不涉及用户需求的变化，上面Pillar（柱类）的设计没有什么不妥，但是在某个时候，用户希望Pillar（柱类）能创建出底部是三角形的柱体。显然上面的Pillar（柱类）就无法创建出这样的柱体，即上述设计的Pillar（柱类）不能应对用户的这中需求。</p>
+<p>　　重新修改Pillar（柱类）。注意到柱体的计算体积的关键是计算出底面积，一个柱体在计算底面积是不应该关心他的底是社么形状的具体图案，应该只关心这种图像是否具有计算出面积的方法。因此，在设计Pillar（柱类）的时候不应当让他的底是某个具体类的声明的对象，一旦这么做，Pillar（柱类）就会依赖具体类，缺乏弹性，难以应对需求的变化。</p>
+<p><strong>第一步</strong>：定义一个抽象类Geometry，类中定义一个抽象的getArea（）方法，Geometry类如下。这个抽象类将所有计算面积的方法都抽象为一个标识：getArea（）无需考虑算法细节。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Geometry{
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">double</span> <span class="title">getArea</span>();
+}
+</code></pre><p><strong>第二步</strong>：Pillar（柱类）可以面向Geometry类编写代码，即Pillar（柱类）应当把Geometry类作为自己的成员，该成员可以调用Geometry的子类重写的getArea（）方法。这样，Pillar（柱类）就将计算底面积的任务指派个Geometry类的子类的实例，不再依赖于某一个具体的类，而是面向Geometry类的，即Pillar（柱类）的bottom是用抽象类Geometry声明的对象，而不是具体的某一类，新的Pillar（柱类）如下：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Pillar{
+Geometry botom;
+<span class="keyword">double</span> height;
+Pillar(Geometry bottom, <span class="keyword">double</span> height){
+    <span class="keyword">this</span>.bottom = bottom;
+    <span class="keyword">this</span>.height = height;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getVolume</span>(){
+    <span class="keyword">return</span> bottom.getArea() * height;
+}
+}
+</code></pre><p>在新增Geometry的子类时就不需要修改Pillar（柱类）的任何代码，只需要增加一个Triangle类（三角形）。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rectangle</span> <span class="keyword">extends</span> <span class="title">Geometry</span></span>{
+<span class="keyword">double</span> a,b;
+Circle(<span class="keyword">double</span> a, <span class="keyword">double</span> b){
+    <span class="keyword">this</span>.a = a;
+    <span class="keyword">this</span>.b = b;
+}
+<span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span>(){
+    <span class="keyword">return</span> (a*b);
+}
+}
+</code></pre><p>应用：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Application{
+<span class="keyword">public</span> state <span class="keyword">void</span> <span class="title">main</span>(String args[]){
+    Pillar pillar;
+    Geometry bottom;
+    bottom = <span class="keyword">new</span> Circle(<span class="number">10</span>);             <span class="comment">//子类的上转型对象</span>
+    pillar = <span class="keyword">new</span> Pillar(bottom, <span class="number">10</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"圆柱体的体积"</span> + pillar.getVolume());
+    bottom = <span class="keyword">new</span> Rectangle(<span class="number">10</span>,<span class="number">10</span>);
+    pillar = <span class="keyword">new</span> Pillar(bottom, <span class="number">10</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"矩形底的体积"</span> + pillar.getVolume());
+}
+}
+</code></pre><p><strong>总结</strong>：面向抽象编程目的是为了应对用户需求的变化，将某个类中经常因需求变化而需要改变的代码从类中分离出去。其核心是让类中每种可能的变化对应的交给抽象类的一个子类去负责，从而让该类的设计者不去关心具体的实现，避免所设计的类依赖于具体的实现。</p>
+<p><strong>关于抽象类</strong>：</p>
+<ul>
+<li>对于抽象类不能用new创建该类的对象，但可以成为其子类的上转型对象，从而该对象可以调用子类重写的方法。</li>
+<li>一个非抽象类是某个抽象类的子类，那么它必须重写父类的抽象方法，给出方法体。</li>
+</ul>
+<p>　　</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　所谓面向抽象编程是指当设计某种重要的类时，不让该类面向具体的类，而是面向抽象类，及所设计类中的重要数据是抽象类声明的对象，而不是具体类声明的对象。就是利用abstract来设计实现用户需求。</p>
+<p>比如：我们有一个Circle圆类，计算其面积。</p>
+<pre]]>
+    </summary>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[java--面向接口编程]]></title>
+    <link href="http://yoursite.com/2014/12/25/java-%E9%9D%A2%E5%90%91%E6%8E%A5%E5%8F%A3%E7%BC%96%E7%A8%8B/"/>
+    <id>http://yoursite.com/2014/12/25/java-面向接口编程/</id>
+    <published>2014-12-25T12:58:46.000Z</published>
+    <updated>2014-12-25T13:05:55.000Z</updated>
+    <content type="html"><![CDATA[<p>　　之前看的一本书的笔记，上周再看设计模式的时候，想到了这篇之前在看某本书时候的笔记。</p>
+<p>　　面向接口编程很重要的一点就是接口回调，用接口声明的变量称作接口变量，属于引用型变量，可以存放实现该接口的类的实例的引用，对象引用。<strong>接口回调</strong>：可以把实现某一接口的类创建的对象的引用赋值给该接口声明的接口变量，那么该接口变量就可以调用被类实现的接口方法。</p>
+<p>Com com;      //接口<br>ImplCom object;    //实现接口的对象<br>com = object;        //接口回调，com会根据对象的不同而实现不同的接口方法，回调类重写的接口方法<br>接口和abstract类的比较如下：<br>abstract类和接口都可以有abstract方法。<br>接口中只可以有常量，不能有变量；而abstract类中既可以有常量也可以有变量。abstract类中也可以有非abstract方法，接口不可以。</p>
+<p>　　在设计程序时应当根据具体的分析来确定是使用抽象类还是接口。abstract类除了提供重要的需要重写的abstract方法外，也提供了子类可以继承的变量和非abstract方法。如果某个重要问题需要使用继承才能更好地解决，比如，子类需要重写父类的abstract方法，还需要从父类继承一些变量或继承一些重要的非abstract方法，就可以考虑用abstract类。如果某个问题不需要继承，只是需要若干个类给出某些重要的abstract方法的实现细节，就可以考虑使用接口。<br>　　使用接口编程的最重要的<strong>核心思想就是使用接口回调</strong>，及接口变量存放实现该接口的类的对象的引用，从而接口变量就可以回调类实现的接口方法。<br>　　<img src="http://7te8s4.com1.z0.glb.clouddn.com/jiekou.jpg" alt="接口编程">　　</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> Advertisement {
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showAdvertisement</span>();
+    <span class="keyword">public</span> String <span class="title">getCorpName</span>();
+}
+</code></pre><p>2、设计AdvertisementBoard类（广告牌），该类有一个show（Advertisement adver）方法，该方法的参数是接口Advertisement的类型，显然该参数adver可以存放任何实现Advertisement接口的类的对象的引用，并回调类重写的接口方法showAdvertisement()来显示公司的广告词，回调类重写的接口方法getCorpName来获取公司名称。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> AdvertisementBoard{
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span> (Advertisement adver){
+    System.<span class="keyword">out</span>.println(adver.getCorpName()+<span class="string">"广告词"</span>);
+    adver.showAdvertisement（）; <span class="comment">//接口回调</span>
+}
+}
+</code></pre><p>实现接口的A公司类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Acorp implement Advertisement {
+<span class="keyword">public</span> <span class="keyword">void</span> showAdvertisement（）{
+    System.<span class="keyword">out</span>.println(<span class="string">"AAAAAAAAAAAAAAAAA"</span>);
+}
+<span class="keyword">public</span> String getCorpName（）{
+    <span class="keyword">return</span> <span class="string">"A Corp"</span>;
+}
+}
+</code></pre><p>实现接口的B公司类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Bcorp implement Advertisement {
+<span class="keyword">public</span> <span class="keyword">void</span> showAdvertisement（）{
+    System.<span class="keyword">out</span>.println(<span class="string">"BBBBBBBBBBBBBBBBB"</span>);
+}
+<span class="keyword">public</span> String getCorpName（）{
+    <span class="keyword">return</span> <span class="string">"B Corp"</span>;
+}
+}
+</code></pre><p>运行住程序：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> test （）{
+<span class="keyword">public</span> state <span class="keyword">void</span> main （<span class="keyword">string</span> args[]）{
+    AdvertisementBoard board = <span class="keyword">new</span> AdvertisementBoard();
+    board.show(<span class="keyword">new</span> Acorp());
+    board.show(<span class="keyword">new</span> Bcorp());
+}
+}
+</code></pre><p>最后程序会根据对象的不同调用不同的方法。若想要添加C公司，只要实现接口的方法就可以了。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　之前看的一本书的笔记，上周再看设计模式的时候，想到了这篇之前在看某本书时候的笔记。</p>
+<p>　　面向接口编程很重要的一点就是接口回调，用接口声明的变量称作接口变量，属于引用型变量，可以存放实现该接口的类的实例的引用，对象引用。<strong>接口回调</stron]]>
+    </summary>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式----建造者模式]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2014/12/25/设计模式-建造者模式/</id>
+    <published>2014-12-25T12:50:32.000Z</published>
+    <updated>2014-12-25T12:57:37.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>创建型模式</strong></p>
+<p>建造者模式：又叫生成器模式，就是对流程的抽象，一步一步的去创建一个复杂的对象。</p>
+<p>举个实例，有一个化学老师需要在公开课上向校长等人演示摸个试管实验，老师请了两个同学A和B上台演示，ＡＢ的操作顺序都是一样的，只是试剂所放的量不一样而已，那么老师要如何控制这个学生呢？如果我们只是简单地定义两个学生类A和B的话，由于两个人的实验顺序（方法）是一样的，那么就很容易出错，搞错了顺序？或者漏掉某个步骤？</p>
+<p><strong>解决</strong>：因为他们具有一样的组成成分，那么就可以让他们同时继承一个抽象接口，该接口提供他们所需要的步骤，以确保不会漏掉某步。因为子类必须实现抽象接口里的所有方法。</p>
+<p>抽象接口类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Student {
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">buZou1</span>();
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">buZou2</span>();
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">buZou3</span>();
+}
+</code></pre><p>学生A：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentA</span> <span class="keyword">extends</span> <span class="title">Student</span></span>{
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou1</span>() {
+    System.out.println(<span class="string">"AAAAA"</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou2</span>() {
+    System.out.println(<span class="string">"BBBBBB"</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou3</span>() {
+    System.out.println(<span class="string">"CCCCCC"</span>);
+}
+}
+</code></pre><p>学生B：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentB</span> <span class="keyword">extends</span> <span class="title">Student</span></span>{
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou1</span>() {
+    System.out.println(<span class="string">"OOOOO"</span>);
+}
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou2</span>() {
+    System.out.println(<span class="string">"PPPPP"</span>);
+}
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buZou3</span>() {
+    System.out.println(<span class="string">"QQQQQQ"</span>);
+}
+}
+</code></pre><p>虽然保证了不会漏掉某部，但是还是无法保证学生能正确操作？这是就可以使用建造者模式，有老师来控制。</p>
+<p>teacher类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Teacher {
+<span class="keyword">private</span> Student student;
+<span class="keyword">public</span> <span class="title">Teacher</span>(Student student) {
+    <span class="keyword">this</span>.student = student;
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DirectEx</span>() {
+    student.buZou1();
+    student.buZou2();
+    student.buZou3();
+}
+}
+</code></pre><p>主函数：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String args[]) {
+    Student studentA = <span class="keyword">new</span> StudentA();
+    Student studentB = <span class="keyword">new</span> StudentB();
+    Teacher teacher = <span class="keyword">new</span> Teacher(studentA);
+    teacher.DirectEx();
+    teacher = <span class="keyword">new</span> Teacher(studentB);
+    teacher.DirectEx();
+}
+</code></pre><p>   <strong>总结</strong>：建造者模式就是当需要一个复杂对象的构建或者造作过程和这个对象的表示相分离，就可以使用了。就相当于A和 B是具体的创建者，知道怎么操作，但是学生不知道完成一次实验需要按照何种步骤来进行，而老师作为指挥者，了解实验步骤，可以指挥学生（按一定顺序调用学生类提供的方法）来实验，客户端就只需要关心结果就好了。使用这个模式，用户只要制定要创建的类型就可以得到对应的对象，为具体的过程被direct和builder影藏了。而这正体现了依赖倒转的原则，抽象不依赖于细节，细节依赖于抽象。</p>
+<hr>
+<p>建造者模式的<code>标准代码</code>：<br>Builder：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> Builder {
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">builderPartA</span>();
+    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">builderPartB</span>();
+    <span class="keyword">public</span> <span class="keyword">abstract</span> Product <span class="title">getResult</span>();   
+}
+</code></pre><p>product：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Product {
+    ArrayList&lt;String&gt; parts = <span class="keyword">new</span> ArrayList&lt;String&gt;();
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span>(String part) {
+        parts.add(part);
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"create product"</span>);
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; parts.size(); i++) {
+            String part = parts.<span class="keyword">get</span>(i) ;
+            System.<span class="keyword">out</span>.println(part);
+        }
+    }
+}
+</code></pre><p>建造者类A：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteBuilderA</span> <span class="keyword">extends</span> <span class="title">Builder</span></span>{
+<span class="keyword">private</span> Product product = <span class="keyword">new</span> Product();
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">builderPartA</span>() {
+    product.add(<span class="string">"part A"</span>);
+}
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">builderPartB</span>() {
+    product.add(<span class="string">"part B"</span>);
+}
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> Product <span class="title">getResult</span>() {
+    <span class="keyword">return</span> product;
+}
+}
+</code></pre><p>建造者B:</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConcreteBuilderB</span> <span class="keyword">extends</span> <span class="title">Builder</span></span>{
+
+<span class="keyword">private</span> Product product = <span class="keyword">new</span> Product();
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">builderPartA</span>() {
+    product.add(<span class="string">"part W"</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">builderPartB</span>() {
+    product.add(<span class="string">"part Q"</span>);
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public</span> Product <span class="title">getResult</span>() {
+    <span class="keyword">return</span> product;
+}
+}
+</code></pre><p>指挥者：这里控制之行动的顺序</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Director {
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">construct</span>(Builder builder){
+    builder.builderPartA();
+    builder.builderPartB();
+}
+}
+</code></pre><p>客户端：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String args[]) {
+    Director director = <span class="keyword">new</span> Director();
+    Builder builder = <span class="keyword">new</span> ConcreteBuilderA();
+    Builder builder2 = <span class="keyword">new</span> ConcreteBuilderB();
+
+    director.construct(builder);
+    Product productA = builder.getResult();
+    productA.show();
+    director.construct(builder2);
+    Product productB = builder2.getResult();
+    productB.show();
+}
+</code></pre><p>  建造者优点：</p>
+<p>1）在建造者模式中，客户端不必知道产品内部组成的具体细节，将产品本身于产品的创建过程进行解耦，是的相同的创建过程可以创建不同的产品对象。</p>
+<p>2）每一个具体的建造者都是独立的，而与其他的具体建造者没有关系，可以很方便的去增加或者删除一个建造者，用户用不同的建造者就可以获得不同的产品。</p>
+<p>3）可以更加精细的控制产品创建的具体过程，将复杂的产品步骤分解在不同的方法当中，是的创建过程更加清晰。</p>
+<p>4）增加新的建造者不用修改原有类库的代码，指挥者类是针对抽象建造者类编写的，扩展方便，符合开放封闭原则。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>创建型模式</strong></p>
+<p>建造者模式：又叫生成器模式，就是对流程的抽象，一步一步的去创建一个复杂的对象。</p>
+<p>举个实例，有一个化学老师需要在公开课上向校长等人演示摸个试管实验，老师请了两个同学A和B上台演示，ＡＢ的操作顺序都是一样]]>
+    </summary>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式----原型模式]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2014/12/25/设计模式-原型模式/</id>
+    <published>2014-12-25T12:49:44.000Z</published>
+    <updated>2014-12-25T12:50:02.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>创建型模式</strong></p>
+<p><strong>原型模式</strong>：用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。就是依托一个已经实例化的对象去创建另外一个可以进行定制的对象，而不需要知道创建过程的具体细节。本质特点：在不重新初始化的情况下动态获取对象在运行时的状态。</p>
+<p>在Java中直接实现接口Cloneable接口就可以了，override其中clone方法，</p>
+<p><strong>举个例子</strong>：在我们考证的时候，都要填写报名信息，每次都一样的，如果每次都要填写一样的信息会很烦，能不能写好一份后，以后不管什么考试都只要复制过去就好了呢？</p>
+<p>报名信息类：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestrationInfo</span> <span class="keyword">implements</span> <span class="title">Cloneable</span> </span>{
+<span class="keyword">private</span> String name;
+<span class="keyword">private</span> String birthday;
+<span class="keyword">private</span> String school;
+<span class="keyword">private</span> String ID;
+
+<span class="keyword">public</span> <span class="title">RestrationInfo</span>(String name){
+    <span class="keyword">this</span>.name = name;
+}
+
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBirthday</span>(String birthday) {
+    <span class="keyword">this</span>.birthday = birthday;
+}
+
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSchool</span>(String school) {
+    <span class="keyword">this</span>.school = school;
+}
+
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setID</span>(String iD) {
+    ID = iD;
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>(){
+    System.out.println(<span class="string">"name:"</span>+name);
+    System.out.println(<span class="string">" birthday:"</span>+ birthday);
+    System.out.println(<span class="string">"school:"</span>+school);
+    System.out.println(<span class="string">"ID:"</span>+ID);
+}
+<span class="annotation">@Override</span>
+<span class="keyword">protected</span> Object <span class="title">clone</span>() <span class="keyword">throws</span> CloneNotSupportedException {
+    <span class="keyword">try</span> {
+        <span class="keyword">return</span> <span class="keyword">super</span>.clone();
+    } <span class="keyword">catch</span> (CloneNotSupportedException e) {
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+}
+}
+</code></pre><p>客户端：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> MyMain {
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {
+    System.<span class="keyword">out</span>.println(<span class="string">"cet 4"</span>);
+    RestrationInfo restrationInfo = <span class="keyword">new</span> RestrationInfo(<span class="string">"wang"</span>);
+    restrationInfo.setBirthday(<span class="string">"XXXx"</span>);
+    restrationInfo.setID(<span class="string">"dfd"</span>);
+    restrationInfo.setSchool(<span class="string">"dfd"</span>);
+    restrationInfo.show();
+
+    System.<span class="keyword">out</span>.println(<span class="string">"cet 6"</span>);
+    RestrationInfo restrationInfo2 = (RestrationInfo) restrationInfo.clone();
+    restrationInfo2.show();
+}
+}
+</code></pre><p>　　这样就实现了一份信息，一直使用。如果我们只是简单的每次new一个对象的，就每次都要执行构造函数，如果构造函数复杂，就会影响到性能。在信息没有变化的情况下，复制是最好的解决方案。</p>
+<p>　　<strong>问题</strong>：调用一个函数操作某对象的时候，常常会使得改对象陷入不可用的状态（不稳定状态），等操作结束后才会重新回到完全可用的状态。如果有线程企图访问一个处于不可用状态的对象，改对象会发生不能正确不相应的情况，由此会产生无法预料的后果。对一个实力对象进行克隆的时候，如果恰巧在多线程的情况下且该对象处于不稳定状态，那么克隆可能就会失败。所以说原型模式在实现时不是线程安全的。一定要在其属于稳定的情况下克隆。</p>
+<p>　　<strong>问题</strong>：复制的深度，clone对于值类型的字段会逐位复制，而对于引用型的变量会复制引用但是不复制引用的对象，所以原始的对象和它的副本都引用同一个对象。这就是浅复制——被复制的对象的变量都与原来对象有相同的值，而所有的其他对象的引用都依然指向原来的对象。</p>
+<p>　　也就是说如果我在报名信息里添加了地址信息，地址是一个单独的类，在复制报名信息的同时也要复制报名信息所引用的地址对象，使得报名信息对象的副本引用的是原国籍对象的副本。即让地址类也实现原型模式，实现Cloneable接口。</p>
+<p>地址类：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Address</span> <span class="keyword">implements</span> <span class="title">Cloneable</span></span>{
+<span class="keyword">private</span> String city;
+
+<span class="keyword">public</span> String <span class="title">getCity</span>() {
+    <span class="keyword">return</span> city;
+}
+
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCity</span>(String city) {
+    <span class="keyword">this</span>.city = city;
+}
+<span class="annotation">@Override</span>
+<span class="keyword">protected</span> Object <span class="title">clone</span>() {
+    <span class="keyword">try</span> {
+        <span class="keyword">return</span> <span class="keyword">super</span>.clone();
+    } <span class="keyword">catch</span> (Exception e) {
+        <span class="keyword">return</span> <span class="keyword">null</span>;
+    }
+
+}
+}
+</code></pre><p>修改后报名信息类：</p>
+<pre><code><span class="keyword">protected</span> Object <span class="title">clone</span>()  {
+<span class="comment">//      try {</span>
+<span class="comment">//          return super.clone();</span>
+<span class="comment">//      } catch (CloneNotSupportedException e) {</span>
+<span class="comment">//          return null;</span>
+<span class="comment">//      }</span>
+    RestrationInfo objInfo = <span class="keyword">new</span> RestrationInfo(<span class="keyword">this</span>.address);
+    objInfo.name = <span class="keyword">this</span>.name;
+    objInfo.ID = <span class="keyword">this</span>.ID;
+    objInfo.birthday=<span class="keyword">this</span>.birthday;
+    objInfo.school = <span class="keyword">this</span>.school;
+    <span class="keyword">return</span> (Object)objInfo;
+}
+
+<span class="keyword">private</span> Address address;
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAddress</span>(Address address){
+    <span class="keyword">this</span>.address = address;
+}
+<span class="comment">//just for clone private gouzao</span>
+<span class="keyword">private</span> <span class="title">RestrationInfo</span>(Address address) {
+    <span class="keyword">this</span>.address = address;
+}
+</code></pre>]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>创建型模式</strong></p>
+<p><strong>原型模式</strong>：用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象。就是依托一个已经实例化的对象去创建另外一个可以进行定制的对象，而不需要知道创建过程的具体细节。本质特点：在]]>
+    </summary>
+    
+      <category term="Design pattern" scheme="http://yoursite.com/tags/Design-pattern/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式----单例模式]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2014/12/25/设计模式-单例模式/</id>
+    <published>2014-12-25T12:38:02.000Z</published>
+    <updated>2014-12-25T12:45:46.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>创建型模式</strong></p>
+<p>　　单例模式是某个类只需要一个实例，保证一个类有且只有一个实例，并提供一个访问他的全局访问点。比如对于一个统一的数据库的访问，在整个项目中只使用同一个实例。对于这种情况有个比较好的例子，就是一夫一妻制。</p>
+<p>　　比如某个男子需要娶个女子结婚，那么就有下面的程序：wife类，代表女子，husband类，代表男子　</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Wife {
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl show themself"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">marry</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl gets married"</span>);
+    }
+}
+<span class="keyword">public</span> <span class="keyword">class</span> Husband {
+    <span class="keyword">private</span> Wife myWife = <span class="keyword">null</span>;
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">chooseGirl</span>() {
+    myWife = <span class="keyword">new</span> Wife();
+    myWife.show();
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMarry</span>() {
+        myWife.marry();
+    }
+}
+</code></pre><p>在主程序里就可以实例化husband类，然后依次调用chooseGirl()和getmarry（）方法，就可以正常运行。但是如果先调用getMarry（）呢？由于wife在choose里面实例化的，这是就会报错，将husband类修改如下：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">chooseGirl</span>() {
+    <span class="keyword">if</span> (myWife == <span class="keyword">null</span>) {
+        myWife = <span class="keyword">new</span> Wife();
+    }
+    myWife.show();
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMarry</span>() {
+    <span class="keyword">if</span> (myWife == <span class="keyword">null</span>) {
+        myWife = <span class="keyword">new</span> Wife();
+    }
+    myWife.marry();
+}
+</code></pre><p>　　这样一来就可以保证一个丈夫只能有一个妻子了。而且两个函数没有调用的先后关系。</p>
+<p><strong>问题一</strong>：如果婆婆想要看儿媳妇呢？那就会有一个婆婆类，婆婆类里面又需要实例化一个wife类，这个实例化的wife类和husband的里面实例化的wife类是不同的，出现了多个实例化的问题，也就是婆婆看到的和儿子娶的不是同一个姑娘，这怎么行呢？这就需要修改wife类的代码，保证只有一个实例出现。<br>wife类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Wife {
+    <span class="keyword">public</span> <span class="keyword">static</span> Wife wife;  <span class="comment">//静态变量</span>
+    <span class="keyword">private</span> <span class="title">Wife</span>(){          <span class="comment">//私有构造方法，是的外部无法访问</span>
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> Wife <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+        <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+            wife = <span class="keyword">new</span> Wife();
+        }
+        <span class="keyword">return</span> wife;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl show themself"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">marry</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl gets married"</span>);
+    }
+}
+</code></pre><p>　　将构造函数设为私有，声明静态变量wife和静态方法getinstance来进行实例化。在需要实例化的地方用Wife wife=Wife.getInstance()来获得实例，就可以保证大家看到的是同一个姑娘。</p>
+<p><strong>问题二</strong>：如果婚礼现场需要直播，怎么办？可以使用多线程技术，一个线程A作为实地的婚礼，在wife中调用marry方法，另一个线程B作为直播，同样在线程中调用marry的，那么怎么能确定getInstance得到的是同一个新娘呢？如果线程A先运行到此，这是wife为null，那么进入到分支实例化wife，在未完成实例化的时候，线程B也来到了分支内，此时wife依然为null，线程B又会进行一次实例化，最终还是产生了两个实例，就是两个不同的新娘。</p>
+<p><strong>解决</strong>：引入<code>锁</code>的概念，lock的作用就是构造出一块临界区来控制线程对代码的访问，确保每次只有一个线程运行到临界区的代码，其他线程运行到临界区时，将会一直等待直到前面的线程运行出临界区为止。</p>
+<p>在wife中修改代码：在if前加锁</p>
+<pre><code><span class="keyword">lock</span>.<span class="keyword">lock</span>();
+<span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+    wife = <span class="keyword">new</span> Wife();
+}
+<span class="keyword">lock</span>.unlock();
+</code></pre><p>这样就能保证在A实例化之前B不会进行null的判断。这样虽然满足了功能的要求，可是每次调用的getInstance的时候都要进行加锁工作，这将会影响程序的性能。所以对其进行改良。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> Wife <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+    <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+        <span class="keyword">lock</span>.<span class="keyword">lock</span>();
+        <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+            wife = <span class="keyword">new</span> Wife();
+        }
+        <span class="keyword">lock</span>.unlock();
+    }
+    <span class="keyword">return</span> wife;
+}
+</code></pre><p>在临界区内在进行一次null的判断，只有wife为null的时候才会进入初始化。<br><strong>单例模式本身的代码</strong>：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Singleton {
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton singleton;  <span class="comment">//静态变量</span>
+    <span class="keyword">private</span> <span class="title">Singleton</span>(){ 
+               <span class="comment">//私有构造方法，是的外部无法访问  </span>
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+            singleton = <span class="keyword">new</span> Singleton();
+        }
+        <span class="keyword">return</span> singleton;
+    }
+}
+</code></pre><p>客户端代码：</p>
+<pre><code>Singleton <span class="variable">singleton1 =</span> Singleton.getInstance();
+Singleton <span class="variable">singleton2 =</span> Singleton.getInstance();
+<span class="keyword">if</span>(<span class="variable">singleton1 =</span>= singleton2){
+    System.out.printle(<span class="string">"the teo object are the same one"</span>);
+}
+</code></pre><p>单例模式虽然很简单，但很实用，以下情况都适合实用：</p>
+<p>1）当类只能有一个实例而且第三方可以从一个公共的访问点访问它时</p>
+<p>2）当一个唯一的实例可以通过子类化来扩展，而且第三方需要在不更改代码的情况下就能实用一个扩展的实例时。</p>
+<p>单例模式<strong>优点</strong>：</p>
+<p>1）队唯一的实例做出访问控制</p>
+<p>2）允许改变实例的个数，可以增加一个计数器来控制实例的个数，从而有双例模式，三利模式等。</p>
+<p><strong>总结</strong></p>
+<p>　　单例并不是上面写的这么简单，里面涉及到很多的知识点，多线程、加锁、私有构造函数，静态构造函数，静态字段，readonly和const的区别等等。</p>
+<p>　　向这里给出的单例版本就涉及到线程安全的问题，当2个请求同时方式这个类的实例的时候，可以会在同一时间点上都创建一个实例，虽然一般不会出异常错误，但是起码不是我们谈论的只保证一个实例了。每一个设计模式都值得我们深入的研究下去，有时间一定回头看看。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>创建型模式</strong></p>
+<p>　　单例模式是某个类只需要一个实例，保证一个类有且只有一个实例，并提供一个访问他的全局访问点。比如对于一个统一的数据库的访问，在整个项目中只使用同一个实例。对于这种情况有个比较好的例子，就是一夫一妻制。</p>
+<]]>
+    </summary>
+    
+      <category term="Design pattern" scheme="http://yoursite.com/tags/Design-pattern/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式---工厂模式]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    <id>http://yoursite.com/2014/12/25/设计模式-工厂模式/</id>
+    <published>2014-12-25T12:36:42.000Z</published>
+    <updated>2014-12-25T12:37:10.000Z</updated>
+    <content type="html"><![CDATA[<p><strong>创建型模式</strong>       </p>
+<p>　　工厂方法模式属于类的创建行模式又被称为多态工厂模式。工厂方法模式的意义在于定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类当中，核心工厂类将不在负责产品的创建，这昂核心类成为一个抽象工厂角色，仅负责具体工厂子类必须实现的接口。</p>
+<p>　　简单工厂模式又叫静态工厂模式，由一个工厂决定创建出哪一种商品的实例。只要输入想要的产品代号，就会实例化合适的对象。</p>
+<p>　　这里举个简单的例子：<br>　　小张开了一家面包店，根据客人的不同需求提供不同的面包，这里就有不同的面包师傅做不同的面包，这些个面包师傅（HoneyBread、BlackBread）等又归一个总师傅管理BreadMaker，也就是这些师傅的手艺都是继承自该师傅，这个厨房后台呢，就相当于一个工厂（IFactory），不同的种类就由不同的工厂（HoneyFactory）生产，工厂会根据需求将不同的种类产品分给不同种类的总师傅（PizzaMaker、BreadMaker），在由师傅分配任务给不同的制作师。上诉流程就将整个工厂模型的思路理清了。</p>
+<p>简单工厂类：</p>
+<pre><code>package com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="keyword">class</span> BreadFactory {
+    <span class="keyword">public</span> <span class="keyword">static</span> BreadMaker <span class="title">MakeBread</span>(<span class="keyword">int</span> breadType){
+         BreadMaker breadMaker = <span class="keyword">null</span>;
+        <span class="keyword">switch</span> (breadType) {
+        <span class="keyword">case</span> <span class="number">1</span>:
+            breadMaker = <span class="keyword">new</span> BlackBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">2</span>:
+            breadMaker =  <span class="keyword">new</span> HoneyBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">3</span>:
+            breadMaker =  <span class="keyword">new</span> WhiteBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">return</span> breadMaker;
+    }
+}
+</code></pre><p>总师傅：</p>
+<pre><code>package com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="keyword">class</span> BreadMaker {
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetBread</span>(){
+    <span class="comment">//nothing</span>
+    }
+}
+</code></pre><p>不同的面包师傅：</p>
+<pre><code><span class="keyword">package</span> com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlackBread</span> <span class="keyword">extends</span> <span class="title">BreadMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">GetBread</span>() {
+        System.out.println(<span class="string">"做出黑面包"</span>);;
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyBread</span> <span class="keyword">extends</span> <span class="title">BreadMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetBread</span>() {
+        System.out.println(<span class="string">"做出蜂蜜面包"</span>);
+    }
+}
+</code></pre><p>商店前台：</p>
+<pre><code>public static void main(String args[]) {
+    B<span class="built_in">read</span>Maker breadMaker;
+    System.out.println(<span class="string">"面包店开业！"</span>);
+    System.out.println(<span class="string">"开始制作黑面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">1</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+    System.out.println(<span class="string">"开始制作蜂蜜面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">2</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+    System.out.println(<span class="string">"开始制作白面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">3</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+}
+</code></pre><p>工厂模式：除了上诉内容外增加了一个总工厂负责类：</p>
+<pre><code><span class="keyword">package</span> com.hust.Factory;
+<span class="keyword">import</span> com.hust.AbstractFactory.PizzaMaker;
+<span class="keyword">import</span> com.hust.SimpleFactory.BreadMaker; 
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFactory</span> </span>{
+    BreadMaker createBread();
+    PizzaMaker createPizza();
+}
+</code></pre><p>不同的工厂类：如果增加pizza这个产品，就在总工厂里增加一个函数负责pizza（这就是抽象工厂模式）</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> BreadMaker <span class="title">createBread</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> HoneyBread();
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> PizzaMaker <span class="title">createPizza</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> HoneyPizza();
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlackFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> BreadMaker <span class="title">createBread</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> BlackBread();
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> PizzaMaker <span class="title">createPizza</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> BlackPizza();
+    }
+ }
+</code></pre><p>工厂模式时的柜台操作：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String args[]) {
+    BreadMaker breadMaker;
+    System.<span class="keyword">out</span>.println(<span class="string">"面包店开业！"</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"开始制作黑面包"</span>);
+    IFactory breadFactory = <span class="keyword">new</span> BlackBreadFactory();
+    breadMaker = breadFactory.createBread();
+    breadMaker.GetBread();
+    System.<span class="keyword">out</span>.println(<span class="string">"开始制作蜂蜜面包"</span>);
+    breadFactory = <span class="keyword">new</span> HoneyBreadFactory();
+    breadMaker = breadFactory.createBread();
+    breadMaker.GetBread();
+    system.<span class="keyword">out</span>.println(<span class="string">"开始制作蜂蜜pizza"</span>);
+    breadFactory = <span class="keyword">new</span> HoneyBreadFactory();
+    PizzaMaker pizzaMaker = breadFactory.createPizza();
+    pizzaMaker.GetPizza();
+}
+</code></pre><p>不同的产品的师傅：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">GetPizza</span>() {
+        <span class="comment">//nothing</span>
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyPizza</span> <span class="keyword">extends</span> <span class="title">PizzaMaker</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetPizza</span>() {
+    <span class="comment">// TODO Auto-generated method stub</span>
+    System.out.println(<span class="string">"做出蜂蜜披萨"</span>);
+    }
+}
+</code></pre><p>　　问题：假设小张有很多分店，每个分店有不同的柜台，那天小张决定将黑巧克力面包改成抹牛油的，在修改了工厂之后，必须相应的修改柜台的代码，级每一个申明过breadMaker和pizzaMaker的地方都要修改，那么工作量将恨大。这就体现了抽象模式的缺点，便于交换产品的同时，也需要改动产品声明过的地方。如何避免呢？一种方法就是根据前台用户的输入，使用if switch语句进行判断，但随着产品的增长，分支会越来越多。那么客户端还是需要大量的修改。另一种方法就是——反射。对客户端代码修改如下：</p>
+<pre><code><span class="keyword">try</span> {
+    <span class="keyword">Class</span>&lt;?&gt; c = <span class="keyword">Class</span>.forName(<span class="string">"HoneyBreadFactory"</span>);
+    <span class="keyword">try</span> {
+        breadFactory = (IFactory) c.newInstance();
+        pizzaMaker = breadFactory.createPizza();
+        pizzaMaker.GetPizza();
+    } <span class="keyword">catch</span> (Exception e) {
+            <span class="comment">// TODO: handle exception</span>
+    }
+} <span class="keyword">catch</span> (ClassNotFoundException e) {
+        <span class="comment">// TODO: handle exception</span>
+}
+</code></pre><p>这样就避免了分支的出现。<br>这里提到了三个工厂模式：<strong>简单工厂</strong>、<strong>工厂方法</strong>、<strong>抽象工厂</strong>。他们的优缺点如下：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/gcmsdb.jpg" alt="工厂模式"></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><strong>创建型模式</strong>       </p>
+<p>　　工厂方法模式属于类的创建行模式又被称为多态工厂模式。工厂方法模式的意义在于定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类当中，核心工厂类将不在负责产品的创建，这昂核心类成为一个抽象工厂角]]>
+    </summary>
+    
+      <category term="Design pattern" scheme="http://yoursite.com/tags/Design-pattern/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[设计模式---设计原则]]></title>
+    <link href="http://yoursite.com/2014/12/25/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/"/>
+    <id>http://yoursite.com/2014/12/25/设计模式-设计原则/</id>
+    <published>2014-12-25T09:42:49.000Z</published>
+    <updated>2014-12-25T09:57:16.000Z</updated>
+    <content type="html"><![CDATA[<p>　　设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。<br>　　<br>1）<strong>单一职责原则</strong></p>
+<p>　　<em>问题由来</em>：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
+<p>　　<em>解决方案</em>：遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
+<p>　　如果一个类具有很多不同的功能，比如超人拥有很多的技能，当我们想对其中一种技能进行修改或者升级的时候就不得不停止超人其他的功能，而这期间如果有事情发生，超人是无法提供帮助的，那么是否可以让超人简单点呢？在维护世界和平的时候，也能够帮助人们除草呢？</p>
+<p>　　这就是单一职责——对于一个类，应该只有一个引起她变化的原因。实际上，往往会碰到职责分块的问题，会遇到将职责A划分为职责A1和A2，这时就需要重新设计类，尽量降低类的复杂度，提高类的可读性。</p>
+<p><em>遵循单一职责原的优点有</em>：</p>
+<p>（1）可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；</p>
+<p>（2）提高类的可读性，提高系统的可维护性；</p>
+<p>（3）变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。</p>
+<p>2）<strong>里氏代换原则</strong></p>
+<p>　　<em>问题由来</em>：有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
+<p>　　<em>解决方案</em>：当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
+<p>　　反映父类和子类的关系。B类继承A类，属于B的对象就具有A类的全部属性和方法。里氏代换的原则就是：子类型必须能够完全替换掉他们的父类型。即子类可以以父类的身份出现，并且不影响程序的功能时父类才能真正得到复用。所有引用基类的地方必须能透明地使用其子类的对象。通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。</p>
+<p>3）<strong>开放-封闭原则</strong></p>
+<p>　　<em>问题由来</em>：在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
+<p>　　<em>解决方案</em>：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
+<p>　　在面向对象编程时，如果要实现一个新的功能，添加一个新类来完成往往要比修改现有的类更加方便和安全。封装变化，降低耦合。OCP的原则是：程序的实体对象（模块、类、函数）应该可以进行扩张，但不应该可以修改。对于扩展是开放的，对于修改是封闭的。绝对的封闭很难做到，那么在面对需求变化时，设计人员就应该对自己设计的模块决定选择哪种变化封闭，保证无需对原码进行修改。</p>
+<p>　　具体的实现就是<code>面向抽象编程</code>，继承抽象父类，通过重写其方法来改变固有行为，从实现新的扩展方法。</p>
+<p>4）<strong>依赖倒转原则</strong></p>
+<p>　　<em>问题由来</em>：类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
+<p> 　　<em>解决方案</em>：将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
+<p>　　定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。核心思想是面向接口编程。</p>
+<p>　　程序的高层模块不应该依赖于低层模块，但两者都应依赖于抽象：抽象不应该依赖于具体细节，而细节应该依赖于抽象，简而言之就是针对接口编程，不应该是针对实现编程。即通过抽象（接口或抽象类）是各个类或模块的实现彼此独立，不互相影响。程序的依赖关系终止于接口或抽象。</p>
+<p>5）<strong>合成聚合复用原则</strong></p>
+<p>　　尽量不使用类继承，而尽量使用合成/聚合。聚合是一种比较弱的拥有关系，具体表现是甲对象中可以包括乙对象，但乙对象不是甲对象的一部分；合成则是一种比较强的拥有关系，体现的是严格整体和部分的关系，并且整体和部分有相同的生命周期。如果两个类的关系是Has-a，则不应该设计成继承。这个原则有一个去缺点，就是系统中会有很多对象需要管理。</p>
+<p>6）<strong>迪米特法则</strong></p>
+<p>　　也叫做最少知识原则，一个对象尽可能少的了解其他对象，不和陌生人说话。每个类要尽可能的减少对其他类的依赖，不希望类之间建立直接的接触，如果需要接触则希望通过友元类（第三方）来传达（转发调用），这样会导致系统中存在大量的友元类。</p>
+<p>　　<em>问题由来</em>：类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</p>
+<p>　　<em>解决方案</em>：尽量降低类与类之间的耦合。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。<br>　　<br>1）<strong>单一职责原则</strong></p>
+<p>　　<em>问题由来</em>：类T负责两]]>
+    </summary>
+    
+      <category term="Design pattern" scheme="http://yoursite.com/tags/Design-pattern/"/>
+    
+      <category term="Java" scheme="http://yoursite.com/tags/Java/"/>
+    
+      <category term="设计模式" scheme="http://yoursite.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[JUnit单元测试--小试牛刀]]></title>
     <link href="http://yoursite.com/2014/12/25/JUnit%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95-%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/"/>
     <id>http://yoursite.com/2014/12/25/JUnit单元测试-小试牛刀/</id>
     <published>2014-12-25T07:51:46.000Z</published>
-    <updated>2014-12-25T08:16:46.000Z</updated>
+    <updated>2014-12-25T09:41:01.000Z</updated>
     <content type="html"><![CDATA[<p>单元测试更多的是在开发阶段完成，开发人员每写一个函数的时候都会写相应的单元测试。对于java代码，普遍使用的是jUnit，根据jUnit可以自己相应的开发一套自动化测试框架。这个的前提是要学会junit，先知道怎么用，才能知道怎么为我所用。</p>
 <p>学习JUnit的操作很简单，JUnit是一个敏捷编程的开发框架，他的设计很值得学习。这也是我学习JUnit的原因。</p>
 <p>JUnit最大的特点就是：各个方法之间是独立的，一个方法的失败不会影响另一个方法的执行。</p>
@@ -134,7 +1076,53 @@
     assertEquals(<span class="string">"the Evening greeting expected"</span>, Greeting.GREETING_EVENING, greeting.getGreeting());
 }
 }
-</code></pre>]]></content>
+</code></pre><p>关于JUnit4的一些知识点：<br>1）、<strong>注释</strong></p>
+<p>@Before    ：用于方法注释，表示该方法在每个测试方法执行前执行一次，可用于一些初始工作<br>@BeforeClass    ：用于方法注释，该方法在所有测试方法运行前运行，且只运行一次，添加该注释的方法必须修饰为 public static void 且没有参数。<br>@Test    ：方法注释，表示测试方法。该方法有两个属性 </p>
+<ul>
+<li>expected :该属性表示测试方法必须抛出一个异常，且异常的类型必须是该属性要求的类型，否则表示测试方法失败。也叫做异常测试。 例如：@Test(expected=IndexOutOfBoundsException.class) </li>
+<li>b:timeout 用于超时测试，表示该测试方法的执行时间如果超过了要求的时间则失败 单位为毫秒<br>例如：@Test(timeout=100)</li>
+</ul>
+<p>@Ignore    ：方法注释，表示会被忽略的测试方法<br>@After    ：方法注释，被注释的方法会在每个测试方法执行完成之后执行一次，如果其它的方法抛出了异常，该方法同样会被执行。主要用于释放在@Before：方法中初始化的资源。<br>@AfterClass    ：方法注释，功能同@After，只不过是该方法释放的是@BeforeClass ：初始化的资源。且在所有的测试方法执行完成之后，只执行一次。</p>
+<p>一个JUnit 4 的单元测试用例执行顺序为：<br>@BeforeClass –&gt; @Before –&gt; @Test –&gt; @After –&gt; @AfterClass </p>
+<p>2）、<strong>failure 和error</strong><br>　　failure：是由于预期的结果和实际运行结果不同而导致的，例如当使用assertEqual（）或其它assertXXX（）方法断言失败时，就会报出failure，如果发现failure，你就要去检查你的测试方法或者是被测试方法中的填写的逻辑是否有误。简单点，就是预想到的。</p>
+<p>　　error：是填写程序是没有考虑到的问题，在执行测试的断言之前，程序就因为某种类型的意外而停止，比如说我们在操作数组的时候，因为存取超出索引就会引发ArrayIndexOutOfBoundsException，这时程序就会报error，程序将无法运行下去，提前结束，这个时候就要检查被测试方法中是否由欠缺考虑的地方。简单点，就是预想不到的，没有执行到断言。</p>
+<p>　　JUnit4是JUnit框架有史以来的最大改进，其主要目标便是利用Java5的Annotation特性简化测试用例的编写。Annotation翻译成元数据。元数据是什么？元数据就是描述数据的数据。也就是说，这个东西在Java里面可以用来和public、static等关键字一样来修饰类名、方法名、变量名。修饰的作用描述这个数据是做什么用的，差不多和public描述这个数据是公有的一样。</p>
+<p>@Test(expected=*.class)<br>　　在JUnit4.0之前，对错误的测试，我们只能通过fail来产生一个错误，并在try块里面assertTrue（true）来测试。现在，通过@Test元数据中的expected属性。expected属性的值是一个异常的类型</p>
+<p>@Test(timeout=xxx):<br>　　该元数据传入了一个时间（毫秒）给测试方法，如果测试方法在制定的时间之内没有运行完，则测试也失败。</p>
+<p>@ignore：<br>　　该元数据标记的测试方法在测试中会被忽略。当测试的方法还没有实现，或者测试的方法已经过时，或者在某种条件下才能测试该方法（比如需要一个数据库联接，而在本地测试的时候，数据库并没有连接），那么使用该标签来标示这个方法。同时，你可以为该标签传递一个String的参数，来表明为什么会忽略这个测试方法。比如：@lgnore(“该方法还没有实现”)，在执行的时候，仅会报告该方法没有实现，而不会运行测试方法。</p>
+<p>@RunWith(Parameterized.class) 参数化测试。<br>　　你可能遇到过这样的函数，它的参数有许多特殊值，或者说他的参数分为很多个区域。比如，一个对考试分数进行评价的函数，返回值分别为“优秀，良好，一般，及格，不及格”，因此你在编写测试的时候，至少要写5个测试，把这5中情况都包含了，这确实是一件很麻烦的事情。只写一个测试函数，把这若干种情况作为参数传递进去，一次性的完成测试。</p>
+<pre><code>@RunWith(Parameterized.class)
+public class SquareTest <span class="keyword">...</span>{
+    private static Calculator calculator = new Calculator();
+    private int param;
+    private int result;    
+    @Parameters   
+    public static Collection data() <span class="keyword">...</span>{
+       <span class="keyword">return</span> Arrays.asList(new Object[][]<span class="keyword">...</span>{
+            <span class="keyword">...</span>{<span class="number">2</span>, <span class="number">4</span>},
+            <span class="keyword">...</span>{<span class="number">0</span>, <span class="number">0</span>},
+            <span class="keyword">...</span>{－<span class="number">3</span>, <span class="number">9</span>},
+        });
+    }
+    //构造函数，对变量进行初始化
+    public SquareTest(int param, int result) <span class="keyword">...</span>{
+        this.param = param;
+        this.result = result;
+    }
+    @Test   
+    public void square() <span class="keyword">...</span>{
+      　calculator.square(param);
+        assertEquals(result, calculator.getResult());
+    }
+}
+</code></pre><p>　　下面我们对上述代码进行分析。<br>　　首先，你要为这种测试专门生成一个新的类，而不能与其他测试共用同一个类，此例中我们定义了一个SquareTest类。然后，你要为这个类指定一个Runner，而不能使用默认的Runner了，因为特殊的功能要用特殊的Runner嘛。@RunWith(Parameterized.class)这条语句就是为这个类指定了一个ParameterizedRunner。<br>　　第二步，定义一个待测试的类，并且定义两个变量，一个用于存放参数，一个用于存放期待的结果。接下来，定义测试数据的集合，也就是上述的data()方法，该方法可以任意命名，但是必须使用@Parameters标注进行修饰。这个方法的框架就不予解释了，大家只需要注意其中的数据，是一个二维数组，数据两两一组，每组中的这两个数据，一个是参数，一个是你预期的结果。比如我们的第一组{2,4}，2就是参数，4就是预期的结果。这两个数据的顺序无所谓，谁前谁后都可以。之后是构造函数，其功能就是对先前定义的两个参数进行初始化。在这里你可要注意一下参数的顺序了，要和上面的数据集合的顺序保持一致。如果前面的顺序是{参数，期待的结果}，那么你构造函数的顺序也要是“构造函数(参数， 期待的结果)”，反之亦然。</p>
+<h4 id="打包测试">打包测试</h4>
+<p>在一个项目中，只写一个测试类是不可能的，我们会写出很多很多个测试类。可是这些测试类必须一个一个的执行，也是比较麻烦的事情。鉴于此，JUnit提供了打包测试的功能，将所有需要运行的测试类集中起来，一次性的运行完毕，大大的方便了我们的测试工作。具体代码如下：</p>
+<pre><code>@RunWith(Suite.class)
+@Suite.SuiteClasses(<span class="keyword">...</span>{CalculatorTest.class, SquareTest.class})
+public class AllCalculatorTests <span class="keyword">...</span>{}
+</code></pre><p>　　大家可以看到，这个功能也需要使用一个特殊的Runner，因此我们需要向@RunWith标注传递一个参数Suite.class。同时，我们还需要另外一个标注@Suite.SuiteClasses，来表明这个类是一个打包测试类。我们把需要打包的类作为参数传递给该标注就可以了。有了这两个标注之后，就已经完整的表达了所有的含义，因此下面的类已经无关紧要，随便起一个类名，内容全部为空既可。</p>
+]]></content>
     <summary type="html">
     <![CDATA[<p>单元测试更多的是在开发阶段完成，开发人员每写一个函数的时候都会写相应的单元测试。对于java代码，普遍使用的是jUnit，根据jUnit可以自己相应的开发一套自动化测试框架。这个的前提是要学会junit，先知道怎么用，才能知道怎么为我所用。</p>
 <p>学习JUnit的操]]>
@@ -396,7 +1384,7 @@
     <link href="http://yoursite.com/2014/10/26/%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%B3%E5%81%9A%E6%B5%8B%E8%AF%95%E4%B9%8B%E6%88%91%E7%9A%84%E6%B5%8B%E8%AF%95%E5%BC%80%E7%AB%AF/"/>
     <id>http://yoursite.com/2014/10/26/为什么想做测试之我的测试开端/</id>
     <published>2014-10-26T02:06:00.000Z</published>
-    <updated>2014-12-25T02:03:17.000Z</updated>
+    <updated>2014-12-25T12:08:08.000Z</updated>
     <content type="html"><![CDATA[<p>&emsp;&emsp;这个问题曾经纠结了我很久，开发还是测试？最终出于自己内心的渴望与求知决定我要从事软测这个行业。</p>
 <p>&emsp;&emsp;从本科我就开始接触主流的编程语言，也一直以为自己以后会从事软件设计这份工作，直到大三找实习的时候接触到软测，加上身边很多人都说女孩子适合做软测，不累，当初就抱着这么单纯的想法，懵懵懂懂的就想往测试这个方向走了，算是在心里种下了一颗种子。当时也是为了增加项目经历和拥有开发经验（当时觉得有开发经历能找到好工作）就选择了现在所在的实验室，进入实验室后才发现这个环境和我所想的不一样，不到半年，我就对自己的前途感到迷茫了，看不清楚路在哪里。实验室的研究方向变了，周围有很多人都鄙视做软测的，都说测试没有开发的工资高，测试是很low的一个工作，本科生大专生才做的，根本没有技术含量，在一些公司根本不重要，各种不好的话语动摇了我的决心，于是之前种下的种子没有浇水施肥，还忍受着虫害，时间一长，渐渐地快死了。</p>
 <p>&emsp;&emsp;就在这纠结的期间，实验室师姐拉了我一把，师姐是想做前端的，跟我介绍了前端的各种技术，于是在我不确定的情况下，我跟着师姐断断续续学习了将近2个月的前端知识，从一点基础都没有的情况下，学到了：</p>
@@ -437,7 +1425,7 @@
     
       <category term="杂感" scheme="http://yoursite.com/categories/%E6%9D%82%E6%84%9F/"/>
     
-      <category term="测试" scheme="http://yoursite.com/categories/%E6%9D%82%E6%84%9F/%E6%B5%8B%E8%AF%95/"/>
+      <category term="软测" scheme="http://yoursite.com/categories/%E6%9D%82%E6%84%9F/%E8%BD%AF%E6%B5%8B/"/>
     
   </entry>
   
@@ -495,128 +1483,6 @@
       <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
       <category term="笔记" scheme="http://yoursite.com/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[测试之美有感]]></title>
-    <link href="http://yoursite.com/2014/09/16/%E6%B5%8B%E8%AF%95%E4%B9%8B%E7%BE%8E%E6%9C%89%E6%84%9F/"/>
-    <id>http://yoursite.com/2014/09/16/测试之美有感/</id>
-    <published>2014-09-16T13:29:33.000Z</published>
-    <updated>2014-12-24T12:55:54.000Z</updated>
-    <content type="html"><![CDATA[<p>　　<strong>王小波说：这个世界上有两种人，一类人将有趣的事情做成无趣，一类人把无趣的事情做成有趣。</strong>软件测试原本是件很有趣的事情，可是网上有很多的人或者一些做测试的人很不幸将测试这件有趣的事做成了无趣的事情：觉得是日复一日的手工劳动，不断的和开发人员争执，等等……但其实不是这样的。测试是一个软件项目，公司成功的基石，是一种在成本、质量、效率、周期之间平衡的艺术。</p>
-<h3 id="一、性能测试，协作是关键">一、性能测试，协作是关键</h3>
-<p>　　性能测试是比较复杂的一个测试环节，比如对一个学生进度跟踪系统，客户会要求“100%的网页在5秒或者是更短的时间内显示出来，应用程序支持1000及以上用户同时使用，98%的情况下，课程将在第一次尝试时就完全正确下载”，等等。虽然这是客户的要求，在这样是不可以写进目标里的，因为这完全无法验证，不能讲模棱两可的性能指标写到合同义务中。性能测试应该做到可度量有价值。将其改为“对于内部版本（出现情况需上报），在任意数量的用户条件下，有超过5%的情况加载网页的时间超过5S，超过2%的情况，课程无法完整或正确的下载……对于外部版附有性能报告，包括在，任意数量的用户条件下，有超过5%的情况加载时间超过5S的网页，超过2%的情况无法完整或正确下载的课程……”。<br>　　<strong>对于性能测试的需求从承诺达到一定水平转变为承诺报告在什么样的条件下目标将无法实现。这个过程就涉及到项目经理，客户，开发人员之间的交流和协作。</strong><br>　　但是面对这样的目标还是无法给出测试用例，那么应该在系统中设置检查点，策略：收集系统性能指标基准，并验证使用模型中包括的每个功能任务，分别在1个用户的负荷下，10个用户，1000甚至更多负荷下载每一个包含该功能任务的性能测试中都达到性能需求，每一个下面都需要列出功能任务清单。一个系统的性能是客户最关注的，但是你无法不能性能测试所有的东西。文中用一个超级杯营销的案例，说明性能测试需要与其他测试人员协作，于项目管理协作，于客户协作，于开发团队协作，于IT人员协作，以及与最终用户协作。</p>
-<h3 id="二、模糊测试，让系统更可靠">二、模糊测试，让系统更可靠</h3>
-<p>　　模糊测试大多数用于办公软件，<strong>那什么是模糊测试：是通过对输入数据进行随机修改和破坏来测试程序的方法。</strong>他为测试和编程人员在开发软件时面临的棘手问题提供多种优美的解决方案。办公软件需要支持很多种格式，我们或许能找到特定格式的文档，但这些文档可能不准确或有丢失处。例如与其他软件之间的互操作性，我们就需要模拟其他复杂软件，或者用一个模糊器生成范围很广的各种文档来模拟各种应用软件和软件版本的差别。office2007在开发的时候就大量使用了模糊测试。<br>　　在进行模糊测试的时候需要准备一组有代表性的文档，一个模糊器，从常规模型到自定义模型。在测试过程中也要不断的修改你的模糊器，以产生更多的测试用例并去除可能影响输出的偏差。模糊测试擅长发现诸如崩溃和挂起的明显问题，但对判断正确性的作用很小。在办公软件领域，它对开发和测试人员所面临的操作性、安全性、和稳定性在内的许多复杂问题提供有创意且简洁的解决方案。</p>
-<h3 id="三、自动化测试">三、自动化测试</h3>
-<p>　　自动化测试不仅仅是简单的编写和运行那些不需要人为干预的测试用例。事实上，在很多测试人员看来，自动化这是由一些手动生成的，用来执行特定测试场景或一部分产品功能的测试脚本或代码组成。但是很多时候自动化测试并没有给测试人员带来方便，因为除了实际的执行程序之外，流程中的其他部分没有一个实现了自动化。那么为了实施自动化，特别是规模较大的自动化测试，整个过程从头到尾—从测试人员编写玩测试程序到结果被分析出来给人看，都必须自动化。如果没有这个层次上的自动化，测试人员在监控测试程序运行上所花的时间将会变成难以控制的增长。<br>　　在什么情况下自动化可以帮助测试团队，以及什么情况下自动化会妨碍测试的工作，应该百分百的自动化那些应该被自动化的测试，这一准则本身是简单多额，困难就在于决定那些是应该被自动化的，产品架构，相关参与者，都可以帮助测试团队做出正确的决定。很多自动化之所以失败的原因在在于测试人员花太多的时间进行自动化或者试着去自动化，并把时间花在了根本不值得自动化的目标任务上。<br>　　一个基本的自动化测试流程：编写自动化测试—-选择测试和测试平台—-运行测试—-收集用于报告的测试结果—-报告新的额bug解决已近修复的bug。自动化测试要成功的第一步是：测试代码要写得棒。必须要能够易于维护，要对测试带进行源代码控制，并且集中编译和创建。测试员可以成为设计和实现系统测试框架的专家，这于应用程序开发是不一样的。<strong>编写一个漂亮的测试自动化工具需要对被测系统的理解，需要对可能将要编写的测试的理解，需要知道哪些测试对项目最优价值，还需要知道哪些测试最可能在将来随着被测软件的变化而具有可维护性。</strong><br>　　<em>如果在某一阶段，测试通过率仅为94%，你会怎么做？对于合理的测试通过率目标，与其去设定一个神奇的数字，你真正需要的是100%的失败调研并确保那些失败中没有一个严重到阻碍发布。回答”这要看失败来定了，如果阻碍我么达到目标的错误不满足我们的门槛，我们就让他过去“</em></p>
-<h3 id="四、测试随机数发生器">四、测试随机数发生器</h3>
-<h3 id="五、QA不是魔鬼">五、QA不是魔鬼</h3>
-<p>　　测试人员是好的流程的促进者，能准确的发现（在发布之前）软件需求与实现之间不吻合的人，也是最广泛了解软件开发实践的人，对项目总体状态最了解的人。QA的工作是引导软件开发过程以提高成功率，以及建设性的批判软件开发过程而不是阻碍这个过程并成为拖后腿的人。<br>　　检验：通过重复的操作来确认事情做得正确的过程。<br>　　调查：反馈驱动的过程<br>　　很多人认为测试就是简单的触屏和点击，无聊的文本进行，是一个简单无聊的工作，如果这么想就错了，这样的工作不是调查而是检验。测试不仅仅是这些，测试往往需要和各类人员沟通，测试是对产品质量负责，保证每个产品能满足客户的需求及时上线。</p>
-<h3 id="六、高效测试">六、高效测试</h3>
-<p>　　软件测试中首要考虑的问题就是：安全性测试。导致用户数据的丢失是一件很糟糕的事情！安全性测试必须最早考虑，因为其贯穿在整个产品的架构之中。即架构上如果有所改动，那么几乎需要重新测试所有的东西，比如如果数据库的权限有问题，那么就不得不重新测试所有与数据库交互有关的测试用例，或者一旦程序和操作系统的交互存在安全问题，所有与操作系统交互有关的测试用例也必须重测。安全性对于应用程序的测试几乎会影响到每一个测试领域，需涉及到整个应用程序，对于安全性要求高的领域最好有相关的信息安全人员提供高级全面的解决方案。<br>　　在互联网应用程序中，可以考虑一下几个问题：跨站脚本、SQL注入、越权访问、信息泄露。</p>
-<h3 id="七、查找缺陷">七、查找缺陷</h3>
-<p>　　问：如果处于整个软件开发周期的最后一个环节：所有的新功能都实现了所有的测试用例也通过了，那么产品可以发布了吗？<br>　　理论上讲是测试用例都通过了就没有问题了，但是怎么保证你的测试集是完美的，如何才能知道你的测试集能有效的检查出缺陷。在这种情况下，可以系统化的植入认为的缺陷，然后测试集能否发现他们。测试集的代码覆盖率就是量化的度量测试集的质量指标（检查是否执行了程序的每一种状态）、分支覆盖率（保证代码中的分支至少被执行一次）、条件覆盖率（保证代码中每个条件分支子条件都经历过是和否的状态）。80%的缺陷都集中在20%的模块中。<br>　　覆盖率只能告诉你测试执行的情况并没有测试集本身的信息。可以使用变异测试，在程序中植入大量的人为的漏洞，并逐个对他们进行测试看哪些变异没有检测出来。然后系统化的改进这个测试集，知道所有的变异都能被检测出来。但是变异测试非常耗时。变异测试依赖于自动化测试。<br>　　问：怎么对程序进行变异呢？改变常量的值（对某一常量X，尝试用X-1,X+1，0来替换），用常量来替换变量的值，用变量来替换数组的引用，改变操作符，改变调用方法，将某一条件置返（判断条件c为非c）。改变数字操作符+改成-,&gt;&gt;改成&lt;&lt;。省略方法调用(将一个方法调用直接改为0.如果该方法不需要返回值，可以直接删除)。</p>
-<h3 id="八、测试分类">八、测试分类</h3>
-<p>　　黑盒和白盒测试是软件测试中最普遍的设计方法，在黑盒测试中，软件被看做是一个神秘的对象，他的内部结构和设计是未知的，他接受一些输入数据，对数据进行处理，然后输出结果。如果一个程序能正确处理数据并输出预期的结果，则认为测试师成功的。黑盒测试是以软件说明书为基础的，而白盒测试则需要具有软件内部实现的了解，并关注于程序的某一特定路径的测试。程序员要小心的选择测试用例以覆盖所有重要的代码单元。虽然黑盒和白盒测试方法是互相补充的，但二者都有一些共同的局限。其中主要的一个问题就是他们都不能对程序进行全面的测试。这就要求你富有创造型、有效的进行设计，甚至为了在用户使用软件之前将缺陷找到，还要开发出漂亮的测试来覆盖个整蛊你用例。<br>　　静态分析：白盒测试一种，不需要代码的执行，在于查找一般性错误确保代码满足所有重要的要求和标准。一般自动化执行。例如GCC编译器是静态分析工具。<br>　　单元测试：白盒测试一种，检查代码单元个体单个函数或模块是否正常工作，是否接受和处理数据u，并返回预期的值。<br>　　测试脚本：一系列逐步运行的指令集合，再现各种不同的条件来检查程序各项功能是否正常，模仿日常对应用程序的使用，给定在一系列牌值下下能否输出正确的的结果。不关心程序的内部细节。 </p>
-<hr>
-<p>　　<br>　　<em>这本书并不适合出学者看，建议有了一定的测试基础之后在过来看本书。以上的只是书里的一些摘录，对于测试的理解还不是很深入，但是对于测试会有一点大概的了解，书中提到的一些经验还是不错的，但是个人感觉这本书有点旧时了，不建议看。当然这个只能我个人的看法。</em></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　<strong>王小波说：这个世界上有两种人，一类人将有趣的事情做成无趣，一类人把无趣的事情做成有趣。</strong>软件测试原本是件很有趣的事情，可是网上有很多的人或者一些做测试的人很不幸将测试这件有趣的事做成了无趣的事情：觉得是日复一日的手工劳动，不断的和开发人员]]>
-    </summary>
-    
-      <category term="测试" scheme="http://yoursite.com/tags/%E6%B5%8B%E8%AF%95/"/>
-    
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="笔记" scheme="http://yoursite.com/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[对艾扬格大师的光耀生命有感]]></title>
-    <link href="http://yoursite.com/2014/09/16/%E5%AF%B9%E8%89%BE%E6%89%AC%E6%A0%BC%E5%A4%A7%E5%B8%88%E7%9A%84%E5%85%89%E8%80%80%E7%94%9F%E5%91%BD%E6%9C%89%E6%84%9F/"/>
-    <id>http://yoursite.com/2014/09/16/对艾扬格大师的光耀生命有感/</id>
-    <published>2014-09-16T13:09:00.000Z</published>
-    <updated>2014-09-16T13:14:37.000Z</updated>
-    <content type="html"><![CDATA[<p>　　一开始接触这本书的时候，只是纯粹处于对瑜伽的热爱，在瑜伽馆里打发时间之用，只是没有想到，看了几章之后，彻底喜欢了，不仅仅改变了我最初对瑜伽的理解也让我对生活中的一些事情看的更开阔了，对生命的感悟。如果不是抱着喜欢瑜伽的心情估计我不会拿起这本书，而当我放下这本书的时候，对瑜伽的喜爱更甚了，20号看到艾扬格大师去世的消息，感觉这么一位智慧的大师就这么离我们而去了。我不是什么很感性的人，但是艾扬格的睿智真的让我很佩服，他在历经70年的瑜伽修行、瑜伽哲学与瑜伽教育生活之后，已他的经验，以他的睿智。想我们讲述瑜伽的每一种练习方式是如何影响我们的，教授我们在瑜伽修习中，保持何种的醒觉和意识才能更好的通过瑜伽释放生命的创造性潜能，光耀生命。这本书不仅仅是我瑜伽的启蒙，更是我对生活的感悟。<br>　　<br>　　“大多数人修习瑜伽体式都有非常实际的原因，而且往往是身体的原因，极少数人练习瑜伽是为了获得精神的觉悟，这正说明大多数来练瑜伽的人都是讲究实际的人都有着实际的问题和目标，都是置身于<strong>生命现实的人，明白事理的人</strong>”艾扬格大师最初修习瑜伽也是为了追求身体的好处，想要改善身体，正如我的想法一样，我只是想让体型更好，增加气质，正本没有错，在慢慢融入瑜伽的世界里的时候你会对瑜伽有更好的理解，参透瑜伽的远大内涵，从而达到其所谓的三摩地境界。<br>　　<br>　　瑜伽将存在分为五个层面，这五个层面必须完全融合才可能获得圆满，而这本书也是已这五个章节为划分的：<strong>身体之安稳，心体之清明，智体之通达，法体之极乐</strong>。不要低估体式的价值。即便在简单的体式练习忠，我们也会有三个层次的追寻体验：<strong>外在的追寻我们带来身体的强健；内在的追寻给我们带来智性的平和；而深层的追寻给我们带来灵性的仁爱</strong>。初学者在练习体式时未必会体会到这些层面但这些层面仍然存在。<br>　　<br>　　身体是一切的根本，瑜伽是锻炼好身体让他可以更好的迎接将来。<em>一切根本源于当下，努力做好当下的所有的一切，同时痛苦与快乐时并存的，就如同练习的时候会觉得累，而练习过后你将会觉得很轻松，一切是在于平时的积累，过程是辛苦并且伴随快乐，但最后你会有好的结果。</em>这里只是简单的记录下书中的很多好的思想，其实最重要的东西，已经吸收在大脑中了。我一开始以为这本书就是中文版的因为作者对瑜伽理论有着深厚的理解，百度了之后才知道是翻译的，才感觉翻译者很有翻译水平，把YOGA同中国的传统文化，比如道家、儒家，融会贯通在一块讲解，文中也有很多的注释体现了瑜伽和中国传统文化的融合和相同之处。<br>　　<img src="/images/yujia.jpg" alt="瑜伽"></p>
-<p>1、瑜伽从崇拜身体开始，但最终趋向于心之修炼。<br>2、你要爱你的身体，感怀它给予你的一切。<br>3、瑜伽是生命游戏的规则法典，但这是一场无人会输的游戏。<br>4、我们需要健康的身体才能培养健康的心灵。<br>5、身体的平衡是生活平衡的基础。<br>6、身体的平衡是精神安宁的表现。<br>7、我们真正要做的是把活跃的能量注入迟滞的物体。 8、瑜伽对于健康三重功用：让健康的人保持健康，抑制疾病的发展，协助疾病的康复。<br>9、头脑是智性之器官，心脏是感性之器官。<br>10、做瑜伽时，是身体告诉我们让该如何做，而不是大脑。<br>11、要让身体成为行动者，让大脑成为观察者。<br>12、醒觉的憩息可以让心灵复苏，让身体净化。<br>13、如果你无法让身体寂静，你也不会懂得心之寂静。<br>14、如果我说：“让你的大脑放松”，你可能做不到。如果我让你进入某一体式，你的大脑就会放松下来，你也会变得安静。这正是瑜伽的魅力所在。<br>15、就技术层面而言，任何身处压力的人、身体虚弱的人，或肺部虚弱、肌肉僵硬、脊柱坍塌、心事不定、精神焦虑、胆小怯懦的人都不可能达到瑜伽意义上的真正禅定状态。<br>16、我们需要的是敏捷的头脑，而不是躁动的头脑。<br>17、瑜伽的挑战性在于超越我们我们的极限——但要在理性的限度之内。我们用身体的画布不断扩展我们的心灵的框架，就像你把一张画布不断拉伸，以获得更大的绘画空间。<br>18、意志力不仅仅是精神的，也是身体的。<br>19、我一旦自问：“今天与昨天是否有所不同。”我就有了进步。<br>20、大家都想要更多的生命能量。如果能量可以在店里打包销售，这会是世上最成功的生意。哪怕只是谈论能量也会让人激动，给人增添能量。人们想知道，我们从哪里获得能量！能量当然不会在店里，不在商品的包装里，因为能量不仅无所不在而且取之无禁。<br>21、能量本身就是颇具魅力的品性。<br>22、要让气与心同时而动，若心先动，你就是在勉强。<br>23、眼睛离大脑很近，其紧张与过敏的状态可以反映出大脑神经过载的的严重程度。<br>24、为驯服你的大脑，你需要驯服你的呼吸。<br>25、瑜伽反对的是心为物役。<br>26、心识不住过去，亦不住未来，而居于当下此刻。<br>27、体式让我们用心内视自己的身体，调息开始让我们把心念与感官与外界脱离，由此我们的意识与能量才被运用于身心之内。<br>28、以譬喻而言，良性的睡眠如同开放的玫瑰花回归于花蕾。<br>29、下学许多小事，最终可以上达一件大事。<br>30、以身修心<br>31、瑜伽体式的修习帮助我们学会使用“身体”这一奇妙的天赋资具。<br>32、体式修行的目标是产生并稳定我们的能量，养护能量，而不是毫无必要地浪费能量。<br>33、让你的舌头柔软，大脑就不会有任何紧张。<br>34、你一旦学会如何放松舌头与喉咙，你就会懂得如何放松大脑，因为舌、喉与大脑之间也有联系。<br>35、去观察一下猫，猫是伸展大师和放松大师。<br>36、胸膛的各个角落就像支柱，支柱必须保持稳健。<br>37、塌陷的胸腔会把自性投入牢笼。<br>38、在动作中，肌肉应该像花瓣一样，开放而柔和。<br>39、双脚就像树根一样，如果一个人立脚不稳，他对生命的态度会变得消极，他做的瑜伽也不会稳健。<br>40、通过放松太阳穴和眼睛就可以解除大脑的负担。<br>41、后仰可以强健脊柱的内部肌肉，而向前伸展可以增强其外部的肌肉。<br>43、正常呼吸时，全身吸气，全身呼气。<br>44、简单而言，调息就是呼吸的延长与控制。<br>45、既然生命本有的能量就是气，调息就意味着生命能量的扩展。<br>46、在瑜伽式呼吸时，大脑和身体的四肢保持安静，而只有肺部被启动。<br>47、呼吸系统得到充分利用，但不会造成神经系统紧张。呼吸可以静心。吸气时会紧张，呼气时自在。呼气时可清除体内的压力与紧张。气之所以特殊是因为它承载意念。呼吸的存在就是生命的天赋。<br>48、如果你想把你的意念带到你的大脚趾最末端的细胞，气就可以将其送到。49、我们需要产生大量的“气”。而要产生“气”，我们就必须对我们的正常呼吸进行扩展，控制与约束。气息就是生命。宇宙能量是通过呼吸的载体与我们相通。<br>50、调息是把心与感官从外界收回的开端，调息让人安静也是这个原因。<br>51、心本身也是一种空间的振动。<br>52、心振动的声音只有耳朵能够听到。<br>53、耳朵的重要功能是倾听心中振荡之声并调谐其状态。<br>54、若吸气时以脑的意念为主，你所行的是自我本位的调息。若脑的意念下降，而心成为主导，你就是在修习真正的、谦卑的调息。<br>55、你掌握了自己的气，你也掌握了自己的灵。<br>56、在吸气达到最大限度时屏息，你也将神性之无限囿于己身。<br>57、通过呼气，你慷慨地将自我交付给天地宇宙。<br>58、吸气让生命充满全身。<br>59、压力造成的呼吸短促会消耗我们的生命能量。<br>60、意识随呼吸波动，而屏息让意识从欲望中解脱。<br>61、呼气后屏息可给我们的心境与情感带来平静与安静。<br>62、试一下，缓慢充分呼气，暂停，然后呼气。<br>63、吸气后之圆满，呼气后之空寂。<br>64、生命自身寻找完满，恰如植物寻找阳光。呼气后毫无期必而出现的屏息在时间之帘幕中打开了缝隙。无过去，无未来，也无现在之消逝可以感知。只有当下之刹那。 </p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　一开始接触这本书的时候，只是纯粹处于对瑜伽的热爱，在瑜伽馆里打发时间之用，只是没有想到，看了几章之后，彻底喜欢了，不仅仅改变了我最初对瑜伽的理解也让我对生活中的一些事情看的更开阔了，对生命的感悟。如果不是抱着喜欢瑜伽的心情估计我不会拿起这本书，而当我放下这本书的时候，对]]>
-    </summary>
-    
-      <category term="瑜伽" scheme="http://yoursite.com/tags/%E7%91%9C%E4%BC%BD/"/>
-    
-      <category term="读书笔记" scheme="http://yoursite.com/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="笔记" scheme="http://yoursite.com/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[新的开始]]></title>
-    <link href="http://yoursite.com/2014/09/12/born/"/>
-    <id>http://yoursite.com/2014/09/12/born/</id>
-    <published>2014-09-12T03:15:12.000Z</published>
-    <updated>2014-09-13T12:03:26.000Z</updated>
-    <content type="html"><![CDATA[<p>这是新的开始，我用hexo创建的第一篇文章。</p>
-<p>通过下面的命令就可以创建新文章</p>
-<a id="more"></a>
-
-<figure class="highlight {bash}"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">D:<span class="command">\workspace</span><span class="command">\javascript</span><span class="command">\nodejs</span>-hexo&gt;hexo new 新的开始</div><div class="line"><span class="special">[</span>info<span class="special">]</span> File created at D:<span class="command">\workspace</span><span class="command">\javascript</span><span class="command">\nodejs</span>-hexo<span class="command">\source</span><span class="command">\_</span>posts<span class="command">\新</span>的开始.md</div></pre></td></tr></table></figure>
-
-<p>感觉非常好。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>这是新的开始，我用hexo创建的第一篇文章。</p>
-<p>通过下面的命令就可以创建新文章</p>
-]]>
-    
-    </summary>
-    
-      <category term="开始" scheme="http://yoursite.com/tags/%E5%BC%80%E5%A7%8B/"/>
-    
-      <category term="日记" scheme="http://yoursite.com/tags/%E6%97%A5%E8%AE%B0/"/>
-    
-      <category term="日志" scheme="http://yoursite.com/categories/%E6%97%A5%E5%BF%97/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://yoursite.com/2014/09/12/hello-world/"/>
-    <id>http://yoursite.com/2014/09/12/hello-world/</id>
-    <published>2014-09-12T02:57:48.000Z</published>
-    <updated>2014-09-12T14:17:00.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<a id="more"></a>
-
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-]]>
-    
-    </summary>
     
   </entry>
   

@@ -1,0 +1,593 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>设计模式---工厂模式 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="创建型模式       
+　　工厂方法模式属于类的创建行模式又被称为多态工厂模式。工厂方法模式的意义在于定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类当中，核心工厂类将不在负责产品的创建，这昂核心类成为一个抽象工厂角色，仅负责具体工厂子类必须实现的接口。
+　　简单工厂模式又叫静态工厂模式，">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/设计模式-工厂模式/" title="设计模式---工厂模式" itemprop="url">设计模式---工厂模式</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T12:36:42.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T12:37:10.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p><strong>创建型模式</strong>       </p>
+<p>　　工厂方法模式属于类的创建行模式又被称为多态工厂模式。工厂方法模式的意义在于定义一个创建产品对象的工厂接口，将实际创建工作推迟到子类当中，核心工厂类将不在负责产品的创建，这昂核心类成为一个抽象工厂角色，仅负责具体工厂子类必须实现的接口。</p>
+<p>　　简单工厂模式又叫静态工厂模式，由一个工厂决定创建出哪一种商品的实例。只要输入想要的产品代号，就会实例化合适的对象。</p>
+<p>　　这里举个简单的例子：<br>　　小张开了一家面包店，根据客人的不同需求提供不同的面包，这里就有不同的面包师傅做不同的面包，这些个面包师傅（HoneyBread、BlackBread）等又归一个总师傅管理BreadMaker，也就是这些师傅的手艺都是继承自该师傅，这个厨房后台呢，就相当于一个工厂（IFactory），不同的种类就由不同的工厂（HoneyFactory）生产，工厂会根据需求将不同的种类产品分给不同种类的总师傅（PizzaMaker、BreadMaker），在由师傅分配任务给不同的制作师。上诉流程就将整个工厂模型的思路理清了。</p>
+<p>简单工厂类：</p>
+<pre><code>package com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="keyword">class</span> BreadFactory {
+    <span class="keyword">public</span> <span class="keyword">static</span> BreadMaker <span class="title">MakeBread</span>(<span class="keyword">int</span> breadType){
+         BreadMaker breadMaker = <span class="keyword">null</span>;
+        <span class="keyword">switch</span> (breadType) {
+        <span class="keyword">case</span> <span class="number">1</span>:
+            breadMaker = <span class="keyword">new</span> BlackBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">2</span>:
+            breadMaker =  <span class="keyword">new</span> HoneyBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">case</span> <span class="number">3</span>:
+            breadMaker =  <span class="keyword">new</span> WhiteBread();
+            <span class="keyword">break</span>;
+        <span class="keyword">default</span>:
+            <span class="keyword">break</span>;
+        }
+        <span class="keyword">return</span> breadMaker;
+    }
+}
+</code></pre><p>总师傅：</p>
+<pre><code>package com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="keyword">class</span> BreadMaker {
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetBread</span>(){
+    <span class="comment">//nothing</span>
+    }
+}
+</code></pre><p>不同的面包师傅：</p>
+<pre><code><span class="keyword">package</span> com.hust.SimpleFactory;
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlackBread</span> <span class="keyword">extends</span> <span class="title">BreadMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">GetBread</span>() {
+        System.out.println(<span class="string">"做出黑面包"</span>);;
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyBread</span> <span class="keyword">extends</span> <span class="title">BreadMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetBread</span>() {
+        System.out.println(<span class="string">"做出蜂蜜面包"</span>);
+    }
+}
+</code></pre><p>商店前台：</p>
+<pre><code>public static void main(String args[]) {
+    B<span class="built_in">read</span>Maker breadMaker;
+    System.out.println(<span class="string">"面包店开业！"</span>);
+    System.out.println(<span class="string">"开始制作黑面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">1</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+    System.out.println(<span class="string">"开始制作蜂蜜面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">2</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+    System.out.println(<span class="string">"开始制作白面包"</span>);
+    breadMaker = B<span class="built_in">read</span>Factory.MakeB<span class="built_in">read</span>(<span class="number">3</span>);
+    breadMaker.GetB<span class="built_in">read</span>();
+}
+</code></pre><p>工厂模式：除了上诉内容外增加了一个总工厂负责类：</p>
+<pre><code><span class="keyword">package</span> com.hust.Factory;
+<span class="keyword">import</span> com.hust.AbstractFactory.PizzaMaker;
+<span class="keyword">import</span> com.hust.SimpleFactory.BreadMaker; 
+<span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IFactory</span> </span>{
+    BreadMaker createBread();
+    PizzaMaker createPizza();
+}
+</code></pre><p>不同的工厂类：如果增加pizza这个产品，就在总工厂里增加一个函数负责pizza（这就是抽象工厂模式）</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> BreadMaker <span class="title">createBread</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> HoneyBread();
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> PizzaMaker <span class="title">createPizza</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> HoneyPizza();
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BlackFactory</span> <span class="keyword">implements</span> <span class="title">IFactory</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> BreadMaker <span class="title">createBread</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> BlackBread();
+    }
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> PizzaMaker <span class="title">createPizza</span>() {
+        <span class="keyword">return</span> <span class="keyword">new</span> BlackPizza();
+    }
+ }
+</code></pre><p>工厂模式时的柜台操作：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String args[]) {
+    BreadMaker breadMaker;
+    System.<span class="keyword">out</span>.println(<span class="string">"面包店开业！"</span>);
+    System.<span class="keyword">out</span>.println(<span class="string">"开始制作黑面包"</span>);
+    IFactory breadFactory = <span class="keyword">new</span> BlackBreadFactory();
+    breadMaker = breadFactory.createBread();
+    breadMaker.GetBread();
+    System.<span class="keyword">out</span>.println(<span class="string">"开始制作蜂蜜面包"</span>);
+    breadFactory = <span class="keyword">new</span> HoneyBreadFactory();
+    breadMaker = breadFactory.createBread();
+    breadMaker.GetBread();
+    system.<span class="keyword">out</span>.println(<span class="string">"开始制作蜂蜜pizza"</span>);
+    breadFactory = <span class="keyword">new</span> HoneyBreadFactory();
+    PizzaMaker pizzaMaker = breadFactory.createPizza();
+    pizzaMaker.GetPizza();
+}
+</code></pre><p>不同的产品的师傅：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PizzaMaker</span> </span>{
+    <span class="keyword">public</span> <span class="keyword">void</span>  <span class="title">GetPizza</span>() {
+        <span class="comment">//nothing</span>
+    }
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HoneyPizza</span> <span class="keyword">extends</span> <span class="title">PizzaMaker</span> </span>{
+    <span class="annotation">@Override</span>
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetPizza</span>() {
+    <span class="comment">// TODO Auto-generated method stub</span>
+    System.out.println(<span class="string">"做出蜂蜜披萨"</span>);
+    }
+}
+</code></pre><p>　　问题：假设小张有很多分店，每个分店有不同的柜台，那天小张决定将黑巧克力面包改成抹牛油的，在修改了工厂之后，必须相应的修改柜台的代码，级每一个申明过breadMaker和pizzaMaker的地方都要修改，那么工作量将恨大。这就体现了抽象模式的缺点，便于交换产品的同时，也需要改动产品声明过的地方。如何避免呢？一种方法就是根据前台用户的输入，使用if switch语句进行判断，但随着产品的增长，分支会越来越多。那么客户端还是需要大量的修改。另一种方法就是——反射。对客户端代码修改如下：</p>
+<pre><code><span class="keyword">try</span> {
+    <span class="keyword">Class</span>&lt;?&gt; c = <span class="keyword">Class</span>.forName(<span class="string">"HoneyBreadFactory"</span>);
+    <span class="keyword">try</span> {
+        breadFactory = (IFactory) c.newInstance();
+        pizzaMaker = breadFactory.createPizza();
+        pizzaMaker.GetPizza();
+    } <span class="keyword">catch</span> (Exception e) {
+            <span class="comment">// TODO: handle exception</span>
+    }
+} <span class="keyword">catch</span> (ClassNotFoundException e) {
+        <span class="comment">// TODO: handle exception</span>
+}
+</code></pre><p>这样就避免了分支的出现。<br>这里提到了三个工厂模式：<strong>简单工厂</strong>、<strong>工厂方法</strong>、<strong>抽象工厂</strong>。他们的优缺点如下：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/gcmsdb.jpg" alt="工厂模式"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Design-pattern/">Design pattern</a><a href="/tags/Java/">Java</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/设计模式-工厂模式/" data-title="设计模式---工厂模式 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/设计模式-单例模式/" title="设计模式----单例模式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  设计模式----单例模式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/25/设计模式-设计原则/"  title="设计模式---设计原则">
+ <strong>NEXT:</strong><br/> 
+ <span>设计模式---设计原则
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/selenium/软测/" title="软测">软测<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>7</sup></a></li>
+		
+			<li><a href="/categories/杂感/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

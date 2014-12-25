@@ -1,0 +1,502 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>简单Xpath入门 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="XPath即为XML路径语言，它是一种用来确定XML（标准通用标记语言的子集）文档中某部分位置的语言。XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。XPath 是 XML 的查询语言，和 SQL 的角色很类似。以下面 XML 为例，介绍 XPath 的语法。
+&amp;lt;?xml v">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/简单Xpath入门/" title="简单Xpath入门" itemprop="url">简单Xpath入门</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T13:54:52.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T13:56:24.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>　　XPath即为XML路径语言，它是一种用来确定XML（标准通用标记语言的子集）文档中某部分位置的语言。XPath基于XML的树状结构，提供在数据结构树中找寻节点的能力。XPath 是 XML 的查询语言，和 SQL 的角色很类似。以下面 XML 为例，介绍 XPath 的语法。</p>
+<pre><code><span class="pi">&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</span>
+<span class="tag">&lt;<span class="title">catalog</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"USA"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Empire Burlesque<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bob Dylan<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>10.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"UK__time"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Hide your heart<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bonnie Tyler<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"UK"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Hide your heart<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Bonnie Tyler<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span>
+<span class="tag">&lt;<span class="title">cd</span> <span class="attribute">country</span>=<span class="value">"USA"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">title</span>&gt;</span>Greatest Hits<span class="tag">&lt;/<span class="title">title</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artist</span>&gt;</span>Dolly Parton<span class="tag">&lt;/<span class="title">artist</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">price</span>&gt;</span>9.90<span class="tag">&lt;/<span class="title">price</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">cd</span>&gt;</span><span class="tag">&lt;/<span class="title">catalog</span>&gt;</span>
+</code></pre><p><strong>定位节点</strong></p>
+<p>　　XML 是树状结构，类似档案系统内数据夹的结构，XPath 也类似档案系统的路径命名方式。不过 XPath 是一种模式(Pattern)，可以选出 XML 档案中，路径符合某个模式的所有节点出来。<br>1）要选 catalog 底下的 cd 中所有 price 元素可以用：<br>　　 /catalog/cd/price<br> 　 如果 XPath 的开头是一个斜线（/）代表这是绝对路径。如果开头是两个斜线（//）表示文件中所有符合模式的元素都会被选出来，即使是处于树中不同的层级也会被选出来。</p>
+<p>2）选出文件中所有叫做 cd 的元素（在树中的任何层级都会被选出来）：<br>　　//cd　　使用星号（Wildcards,＊）可以选择未知的元素。</p>
+<p>3）选出/catalog/cd 的所有子元素：<br>　　/catalog/cd/*</p>
+<p>4）选出所有 catalog 的子元素中，包含有 price 作为子元素的元素。<br>　　/catalog/*/price</p>
+<p>5）选出有两层父节点，叫做 price 的所有元素。<br>　　/<em>/</em>/price</p>
+<p>6）选择出文件中的所有元素。<br>　　//<em>　<br>　　要注意的是，想要存取不分层级的元素，XPath 语法必须以两个斜线开头(//)，想要存取未知元素才用星号(</em>)，星号只能代表未知名称的元素，不能代表未知层级的元素。</p>
+<p><strong>选择分支</strong><br>使用中括号可以选择分支。</p>
+<p>1）从 catalog 的子元素中取出第一个叫做 cd 的元素。XPath 的定义中没有第0元素<br>　　/catalog/cd[1]</p>
+<p>2）选择 catalog 中的最后一个 cd 元素： XPath 没有定义 first() 这种函式，用上例的 [1]就可以取出第一个元素。<br>　　/catalog/cd[last()]</p>
+<p>3）选出含有 price 子元素的所有/catalog/cd 元素。<br>　　/catalog/cd[price]</p>
+<p>4）选出 price 元素的值等于10.90的所有/catalog/cd 元素<br>　　/catalog/cd[price=10.90]</p>
+<p>5）选出 price 元素的值等于10.90的所有/catalog/cd 元素 的 price 元素<br>　　/catalog/cd[price=10.90]/price</p>
+<p><strong>选择一个以上的路径</strong></p>
+<p>使用 Or 操作数(|)就可以选择一个以上的路径</p>
+<p>1）选择所有 title 以及 artist 元素<br>　　//title | //artist</p>
+<p>2）选择所有 title 以及 artist 以及 price 元素<br>　　//title | //artist | //price</p>
+<p><strong>选择属性</strong> </p>
+<p>在XPath的属性。除了选择元素以外，也可以选择属性，属性都是以@开头。</p>
+<p>1）选择文件中所有叫做 country的属性。<br>　　//@conutry</p>
+<p>2）选择所有含有country 这个属性的 cd元素。<br>　　//cd[@country]</p>
+<p>3) 选择出country属性值为UK的cd元素<br>　　//country[@country==’UK’]</p>
+<p><strong>部分匹配</strong></p>
+<p>有些属性的值具有一定的规律，例如上面的UK就是前缀，一部分是不变的。也可以用start-with</p>
+<p>1）定位属性值前缀为UK<em>的元素<br>　　//cd[containers(@country，’UK</em>‘)]<br>　　//cd[start-with(@country，’UK_’)]  </p>
+<p>这是在某个文档里面学习来的，感觉简单又易上手，故摘录于此。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/selenium/">selenium</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/selenium/">selenium</a>►<a class="article-category-link" href="/categories/selenium/软测/">软测</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/简单Xpath入门/" data-title="简单Xpath入门 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/12/25/selenium-大家庭介绍/"  title="selenium--大家庭介绍">
+ <strong>NEXT:</strong><br/> 
+ <span>selenium--大家庭介绍
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/selenium/软测/" title="软测">软测<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>7</sup></a></li>
+		
+			<li><a href="/categories/杂感/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

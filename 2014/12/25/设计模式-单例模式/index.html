@@ -1,0 +1,563 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>设计模式----单例模式 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="创建型模式
+　　单例模式是某个类只需要一个实例，保证一个类有且只有一个实例，并提供一个访问他的全局访问点。比如对于一个统一的数据库的访问，在整个项目中只使用同一个实例。对于这种情况有个比较好的例子，就是一夫一妻制。
+　　比如某个男子需要娶个女子结婚，那么就有下面的程序：wife类，代表女子，husb">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/25/设计模式-单例模式/" title="设计模式----单例模式" itemprop="url">设计模式----单例模式</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-25T12:38:02.000Z" itemprop="datePublished">12月 25 2014</time>
+    更新日期:<time datetime="2014-12-25T12:45:46.000Z" itemprop="dateModified">12月 25 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p><strong>创建型模式</strong></p>
+<p>　　单例模式是某个类只需要一个实例，保证一个类有且只有一个实例，并提供一个访问他的全局访问点。比如对于一个统一的数据库的访问，在整个项目中只使用同一个实例。对于这种情况有个比较好的例子，就是一夫一妻制。</p>
+<p>　　比如某个男子需要娶个女子结婚，那么就有下面的程序：wife类，代表女子，husband类，代表男子　</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Wife {
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl show themself"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">marry</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl gets married"</span>);
+    }
+}
+<span class="keyword">public</span> <span class="keyword">class</span> Husband {
+    <span class="keyword">private</span> Wife myWife = <span class="keyword">null</span>;
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">chooseGirl</span>() {
+    myWife = <span class="keyword">new</span> Wife();
+    myWife.show();
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMarry</span>() {
+        myWife.marry();
+    }
+}
+</code></pre><p>在主程序里就可以实例化husband类，然后依次调用chooseGirl()和getmarry（）方法，就可以正常运行。但是如果先调用getMarry（）呢？由于wife在choose里面实例化的，这是就会报错，将husband类修改如下：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">chooseGirl</span>() {
+    <span class="keyword">if</span> (myWife == <span class="keyword">null</span>) {
+        myWife = <span class="keyword">new</span> Wife();
+    }
+    myWife.show();
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMarry</span>() {
+    <span class="keyword">if</span> (myWife == <span class="keyword">null</span>) {
+        myWife = <span class="keyword">new</span> Wife();
+    }
+    myWife.marry();
+}
+</code></pre><p>　　这样一来就可以保证一个丈夫只能有一个妻子了。而且两个函数没有调用的先后关系。</p>
+<p><strong>问题一</strong>：如果婆婆想要看儿媳妇呢？那就会有一个婆婆类，婆婆类里面又需要实例化一个wife类，这个实例化的wife类和husband的里面实例化的wife类是不同的，出现了多个实例化的问题，也就是婆婆看到的和儿子娶的不是同一个姑娘，这怎么行呢？这就需要修改wife类的代码，保证只有一个实例出现。<br>wife类：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Wife {
+    <span class="keyword">public</span> <span class="keyword">static</span> Wife wife;  <span class="comment">//静态变量</span>
+    <span class="keyword">private</span> <span class="title">Wife</span>(){          <span class="comment">//私有构造方法，是的外部无法访问</span>
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> Wife <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+        <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+            wife = <span class="keyword">new</span> Wife();
+        }
+        <span class="keyword">return</span> wife;
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl show themself"</span>);
+    }
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">marry</span>() {
+        System.<span class="keyword">out</span>.println(<span class="string">"the girl gets married"</span>);
+    }
+}
+</code></pre><p>　　将构造函数设为私有，声明静态变量wife和静态方法getinstance来进行实例化。在需要实例化的地方用Wife wife=Wife.getInstance()来获得实例，就可以保证大家看到的是同一个姑娘。</p>
+<p><strong>问题二</strong>：如果婚礼现场需要直播，怎么办？可以使用多线程技术，一个线程A作为实地的婚礼，在wife中调用marry方法，另一个线程B作为直播，同样在线程中调用marry的，那么怎么能确定getInstance得到的是同一个新娘呢？如果线程A先运行到此，这是wife为null，那么进入到分支实例化wife，在未完成实例化的时候，线程B也来到了分支内，此时wife依然为null，线程B又会进行一次实例化，最终还是产生了两个实例，就是两个不同的新娘。</p>
+<p><strong>解决</strong>：引入<code>锁</code>的概念，lock的作用就是构造出一块临界区来控制线程对代码的访问，确保每次只有一个线程运行到临界区的代码，其他线程运行到临界区时，将会一直等待直到前面的线程运行出临界区为止。</p>
+<p>在wife中修改代码：在if前加锁</p>
+<pre><code><span class="keyword">lock</span>.<span class="keyword">lock</span>();
+<span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+    wife = <span class="keyword">new</span> Wife();
+}
+<span class="keyword">lock</span>.unlock();
+</code></pre><p>这样就能保证在A实例化之前B不会进行null的判断。这样虽然满足了功能的要求，可是每次调用的getInstance的时候都要进行加锁工作，这将会影响程序的性能。所以对其进行改良。</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">static</span> Wife <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+    <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+        <span class="keyword">lock</span>.<span class="keyword">lock</span>();
+        <span class="keyword">if</span> (wife == <span class="keyword">null</span>) {
+            wife = <span class="keyword">new</span> Wife();
+        }
+        <span class="keyword">lock</span>.unlock();
+    }
+    <span class="keyword">return</span> wife;
+}
+</code></pre><p>在临界区内在进行一次null的判断，只有wife为null的时候才会进入初始化。<br><strong>单例模式本身的代码</strong>：</p>
+<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Singleton {
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton singleton;  <span class="comment">//静态变量</span>
+    <span class="keyword">private</span> <span class="title">Singleton</span>(){ 
+               <span class="comment">//私有构造方法，是的外部无法访问  </span>
+    }
+    <span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span>(){  <span class="comment">//静态方法来实例化</span>
+        <span class="keyword">if</span> (singleton == <span class="keyword">null</span>) {
+            singleton = <span class="keyword">new</span> Singleton();
+        }
+        <span class="keyword">return</span> singleton;
+    }
+}
+</code></pre><p>客户端代码：</p>
+<pre><code>Singleton <span class="variable">singleton1 =</span> Singleton.getInstance();
+Singleton <span class="variable">singleton2 =</span> Singleton.getInstance();
+<span class="keyword">if</span>(<span class="variable">singleton1 =</span>= singleton2){
+    System.out.printle(<span class="string">"the teo object are the same one"</span>);
+}
+</code></pre><p>单例模式虽然很简单，但很实用，以下情况都适合实用：</p>
+<p>1）当类只能有一个实例而且第三方可以从一个公共的访问点访问它时</p>
+<p>2）当一个唯一的实例可以通过子类化来扩展，而且第三方需要在不更改代码的情况下就能实用一个扩展的实例时。</p>
+<p>单例模式<strong>优点</strong>：</p>
+<p>1）队唯一的实例做出访问控制</p>
+<p>2）允许改变实例的个数，可以增加一个计数器来控制实例的个数，从而有双例模式，三利模式等。</p>
+<p><strong>总结</strong></p>
+<p>　　单例并不是上面写的这么简单，里面涉及到很多的知识点，多线程、加锁、私有构造函数，静态构造函数，静态字段，readonly和const的区别等等。</p>
+<p>　　向这里给出的单例版本就涉及到线程安全的问题，当2个请求同时方式这个类的实例的时候，可以会在同一时间点上都创建一个实例，虽然一般不会出异常错误，但是起码不是我们谈论的只保证一个实例了。每一个设计模式都值得我们深入的研究下去，有时间一定回头看看。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Design-pattern/">Design pattern</a><a href="/tags/Java/">Java</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://yoursite.com/2014/12/25/设计模式-单例模式/" data-title="设计模式----单例模式 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/25/设计模式-原型模式/" title="设计模式----原型模式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  设计模式----原型模式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/25/设计模式-工厂模式/"  title="设计模式---工厂模式">
+ <strong>NEXT:</strong><br/> 
+ <span>设计模式---工厂模式
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软测/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/selenium/软测/" title="软测">软测<sup>2</sup></a></li>
+		
+			<li><a href="/categories/软测/" title="软测">软测<sup>7</sup></a></li>
+		
+			<li><a href="/categories/杂感/软测/" title="软测">软测<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> my github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://blog.csdn.net/silence_hust" target="_blank" title="csdn"> CSDN blog </a></li>
+      <li><a href="http://www.cnblogs.com/" target="_blank" title="cnblog"> 博客园 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
