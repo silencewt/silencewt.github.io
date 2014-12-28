@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>java--面向接口编程 | Silence 婷婷 Blog</title>
+    <title>2014年年度总结 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="之前看的一本书的笔记，上周再看设计模式的时候，想到了这篇之前在看某本书时候的笔记。
-　　面向接口编程很重要的一点就是接口回调，用接口声明的变量称作接口变量，属于引用型变量，可以存放实现该接口的类的实例的引用，对象引用。接口回调：可以把实现某一接口的类创建的对象的引用赋值给该接口声明的接口变量，那么该">
+    <meta name="description" content="好好回顾了下，这一年自己走过的时光，发现很多事情真的不是自己可以计划和安排的，犹记去年的这个时候是怎样的告诉自己不能浪费时光，要好好对待自己，也给自己设定了目标，也有一部分达成了，一部分终归是不了了之了。到了年底，没想到这一年的时间就这样了没了，回顾过去，只为更好的前进，成为更好的自己。
+　　201">
     
     
     
@@ -121,15 +121,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/25/java-面向接口编程/" title="java--面向接口编程" itemprop="url">java--面向接口编程</a>
+      <a href="/2014/12/28/2014年年度总结/" title="2014年年度总结" itemprop="url">2014年年度总结</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-12-25T12:58:46.000Z" itemprop="datePublished">12月 25 2014</time>
-    更新日期:<time datetime="2014-12-25T13:05:55.000Z" itemprop="dateModified">12月 25 2014</time>
+    <time datetime="2014-12-28T02:26:08.000Z" itemprop="datePublished">12月 28 2014</time>
+    更新日期:<time datetime="2014-12-28T02:29:08.000Z" itemprop="dateModified">12月 28 2014</time>
     
   </p>
 </header>
@@ -138,71 +138,51 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#学习"><span class="toc-number">1.</span> <span class="toc-text">学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生活"><span class="toc-number">2.</span> <span class="toc-text">生活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感情"><span class="toc-number">3.</span> <span class="toc-text">感情</span></a></li></ol>
 		</div>
 		
-		<p>　　之前看的一本书的笔记，上周再看设计模式的时候，想到了这篇之前在看某本书时候的笔记。</p>
-<p>　　面向接口编程很重要的一点就是接口回调，用接口声明的变量称作接口变量，属于引用型变量，可以存放实现该接口的类的实例的引用，对象引用。<strong>接口回调</strong>：可以把实现某一接口的类创建的对象的引用赋值给该接口声明的接口变量，那么该接口变量就可以调用被类实现的接口方法。</p>
-<p>Com com;      //接口<br>ImplCom object;    //实现接口的对象<br>com = object;        //接口回调，com会根据对象的不同而实现不同的接口方法，回调类重写的接口方法<br>接口和abstract类的比较如下：<br>abstract类和接口都可以有abstract方法。<br>接口中只可以有常量，不能有变量；而abstract类中既可以有常量也可以有变量。abstract类中也可以有非abstract方法，接口不可以。</p>
-<p>　　在设计程序时应当根据具体的分析来确定是使用抽象类还是接口。abstract类除了提供重要的需要重写的abstract方法外，也提供了子类可以继承的变量和非abstract方法。如果某个重要问题需要使用继承才能更好地解决，比如，子类需要重写父类的abstract方法，还需要从父类继承一些变量或继承一些重要的非abstract方法，就可以考虑用abstract类。如果某个问题不需要继承，只是需要若干个类给出某些重要的abstract方法的实现细节，就可以考虑使用接口。<br>　　使用接口编程的最重要的<strong>核心思想就是使用接口回调</strong>，及接口变量存放实现该接口的类的对象的引用，从而接口变量就可以回调类实现的接口方法。<br>　　<img src="http://7te8s4.com1.z0.glb.clouddn.com/jiekou.jpg" alt="接口编程">　　</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">interface</span> Advertisement {
-    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">showAdvertisement</span>();
-    <span class="keyword">public</span> String <span class="title">getCorpName</span>();
-}
-</code></pre><p>2、设计AdvertisementBoard类（广告牌），该类有一个show（Advertisement adver）方法，该方法的参数是接口Advertisement的类型，显然该参数adver可以存放任何实现Advertisement接口的类的对象的引用，并回调类重写的接口方法showAdvertisement()来显示公司的广告词，回调类重写的接口方法getCorpName来获取公司名称。</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> AdvertisementBoard{
-<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">show</span> (Advertisement adver){
-    System.<span class="keyword">out</span>.println(adver.getCorpName()+<span class="string">"广告词"</span>);
-    adver.showAdvertisement（）; <span class="comment">//接口回调</span>
-}
-}
-</code></pre><p>实现接口的A公司类：</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Acorp implement Advertisement {
-<span class="keyword">public</span> <span class="keyword">void</span> showAdvertisement（）{
-    System.<span class="keyword">out</span>.println(<span class="string">"AAAAAAAAAAAAAAAAA"</span>);
-}
-<span class="keyword">public</span> String getCorpName（）{
-    <span class="keyword">return</span> <span class="string">"A Corp"</span>;
-}
-}
-</code></pre><p>实现接口的B公司类：</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> Bcorp implement Advertisement {
-<span class="keyword">public</span> <span class="keyword">void</span> showAdvertisement（）{
-    System.<span class="keyword">out</span>.println(<span class="string">"BBBBBBBBBBBBBBBBB"</span>);
-}
-<span class="keyword">public</span> String getCorpName（）{
-    <span class="keyword">return</span> <span class="string">"B Corp"</span>;
-}
-}
-</code></pre><p>运行住程序：</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">class</span> test （）{
-<span class="keyword">public</span> state <span class="keyword">void</span> main （<span class="keyword">string</span> args[]）{
-    AdvertisementBoard board = <span class="keyword">new</span> AdvertisementBoard();
-    board.show(<span class="keyword">new</span> Acorp());
-    board.show(<span class="keyword">new</span> Bcorp());
-}
-}
-</code></pre><p>最后程序会根据对象的不同调用不同的方法。若想要添加C公司，只要实现接口的方法就可以了。</p>
+		<p>　　好好回顾了下，这一年自己走过的时光，发现很多事情真的不是自己可以计划和安排的，犹记去年的这个时候是怎样的告诉自己不能浪费时光，要好好对待自己，也给自己设定了目标，也有一部分达成了，一部分终归是不了了之了。到了年底，没想到这一年的时间就这样了没了，回顾过去，<strong>只为更好的前进，成为更好的自己</strong>。</p>
+<p>　　2014年收获了很多，也失去了很多，感概最多就是没有好好的使用时间，但是，每次回过头来看，都会觉得这一段路走的很有必要，没有经历过这些，怎么会知道自己要的是什么，怎么会感受到自己的成长，也许，这就是人们常说的，成长的所失与所得。虽然这段日子没有什么惊天动地的大事件，但是确确实实给了我很多的东西，不仅仅是学习也是做人。2014基本可以分为几个阶段性报告。</p>
+<h3 id="学习">学习</h3>
+<p>1、1-4月属于真真正正的迷茫期。一月忙于各种研究生结业考试，天天呆在图书馆，除了考试不知道自己还能那忙什么，去实验室的时间就是休息娱乐。当然，这段时间也过得很充实，达到了我要的目标，成绩优秀，这样的日子在10月份的时候出了成绩，轻松拿得国奖，学生的最高奖项。</p>
+<p>2、寒假回家，除了和家人愉快的玩耍之外，也静下心来想了想之后的生涯该怎么过，没有结果但是紧迫感越来越大，提早来了实验室。从放假回来到三月，一直在思考，该怎么度过剩下的时间，该怎么才能提升自我竞争力？我可以做什么？我想做什么？未来的职业是什么？这几个问题一直就这样困扰着我。导师方向的更改造成我很大的压力，这不是我喜欢的。实验室的压力和责任也很大，不能任性的扔下实验室的事情不管，但有不能放弃找工作的目的。就是这么纠结的过了一两个月。白天，看论文，学图像处理，看opencv，学机器学习，了解这方面的各种信息和资料；晚上，接触前端，接触互联网，学写网站。虽然会被各种杂事打断但基本就是这个节奏。</p>
+<p>3、这两个月内，纠结归纠结，期间自己设定的目标还是有完成一点的。这段时间，让我真正的踏入<strong>图像处理和机器学习</strong>的大门，自学了图像检测，目标识别这个领域的知识。回过头来看，原来这些都很简单，量的积累确实换来了质的飞跃。我所谓的简单，只是局限于现有简单算法的实现和理解。优化以及实际应用这又是一个大的世界。</p>
+<p>4、还踏入了互联网领域，通过各种渠道的信息，通过师姐，通过不断的关注最新互联网信息，开启联通外面世界之路。对于<strong>构建网站，博客，页面交互，前端</strong>等等有了认识，接触了html，css，js，nodejs，mongodb，bootstrap，github，trello各种有趣的东西。学习这些的过程中，让我知道如何作用好网络找到自己想要的东西，如何查看官方文档，如何解决问题，不敢说每个都学的很深，不敢说都精通，但基本的我都知道。个人觉得重要的不是你学会了哪门技术，重要的是<strong>学会了怎么解决和处理问题，怎么寻求帮助，怎么思考，这个过程带给我的体会及自我进化才是慢珍贵的。</strong></p>
+<p>5、在经过一段时间的挣扎，在听过阿里测试大讲坛之后，我坚定了要做测试这个行业的心，于是从5月开始就利用课余的时间重新将测试的东西捡起来，慢慢的深入到测试的领域，收集信息，找到自己想做的方向，web测试，由于自己对互联网很有的热情，鉴于之前接触了前端的知识，这一块能很快的上手，理解很快。这个期间，有尝试着去找实习，但是每次都被实验室的事情压着，没有办法顺利的离开，最后只能放弃。学习python，跟本科同学，尝试django建立一个网站，类似于博客收集信息的，界面基本上是copy某个网站的，只是内容和逻辑是自己的。</p>
+<p>6、暑假回来后，对微信订阅号知道了怎么有效的利用了，重点关注了几个有效的订阅号，每天通过其了解最新的消息。坚持了2-3个月后，发现自己了解到的领域多了，知识面广了，和他人聊天的时候，什么话题都能聊下去，周围的人都说，我怎么知道这么多的。<strong>寻找消息的渠道，增长见识。</strong></p>
+<p>7、下学期开学，变得更有目标性了，基本上就是图像处理（重点关注机器学习）和软件测试。开始完成车牌识别的项目，对于车牌识别领域的各个知识点都有所掌握，重点在字符识别这一块，结合<strong>python和机器学习</strong>这本书，完成了python的学习，加深对学习算法的理解。</p>
+<p>8、之后，开始加入一个<strong>实验室的团队，做安卓开发</strong>，一个创业项目，手机App应用。由于本科有java和安卓的一点基础,花了7天的时间，通过极客学院的视频学习Android。这样时间被分为两段，白天在实验室，晚上在工作室那边。11月底，一方面感觉时间过于紧张，没有时间做自己的事情。实验室也有了新的项目，另一方面由于团队的内部原因，选择离开。</p>
+<p>9、11月下旬开始接触自动化测试、单元测试、测试驱动开发思想、接口测试以及java、设计模式等等。</p>
+<p>10、11月份开始，重点放在实验室项目上，<strong>三光检测系统</strong>，红外和可见光图像配准，图像融合，结合硬件在<strong>Linux</strong>下搭建便于三光检测的手持设备，该项目使用qt编程，有摄像头、视频服务器、pc主板、触摸屏等硬件设备，了解了融合硬件设备和软件的开发流程，自学了linux，由于是实际应用，对方只要知道是否可以在Linux下使用设备即可，所以只接触了简单的liunx，重点负责，Linux和图像融合配准模块。</p>
+<h3 id="生活">生活</h3>
+<p>11、上半年，组织实验室外出游玩三天，整个过程，从行程安排到住宿，坐车，吃饭，到游玩路线都是我一个人安排下来，全程自助游，路上不断收到大家的赞美声，都说安排的很好很贴心，太开心了。下半年，实验室周末的各种小聚，小活动，都组织得挺好的，为自己的<strong>交际能力和组织能力</strong>喝彩，总的一个感觉就是不管在实验室，在寝室，还是以前本科班，我的人缘还是很不错的，大家都愿意和我交流。这点希望继续保持，用一颗包容的心去对待大家，做一个大家眼里的开心果，传播正能量。</p>
+<p>12、暑假回去帮哥哥忙活了大半个月，也算是尽到做妹妹的心了，照顾锦娴，帮助管理店里的生意，感触最深的就是：生活的不容易，各行各业都不是那么轻松的，自己做老板也不轻松，站在不同的位置就会有不同的角度看待问题，也就会有不同的烦恼问题出现。老板有老板的出发点，打工有打工的想法。其实都是不容易，唯有尽心尽力做好就好。不亏待自己，善待他人，包容理解换位思考。家里因为多了个小孩，变得更好欢乐了，只能说小孩好萌，好可爱啊~~~，和小孩接触就了，才发现自己也有一颗童心，未泯的赤子之心。</p>
+<p>13、和闺蜜相处融洽，大家都说我们谁也离不开谁。我们能从09年一直走到现在，5年的友情，除了彼此的包容之外，更多的是彼此的维护，愿意为对方迁就自己的一些东西，<strong>愿意用心经营，愿意倾听</strong>。我一直相信，任何一段感情，不管是亲情、友情还是爱情都是需要彼此用心经营的，双方都需要付出，需要包容，若有一方从不付出，再浓感情慢慢的也会随着时间消失。对待生活的态度上，我觉得自个比较像“鬼脚七”（一个很有名的自媒体人），他对网友的一些回答我都很赞同，在价值观上挺一致的。</p>
+<p>14、在瑜伽馆兼职了一段时间，爱上了瑜伽，深深感受到瑜伽的魅力，瑜伽成为我的业余爱好，以后有机会要好好的学学瑜伽。</p>
+<h3 id="感情">感情</h3>
+<p>15、顺其自然，能遇到一个懂你的人不容易，但还是希望那个他能快点出现，不要让我等久了。</p>
+<p>　　这一年，给自己一个赞，也希望自己改掉拖拉的毛病，在年尾将所有的工作做个总结和了断，该写报告的写报告，该做记录的做记录，博客该发的发，来年不再为2014年买单了。所有的这些就在元旦前结束。</p>
+<p>　　来年，愿自个不再拖延，坚持写博客，每周一次整理和总结所学的知识点，找个好的实习、好的工作，羽毛球技术飞升，和闺蜜好好的享受生活，好好的维持实验室的欢乐氛围，总之：<strong>用心生活，享受乐趣，不让自己遗憾。</strong></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/总结/">总结</a><a href="/tags/心路历程/">心路历程</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
+  <a class="article-category-link" href="/categories/心路历程/">心路历程</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/12/25/java-面向接口编程/" data-title="java--面向接口编程 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2014/12/28/2014年年度总结/" data-title="2014年年度总结 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -211,19 +191,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/25/java-面向抽象编程/" title="java--面向抽象编程">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  java--面向抽象编程</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/25/设计模式-建造者模式/"  title="设计模式----建造者模式">
+<a href="/2014/12/28/hello-world/"  title="Hello World">
  <strong>NEXT:</strong><br/> 
- <span>设计模式----建造者模式
+ <span>Hello World
 </span>
 </a>
 </div>
@@ -240,7 +212,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#学习"><span class="toc-number">1.</span> <span class="toc-text">学习</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生活"><span class="toc-number">2.</span> <span class="toc-text">生活</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#感情"><span class="toc-number">3.</span> <span class="toc-text">感情</span></a></li></ol>
   </div>
 
 <div id="asidepart">
