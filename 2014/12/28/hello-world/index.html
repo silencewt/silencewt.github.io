@@ -4,13 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>opencv函数系列---漫水填充floodfill | Silence 婷婷 Blog</title>
+    <title>Hello World | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="一、floodFill思想
-　　所谓漫水填充，简单来说，就是自动选中了和种子点相连的区域，接着将该区域替换成指定的颜色，这是个非常有用的功能,经常用来标记或者分离图像的一部分进行处理或分析.漫水填充也可以用来从输入图像获取掩码区域,掩码会加速处理过程,或者只处理掩码指定的像素点。操作结果总是某个连续">
+    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in trobuleshooting or you can ask me on GitHub.">
     
     
     
@@ -121,15 +120,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/09/16/opencv函数系列-fillfood/" title="opencv函数系列---漫水填充floodfill" itemprop="url">opencv函数系列---漫水填充floodfill</a>
+      <a href="/2014/12/28/hello-world/" title="Hello World" itemprop="url">Hello World</a>
   </h1>
   <p class="article-author">By
     
-      <a href="http://yoursite.com" title="Wangt">Wangt</a>
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-09-16T13:55:27.000Z" itemprop="datePublished">9月 16 2014</time>
-    更新日期:<time datetime="2014-09-16T13:57:22.000Z" itemprop="dateModified">9月 16 2014</time>
+    <time datetime="2014-12-28T02:18:07.000Z" itemprop="datePublished">12月 28 2014</time>
+    更新日期:<time datetime="2014-09-12T14:17:00.000Z" itemprop="dateModified">9月 12 2014</time>
     
   </p>
 </header>
@@ -138,44 +137,39 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、floodFill思想"><span class="toc-number">1.</span> <span class="toc-text">一、floodFill思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、函数介绍"><span class="toc-number">2.</span> <span class="toc-text">二、函数介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、函数演示"><span class="toc-number">3.</span> <span class="toc-text">三、函数演示</span></a></li></ol>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
 		</div>
 		
-		<h3 id="一、floodFill思想">一、floodFill思想</h3>
-<p>　　所谓漫水填充，简单来说，就是自动选中了和种子点相连的区域，接着将该区域替换成指定的颜色，这是个非常有用的功能,经常用来标记或者分离图像的一部分进行处理或分析.漫水填充也可以用来从输入图像获取掩码区域,掩码会加速处理过程,或者只处理掩码指定的像素点。操作结果总是某个连续的区域。当邻近像素点位于给定的范围（从lodiff到updiff）内或在原始seedPoint像素值范围内是，floodFill将会为这个点涂上颜色。以此填充算法为基础，类似photoshop的魔术棒选择工具就很容易实现了。<br>　　漫水填充（FloodFill）是查找和种子点联通的颜色相同的点，魔术棒选择工具则是查找和种子点联通的颜色相近的点，将和初始种子像素颜色相近的点压进栈作为新种子。<br>　　泛红填充实现最常见有四邻域像素填充法，八邻域像素填充法，基于扫描线的像素填充方法。根据实现又可以分为递归与非递归（基于栈）。</p>
-<h3 id="二、函数介绍">二、函数介绍</h3>
-<p>　　</p>
-<pre><code>floodFill ( InputOutputArray image,   <span class="comment">//输入/输出1通道或3通道，8位或浮点图像，具体参数由之后的参数具体指明InputOutputArray mask,     </span>
-     Point seedPoint,                <span class="comment">//漫水填充算法的起始点</span>
-     Scalar newVal,                   <span class="comment">//像素点被染色的值，即在重绘区域像素的新值</span>
-     Scalar loDiff=Scalar(), 
-     Scalar upDiff=Scalar(), 
-     CvConnectedComp*  comp = <span class="keyword">NULL</span>
-     <span class="keyword">int</span> flags=<span class="number">4</span> )
-</code></pre><p>　　mask：表示操作掩模,（控制被填充的区域）。它应该为单通道、8位、长和宽上都比输入图像 image 大2个像素点的图像（是内部运算简单快速）。floodFill需要使用以及更新掩膜。需要注意的是，漫水填充不会填充掩膜mask的非零像素区域。例如，一个边缘检测算子的输出可以用来作为掩膜，以防止填充到边缘。同样的，也可以在多次的函数调用中使用同一个掩膜，以保证填充的区域不会重叠。另外需要注意的是，掩膜mask会比需填充的图像大，所以mask中与输入图像(x,y)像素点相对应的点的坐标为(x+1,y+1)。<br>　　<br>　　lodiff、updiff：表示当前观察像素值与其部件邻域像素值或者待加入该部件的种子像素之间的亮度或颜色之负差（lower brightness/color difference）或正差的最大值。 如果一个像素点的值不低于被染色的相邻点减去lodiff且不高于其加上updiff，那么该像素点就会被染色。如果flags参数包含FLOODFILL_FIXED_RANGE 这时每个像素点都将于种子点而不是相邻点比较。可以理解成阈值范围，在这个范围里的像素都会被染色。<br>　　<br>　　flags：低8位（第0~7位）用于控制算法的连通性，可取4 (4为缺省值) 或者 8。如果设为4，表示填充算法只考虑当前像素水平方向和垂直方向的相邻点；如果设为 8，除上述相邻点外，还会包含对角线方向的相邻点。高8位部分（16~23位）可以为0 或者如下两种选项标识符的组合：<br>　　（1） FLOODFILL_FIXED_RANGE－如果设置为这个标识符的话，就会考虑当前像素与种子像素之间的差，否则就考虑当前像素与其相邻像素的差。也就是说，这个范围是浮动的。<br>　　（2）FLOODFILL_MASK_ONLY－如果设置为这个标识符的话，函数不会去填充改变原始图像 (也就是忽略第三个参数newVal),而是去填充掩模图像（mask）。中间8位部分，上面关于高八位FLOODFILL_MASK_ONLY标识符中已经说的很明显，需要输入符合要求的掩码。Floodfill的flags参数的中间八位的值就是用于指定填充掩码图像的值的。但如果flags中间八位的值为0，则掩码会用1来填充。<br>　　而所有flags可以用or操作符连接起来，即“|”。例如，如果想用8邻域填充，并填充固定像素值范围，填充掩码而不是填充源图像，以及设填充值为47，那么输入的参数是这样：</p>
-<pre><code><span class="attribute">flags</span>=<span class="string">8 | FLOODFILL_MASK_ONLY | FLOODFILL_FIXED_RANGE | （47&lt;&lt;8）</span>
-</code></pre><h3 id="三、函数演示">三、函数演示</h3>
-<p>待写ing……</p>
+		<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<a id="more"></a>
+
+<h2 id="Quick_Start">Quick Start</h2>
+<h3 id="Create_a_new_post">Create a new post</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run_server">Run server</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate_static_files">Generate static files</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+
+<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/opencv/">opencv</a>
-  </div>
-
-
-<div class="article-categories">
-  <span></span>
-  <a class="article-category-link" href="/categories/opencv/">opencv</a>
-</div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/09/16/opencv函数系列-fillfood/" data-title="opencv函数系列---漫水填充floodfill | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2014/12/28/hello-world/" data-title="Hello World | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -185,18 +179,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/10/26/为什么想做测试之我的测试开端/" title="为什么想做测试之我的测试开端">
+ <a href="/2014/12/28/测试之美有感/" title="测试之美有感">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  为什么想做测试之我的测试开端</span>
+  测试之美有感</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/09/16/小强升职记/"  title="时间管理--小强升职记">
+<a href="/2014/12/28/opencv函数系列-fillfood/"  title="opencv函数系列---漫水填充floodfill">
  <strong>NEXT:</strong><br/> 
- <span>时间管理--小强升职记
+ <span>opencv函数系列---漫水填充floodfill
 </span>
 </a>
 </div>
@@ -213,7 +207,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、floodFill思想"><span class="toc-number">1.</span> <span class="toc-text">一、floodFill思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、函数介绍"><span class="toc-number">2.</span> <span class="toc-text">二、函数介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、函数演示"><span class="toc-number">3.</span> <span class="toc-text">三、函数演示</span></a></li></ol>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick_Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create_a_new_post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run_server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate_static_files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy_to_remote_sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
   </div>
 
 <div id="asidepart">
@@ -289,7 +283,7 @@
   
   <div class="archiveslist">
     <p class="asidetitle"><a href="/archives">归档</a></p>
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">17</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">6</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">21</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
   </div>
 
 
@@ -340,7 +334,7 @@
 	</div>
 		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
 		
-		<a href="http://yoursite.com" target="_blank" title="Wangt">Wangt</a>
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
 		
 		</p>
 </div>
