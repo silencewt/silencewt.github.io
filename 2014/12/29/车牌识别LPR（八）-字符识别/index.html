@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>设计模式---设计原则 | Silence 婷婷 Blog</title>
+    <title>车牌识别LPR（八）-- 字符识别 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。　　1）单一职责原则
-　　问题由来：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2">
+    <meta name="description" content="​第八篇：字符识别
+　　车牌定位、车牌倾斜校正、车牌字符分割都是为车牌字符识别做的前提工作，这些前提工作直接关系到车牌识别系统的性能。车牌字符识别是车牌识别系统的核心部分，车牌字符识别的准确率是衡量车牌识别系统的一个很重要的指标。
+　　一般字符识别的方法就是采用模式识别方法，简单的来说模式识别就是先">
     
     
     
@@ -121,15 +122,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/25/设计模式-设计原则/" title="设计模式---设计原则" itemprop="url">设计模式---设计原则</a>
+      <a href="/2014/12/29/车牌识别LPR（八）-字符识别/" title="车牌识别LPR（八）-- 字符识别" itemprop="url">车牌识别LPR（八）-- 字符识别</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-12-25T09:42:49.000Z" itemprop="datePublished">12月 25 2014</time>
-    更新日期:<time datetime="2014-12-28T02:28:58.000Z" itemprop="dateModified">12月 28 2014</time>
+    <time datetime="2014-12-29T08:35:10.000Z" itemprop="datePublished">12月 29 2014</time>
+    更新日期:<time datetime="2014-12-29T08:43:04.000Z" itemprop="dateModified">12月 29 2014</time>
     
   </p>
 </header>
@@ -138,58 +139,59 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符识别步骤："><span class="toc-number">1.</span> <span class="toc-text">字符识别步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、归一化"><span class="toc-number">1.1.</span> <span class="toc-text">1、归一化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、特征"><span class="toc-number">1.2.</span> <span class="toc-text">2、特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、分类器"><span class="toc-number">1.3.</span> <span class="toc-text">3、分类器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、二次识别"><span class="toc-number">1.4.</span> <span class="toc-text">4、二次识别</span></a></li></ol></li></ol>
 		</div>
 		
-		<p>　　设计模式是一种设计思想，一种解决方案，能够做到代码的可复用性。这段时间利用空余的时间，在复习java的同时，学习设计模式。记录过程的一点体会。<br>　　<br>1）<strong>单一职责原则</strong></p>
-<p>　　<em>问题由来</em>：类T负责两个不同的职责：职责P1，职责P2。当由于职责P1需求发生改变而需要修改类T时，有可能会导致原本运行正常的职责P2功能发生故障。</p>
-<p>　　<em>解决方案</em>：遵循单一职责原则。分别建立两个类T1、T2，使T1完成职责P1功能，T2完成职责P2功能。这样，当修改类T1时，不会使职责P2发生故障风险；同理，当修改T2时，也不会使职责P1发生故障风险。</p>
-<p>　　如果一个类具有很多不同的功能，比如超人拥有很多的技能，当我们想对其中一种技能进行修改或者升级的时候就不得不停止超人其他的功能，而这期间如果有事情发生，超人是无法提供帮助的，那么是否可以让超人简单点呢？在维护世界和平的时候，也能够帮助人们除草呢？</p>
-<p>　　这就是单一职责——对于一个类，应该只有一个引起她变化的原因。实际上，往往会碰到职责分块的问题，会遇到将职责A划分为职责A1和A2，这时就需要重新设计类，尽量降低类的复杂度，提高类的可读性。</p>
-<p><em>遵循单一职责原的优点有</em>：</p>
-<p>（1）可以降低类的复杂度，一个类只负责一项职责，其逻辑肯定要比负责多项职责简单的多；</p>
-<p>（2）提高类的可读性，提高系统的可维护性；</p>
-<p>（3）变更引起的风险降低，变更是必然的，如果单一职责原则遵守的好，当修改一个功能时，可以显著降低对其他功能的影响。</p>
-<p>2）<strong>里氏代换原则</strong></p>
-<p>　　<em>问题由来</em>：有一功能P1，由类A完成。现需要将功能P1进行扩展，扩展后的功能为P，其中P由原有功能P1与新功能P2组成。新功能P由类A的子类B来完成，则子类B在完成新功能P2的同时，有可能会导致原有功能P1发生故障。</p>
-<p>　　<em>解决方案</em>：当使用继承时，遵循里氏替换原则。类B继承类A时，除添加新的方法完成新增功能P2外，尽量不要重写父类A的方法，也尽量不要重载父类A的方法。</p>
-<p>　　反映父类和子类的关系。B类继承A类，属于B的对象就具有A类的全部属性和方法。里氏代换的原则就是：子类型必须能够完全替换掉他们的父类型。即子类可以以父类的身份出现，并且不影响程序的功能时父类才能真正得到复用。所有引用基类的地方必须能透明地使用其子类的对象。通俗的来讲就是：子类可以扩展父类的功能，但不能改变父类原有的功能。</p>
-<p>3）<strong>开放-封闭原则</strong></p>
-<p>　　<em>问题由来</em>：在软件的生命周期内，因为变化、升级和维护等原因需要对软件原有代码进行修改时，可能会给旧代码中引入错误，也可能会使我们不得不对整个功能进行重构，并且需要原有代码经过重新测试。</p>
-<p>　　<em>解决方案</em>：当软件需要变化时，尽量通过扩展软件实体的行为来实现变化，而不是通过修改已有的代码来实现变化。</p>
-<p>　　在面向对象编程时，如果要实现一个新的功能，添加一个新类来完成往往要比修改现有的类更加方便和安全。封装变化，降低耦合。OCP的原则是：程序的实体对象（模块、类、函数）应该可以进行扩张，但不应该可以修改。对于扩展是开放的，对于修改是封闭的。绝对的封闭很难做到，那么在面对需求变化时，设计人员就应该对自己设计的模块决定选择哪种变化封闭，保证无需对原码进行修改。</p>
-<p>　　具体的实现就是<code>面向抽象编程</code>，继承抽象父类，通过重写其方法来改变固有行为，从实现新的扩展方法。</p>
-<p>4）<strong>依赖倒转原则</strong></p>
-<p>　　<em>问题由来</em>：类A直接依赖类B，假如要将类A改为依赖类C，则必须通过修改类A的代码来达成。这种场景下，类A一般是高层模块，负责复杂的业务逻辑；类B和类C是低层模块，负责基本的原子操作；假如修改类A，会给程序带来不必要的风险。</p>
-<p> 　　<em>解决方案</em>：将类A修改为依赖接口I，类B和类C各自实现接口I，类A通过接口I间接与类B或者类C发生联系，则会大大降低修改类A的几率。</p>
-<p>　　定义：高层模块不应该依赖低层模块，二者都应该依赖其抽象；抽象不应该依赖细节；细节应该依赖抽象。核心思想是面向接口编程。</p>
-<p>　　程序的高层模块不应该依赖于低层模块，但两者都应依赖于抽象：抽象不应该依赖于具体细节，而细节应该依赖于抽象，简而言之就是针对接口编程，不应该是针对实现编程。即通过抽象（接口或抽象类）是各个类或模块的实现彼此独立，不互相影响。程序的依赖关系终止于接口或抽象。</p>
-<p>5）<strong>合成聚合复用原则</strong></p>
-<p>　　尽量不使用类继承，而尽量使用合成/聚合。聚合是一种比较弱的拥有关系，具体表现是甲对象中可以包括乙对象，但乙对象不是甲对象的一部分；合成则是一种比较强的拥有关系，体现的是严格整体和部分的关系，并且整体和部分有相同的生命周期。如果两个类的关系是Has-a，则不应该设计成继承。这个原则有一个去缺点，就是系统中会有很多对象需要管理。</p>
-<p>6）<strong>迪米特法则</strong></p>
-<p>　　也叫做最少知识原则，一个对象尽可能少的了解其他对象，不和陌生人说话。每个类要尽可能的减少对其他类的依赖，不希望类之间建立直接的接触，如果需要接触则希望通过友元类（第三方）来传达（转发调用），这样会导致系统中存在大量的友元类。</p>
-<p>　　<em>问题由来</em>：类与类之间的关系越密切，耦合度越大，当一个类发生改变时，对另一个类的影响也越大。</p>
-<p>　　<em>解决方案</em>：尽量降低类与类之间的耦合。</p>
+		<p>​第八篇：字符识别</p>
+<p>　　车牌定位、车牌倾斜校正、车牌字符分割都是为车牌字符识别做的前提工作，这些前提工作直接关系到车牌识别系统的性能。车牌字符识别是车牌识别系统的核心部分，车牌字符识别的准确率是衡量车牌识别系统的一个很重要的指标。</p>
+<p>　　一般字符识别的方法就是采用模式识别方法，简单的来说模式识别就是先通过提取输入模板的特征，然后通过模板的特征对样本进行分类，从而识别出样本。模式识别主要包括：数据采集、预处理、特征提取、特征匹配，其结构框架如图：</p>
+<p>　　字符识别是模式识别的一个重要应用，首先提取待识别字符的特征；然后对提取出来的特征跟字符模板的特征匹配；最后根据准则判定该字符所属的类别。不同的训练方法，不同的特征提取， 不同的匹配规则，就相应的有不同的字符识别方法，基本上很多就是在这些地方做改进，或者是采用新的规则。但是万变不离其宗。</p>
+<p><strong>（1）模板匹配字符识别算法</strong></p>
+<p>　　模板匹配字符识别算法是图像识别中的经典算法之一，该算法的核心思想是：通过比较待识别字符图像的字符特征和标准模板的字符特征，计算两者之间的相似性，相似性最大的标准模板的字符即为待识别的字符。该方法首先要建立标准模板库，其中标准模板库中的字符的大小是一样的；然后将待识别的字符规格化，其大小应该和模板库中的字符一样；最后将待识别的字符和标准模板库中的所有字符进行匹配，计算相似度。模板匹配字符识别算法适用于印刷字体、字体规范的字符等，但是对字符变形、弯曲、字符旋转等情况的抗干扰能力差。</p>
+<p><strong>（2）神经网络字符识别算法</strong></p>
+<p>　　主要思想是：通过神经网络学习大量字符样本，从而得到字符的样本特征。当对待识别的字符进行识别时，神经网络就会将待识别字符的特征和之前得到的样本特征匹配，从而识别出字符。该算法主要利用神经网络的学习和记忆功能。神经网络虽然有其优点，但是由于采用神经网络识别字符依赖于初始的样本的选择，并且容易陷入局部最优和收敛速度慢，因此采用神经网络识别字符的算法仍需要改进。</p>
+<p><strong>（3）支持向量机</strong></p>
+<p>　　主要思想：同上，都是先得到样本特征，进行训练，然后再分类。SVM应该算是用的的最多的分类方法，一般大多适合于二分类问题，在这里就需要使用多分类器来构造。</p>
+<h3 id="字符识别步骤："><strong>字符识别步骤：</strong></h3>
+<h4 id="1、归一化">1、归一化</h4>
+<p>　　主要包括位置归一化和大小归一化。由于本文处理的车牌字符都是标准的印刷体字符，且都进行过倾斜校正，所以不需要对其进行位置归一化。但由于摄像距离大小不一样，导致拍摄到的车辆图像中的车牌字符大小不一，为了达到更好的识别效果，就需要对分割出来的单个车牌字符进行大小归一化。常用的归一化方法有两种：一种是将字符图像的外边框按比例线性放大或缩小到规定尺寸；另一种是根据水平和垂直两个方向像素的分布进行大小归一化。一般用第一种。当映射到原图像的点的坐标不是整数，即位于几个像素之间，这就需要利用插值算法来决定该像素的值。使用常见的双线性插值法。将图像归一化为32*64的。</p>
+<h4 id="2、特征">2、特征</h4>
+<p>　　根据上一篇的介绍，采用LBP特征来识别汉字，均匀网格特征来识别字母和数字。</p>
+<h4 id="3、分类器">3、分类器</h4>
+<p>　　SVM作为分类器。支持向量机的原理，其所涉及到的数学知识比较复杂，自己编程实现的话有一定难度。采用现成的支持 SVM 的工具箱，公认做的比较好的是台湾大学林智仁(Chih-Jen Lin)教授开发的 LibSVM，支持 SVM 的各种算法，可以解决回归和分类识别问题。LibSVM 不但提供了 Windows 系统的可执行文件，还提供了 C 语言的源代码，方便科研工作者根据自己的需要进行改进，而且还提供了Java、Matlab、C#、Ruthon 等语言的接口。当然可以直接调用opencv中的SVM工具。 </p>
+<p>　　汉字的笔画很稠密，字符分辨率非常低:如果对车牌汉字字符进行二值化，将会丢失汉字的很多重要的结构信息，产生不必要的噪声，导致笔画断裂和笔画粘连等。</p>
+<h4 id="4、二次识别">4、二次识别</h4>
+<p>　　总的来说，单个字符的识别率比较高，容易识别错的主要是相近字符，解决这类问题的最佳办法就是二次识别。将相似字符中的一个识别出来后，便能确定其属于哪一类相近字符类别,利用区分相近字符的细节特征，将这个字符到专门识别这类相近字符的分类器中进行二次识别。车牌字符中相近字符主要有5类，分为为“0”、“D”、“Q”，“B”、“8”，“2”、”Z”，“5”、”S”和“A”、“4”。</p>
+<p>　　(1) “0”、“D、“Q”</p>
+<p>　　从字符图像中可以看出,它们的区分在左侧和右下角，其中“D”的左边为直线，黑色像素点较多，而“0”和“Q”的左边均为弧线,黑色像素点相对较少；字符“Q”的右下角的笔画丰富，黑色像素较多。具体局部特征如图：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.1.png" alt="0dq"></p>
+<p> 　　(2)“B、8“</p>
+<p>　　它们的区别在字符的左侧,“8”的左侧为弧线,而“B”的左侧为直线。具体局部<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.2.png" alt="b8"></p>
+<p>　　(3) “2、Z”</p>
+<p>　　它们的区别在字符的上方，“2”的上方为弧线，“Z”的上方为直线，具体局部特征。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.3.png" alt="2z"></p>
+<p>　　(4)“5、S”</p>
+<p>　　它们的区别在字符的上半部分，“5”的上半部分中，上方和左侧均为直线,而”S”的上半部分为弧线。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.4.png" alt="5s"></p>
+<p> 　　(5)“A、4”</p>
+<p>　　由于存在倾斜等情况,仅仅通过基本特征会出现误识别,它们的区别在左下角。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.5.png" alt="a4"></p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Design-pattern/">Design pattern</a><a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/LPR/">LPR</a><a href="/tags/lab/">lab</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/12/25/设计模式-设计原则/" data-title="设计模式---设计原则 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2014/12/29/车牌识别LPR（八）-字符识别/" data-title="车牌识别LPR（八）-- 字符识别 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -198,19 +200,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/25/设计模式-工厂模式/" title="设计模式---工厂模式">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  设计模式---工厂模式</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/25/JUnit单元测试-小试牛刀/"  title="JUnit单元测试--小试牛刀">
+<a href="/2014/12/29/车牌识别LPR（七）-字符特征/"  title="车牌识别LPR（七）-- 字符特征">
  <strong>NEXT:</strong><br/> 
- <span>JUnit单元测试--小试牛刀
+ <span>车牌识别LPR（七）-- 字符特征
 </span>
 </a>
 </div>
@@ -227,7 +221,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#字符识别步骤："><span class="toc-number">1.</span> <span class="toc-text">字符识别步骤：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、归一化"><span class="toc-number">1.1.</span> <span class="toc-text">1、归一化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、特征"><span class="toc-number">1.2.</span> <span class="toc-text">2、特征</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3、分类器"><span class="toc-number">1.3.</span> <span class="toc-text">3、分类器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4、二次识别"><span class="toc-number">1.4.</span> <span class="toc-text">4、二次识别</span></a></li></ol></li></ol>
   </div>
 
 <div id="asidepart">
