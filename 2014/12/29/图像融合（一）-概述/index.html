@@ -1,0 +1,488 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>图像融合（一）-- 概述 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="这是2014年第二部分的内容。关于三光检测融合的一些资料整理，部分内容由于保密原因没有写出来，这里整理的内容都是网上或者文章里可以看到的。
+一、概述
+　　图像融合是图像处理中重要部分，能够协同利用同一场景的多种传感器图像信息，输出一幅更适合于人类视觉感知或计算机进一步处理与分析的融合图像。它可明显的">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/29/图像融合（一）-概述/" title="图像融合（一）-- 概述" itemprop="url">图像融合（一）-- 概述</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-29T12:28:00.000Z" itemprop="datePublished">12月 29 2014</time>
+    更新日期:<time datetime="2014-12-29T12:33:59.000Z" itemprop="dateModified">12月 29 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、概述"><span class="toc-number">1.</span> <span class="toc-text">一、概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1、信号级"><span class="toc-number">1.1.</span> <span class="toc-text">1.1、信号级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2、像素级"><span class="toc-number">1.2.</span> <span class="toc-text">1.2、像素级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3、特征级"><span class="toc-number">1.3.</span> <span class="toc-text">1.3、特征级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4、决策级"><span class="toc-number">1.4.</span> <span class="toc-text">1.4、决策级</span></a></li></ol></li></ol>
+		</div>
+		
+		<p>　　这是2014年第二部分的内容。关于三光检测融合的一些资料整理，部分内容由于保密原因没有写出来，这里整理的内容都是网上或者文章里可以看到的。</p>
+<h3 id="一、概述">一、概述</h3>
+<p>　　图像融合是图像处理中重要部分，能够协同利用同一场景的多种传感器图像信息，输出一幅更适合于人类视觉感知或计算机进一步处理与分析的融合图像。它可明显的改善单一传感器的不足，提高结果图像的清晰度及信息包含量，有利于更为准确、更为可靠、更为全面地获取目标或场景的信息。</p>
+<p>　　图像融合主要应用于军事国防上、遥感方面、医学图像处理、机器人、安全和监控、生物监测等领域。用于较多也较成熟的是红外和可见光的融合，在一副图像上显示多种信息，突出目标。</p>
+<p>　　融合过程可以在不同的层次上进行，可分为：信号级、像素级、特征级，决策级。</p>
+<h4 id="1-1、信号级">1.1、信号级</h4>
+<p>　　在最低层对未经处理的传感器输出在信号域进行混合，产生一个融合后的信号。融合后的信号与源信号形式相同但品质更好，来自传感器的信号可建模为混有不同相关噪声的随机变量。此种情况下，融合可以考虑为一种估计过程，信号级图像融合在很大程度上是信号的最优集中或分布检测问题，对信号时间和空间上的配准要求最高。</p>
+<h4 id="1-2、像素级">1.2、像素级</h4>
+<p>　　像素级图像融合是三个层次中最基本的融合，经过像素级图像融合以后得到的图像具有更多的细节信息，如边缘、纹理的提取，有利于图像的进一步分析、处理与理解，还能够把潜在的目标暴露出来，利于判断识别潜在的目标像素点的操作，这种方法才可以尽可能多的保存源图像中的信息，使得融合后的图片不论是内容还是细节都有所增加，这个优点是独一无二的，仅存在于像素级融合中。但像素级图像融合的局限性也是不能忽视的，由于它是对像素点进行操作，所以计算机就要对大量的数据进行处理，处理时所消耗的时间会比较长，就不能够及时地将融合后图像显示出来，无法实现实时处理；另外在进行数据通信时，信息量较大，容易受到噪声的影响；还有如果没有将图片进行严格的配准就直接参加图像融合，会导致融合后的图像模糊，目标和细节不清楚、不精确。</p>
+<h4 id="1-3、特征级">1.3、特征级</h4>
+<p>　　特征级图像融合是从源图像中将特征信息提取出来，这些特征信息是观察者对源图像中目标或感兴趣的区域，如边缘、人物、建筑或车辆等信息，然后对这些特征信息进行分析、处理与整合从而得到融合后的图像特征。对融合后的特征进行目标识别的精确度明显的高于原始图像的精确度。特征级融合对图像信息进行了压缩，再用计算机分析与处理，所消耗的内存与时间与像素级相比都会减少，所需图像的实时性就会有所提高。特征级图像融合对图像匹配的精确度的要求没有第一层那么高，计算速度也比第一层快，可是它提取图像特征作为融合信息，所以会丢掉很多的细节性特征。</p>
+<h4 id="1-4、决策级">1.4、决策级</h4>
+<p>　　决策级图像融合是以认知为基础的方法，它不仅是最高层次的图像融合方法，抽象等级也是最高的。决策级图像融合是有针对性的，根据所提问题的具体要求，将来自特征级图像所得到的特征信息加以利用，然后根据一定的准则以及每个决策的可信度（目标存在的概率）直接作出最优决策。三个融合层级中，决策级图像融合的计算量是最小的，可是这种方法对前一个层级有很强的依赖性，得到的图像与前两种融合方法相比不是很清晰。将决策级图像融合实现起来比较困难，但图像传输时噪声对它的影响最小。</p>
+<p>　　综合以上，<strong>研究和应用最多的是像数级图像融合</strong>，目前提出的绝大多数的图像融合算法均属于该层次上的融合。图像融合狭义上指的就是像数级图像融合。本文研究的也正是像素级图像融合算法。</p>
+<p>　　<strong>红外和可见的融合很多文献都是从像素级入手，基于已有的融合算法，根据实际情况，来设立融合规则，得到适合实际应用场景的融合图像。</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/图像融合/">图像融合</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2014/12/29/图像融合（一）-概述/" data-title="图像融合（一）-- 概述 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/30/车牌识别LPR系统系列文章汇总/" title="车牌识别LPR系统系列文章汇总">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  车牌识别LPR系统系列文章汇总</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/29/车牌识别LPR（八）-字符识别/"  title="车牌识别LPR（八）-- 字符识别">
+ <strong>NEXT:</strong><br/> 
+ <span>车牌识别LPR（八）-- 字符识别
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、概述"><span class="toc-number">1.</span> <span class="toc-text">一、概述</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1、信号级"><span class="toc-number">1.1.</span> <span class="toc-text">1.1、信号级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2、像素级"><span class="toc-number">1.2.</span> <span class="toc-text">1.2、像素级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3、特征级"><span class="toc-number">1.3.</span> <span class="toc-text">1.3、特征级</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4、决策级"><span class="toc-number">1.4.</span> <span class="toc-text">1.4、决策级</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>15</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>6</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>2</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>15</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软件测试/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>7</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>

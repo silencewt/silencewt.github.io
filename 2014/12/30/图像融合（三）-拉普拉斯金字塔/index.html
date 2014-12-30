@@ -1,0 +1,503 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>图像融合（三）-- 拉普拉斯金字塔 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="2、拉普拉斯金字塔融合
+　　图像金字塔方法的原理是：将参加融合的的每幅图像分解为多尺度的金字塔图像序列，将低分辨率的图像在上层，高分辨率的图像在下层，上层图像的大小为前一层图像大小的1/4。层数为0,1,2……N。将所有图像的金字塔在相应层上以一定的规则融合，就可得到合成金字塔，再将该合成金字塔按照">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/12/30/图像融合（三）-拉普拉斯金字塔/" title="图像融合（三）-- 拉普拉斯金字塔" itemprop="url">图像融合（三）-- 拉普拉斯金字塔</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2014-12-30T03:23:08.000Z" itemprop="datePublished">12月 30 2014</time>
+    更新日期:<time datetime="2014-12-30T04:56:53.000Z" itemprop="dateModified">12月 30 2014</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2、拉普拉斯金字塔融合"><span class="toc-number">1.</span> <span class="toc-text">2、拉普拉斯金字塔融合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1、原理阐述"><span class="toc-number">1.1.</span> <span class="toc-text">2.1、原理阐述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#（1）高斯金字塔"><span class="toc-number">1.1.1.</span> <span class="toc-text">（1）高斯金字塔</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（2）拉普拉斯金字塔"><span class="toc-number">1.1.2.</span> <span class="toc-text">（2）拉普拉斯金字塔</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（3）重构"><span class="toc-number">1.1.3.</span> <span class="toc-text">（3）重构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2、融合应用"><span class="toc-number">1.2.</span> <span class="toc-text">2.2、融合应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#（1）顶层处理"><span class="toc-number">1.2.1.</span> <span class="toc-text">（1）顶层处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（2）各层次处理"><span class="toc-number">1.2.2.</span> <span class="toc-text">（2）各层次处理</span></a></li></ol></li></ol></li></ol>
+		</div>
+		
+		<h3 id="2、拉普拉斯金字塔融合">2、拉普拉斯金字塔融合</h3>
+<p>　　图像金字塔方法的原理是：将参加融合的的每幅图像分解为多尺度的金字塔图像序列，将低分辨率的图像在上层，高分辨率的图像在下层，上层图像的大小为前一层图像大小的1/4。层数为0,1,2……N。将所有图像的金字塔在相应层上以一定的规则融合，就可得到合成金字塔，再将该合成金字塔按照金字塔生成的逆过程进行重构，得到融合金字塔。这个总的思路就是一下所有基于金字塔融合的算法过程，不同点就在于分解构造的金字塔不同，每层的融合规则不一样，重构的方法不同而已。金字塔方法最先实现了这种思想，之后小波方法进一步完善和发展了这种多尺度融和的思想。</p>
+<h4 id="2-1、原理阐述">2.1、原理阐述</h4>
+<h5 id="（1）高斯金字塔"><strong>（1）高斯金字塔</strong></h5>
+<p>　　高斯金字塔是最基本的图像塔。首先将原图像作为最底层图像G0（高斯金字塔的第0层），利用高斯核（5*5）对其进行卷积，然后对卷积后的图像进行下采样（去除偶数行和列）得到上一层图像G1，将此图像作为输入，重复卷积和下采样操作得到更上一层图像，反复迭代多次，形成一个金字塔形的图像数据结构，即高斯金字塔。</p>
+<p>高斯金字塔的构建过程为：假设高斯金字塔的第L层图像为Gl：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.1.jpg" alt="Laplacian1"></p>
+<p>式中N为高斯金字塔顶层层号，Rl和Cl分别为高斯金字塔第l层的行数和列数W（m，n）是一个二维可分离的5*5窗口函数，表达式为：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.2.jpg" alt="Laplace2"></p>
+<p>　　由G0，G1，，，GN，就构成了一个高斯金字塔，其中G0为高斯金字塔的底层（与原图像相同）GN为金字塔的顶层。由此可见高斯金字塔的当前层图像就是对其前一层图像首先进行高斯低通滤波，然后再进行隔行和隔列的降2采样而生成的。前一层图像大小依次为当前层图像大小的4倍。</p>
+<p>　　Opencv中使用pyrdown函数就可以获得高斯金字塔。</p>
+<h5 id="（2）拉普拉斯金字塔"><strong>（2）拉普拉斯金字塔</strong></h5>
+<p>　　在高斯金字塔的运算过程中，图像经过卷积和下采样操作会丢失部分高频细节信息。为描述这些高频信息，人们定义了拉普拉斯金字塔(Laplacian Pyramid， LP)。用高斯金字塔的每一层图像减去其上一层图像上采样并高斯卷积之后的预测图像，得到一系列的差值图像即为 LP 分解图像。</p>
+<p>　　将Gl内插方法得到放大图像<em>Gl，使</em>Gl的尺寸与*Gl-1的尺寸相同，即放大算子Expand<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.3.jpg" alt="Laplace3"></p>
+<p>　　该式子实现两个步骤：在偶数行和列插入0，然后使用下采样中的高斯核进行滤波处理，得到和l-1层一样大小的图像。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.4.jpg" alt="Laplace4"></p>
+<p>　　N为拉普拉斯金字塔顶层的层号LPl是拉普拉斯金字塔分解的第L层图像。由LP0，LP1、LP2…LPN构成的金字塔即为拉普拉斯金字塔。它的每一层L0图像是高斯金字塔本层G0图像与其高一层图像G1经内插放大后图像*G1的差，此过程相当于带通滤波，因此拉普拉斯金字塔又称为带通金字塔分解。</p>
+<p>　　内插方法：opencv中有实现的函数pyrup。可以得到*G1。然后在两个函数作差，相减就可以得到拉普拉斯金字塔。</p>
+<p>　　求得每个图像的拉普拉斯金字塔后需要对相应层次的图像进行融合，具体的融合规则有，取大、取小，等等。</p>
+<h5 id="（3）重构"><strong>（3）重构</strong></h5>
+<p>　　对融合后的拉普拉斯金字塔，从其顶层开始逐层从上至下按下式进行递推，可以恢复其对应的高斯金字塔，并最终可得到原图像G0。就是从最高层开始使用内插的方法。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.5.jpg" alt="Laplace5"></p>
+<h4 id="2-2、融合应用">2.2、融合应用</h4>
+<p>　　图像拉普拉斯金字塔分解的目的是将源图像分别分解到不同的空间频带上，融合过程是在各空间频率层上分别进行的，这样就可以针对不同分解层的不同频带上的特征与细节，采用不同的融合算子以达到突出特定频带上特征与细节的目的。即有可能将来自不同图像的特征与细节融合在一起。</p>
+<h5 id="（1）顶层处理"><strong>（1）顶层处理</strong></h5>
+<p>　　设LAl和LBl分别为源图像A,B经过拉普拉斯金字塔分解后得到的第l层图像，融合后的结果为LFl。当l=N时，LAN和LBN分别为源图像A，B经过拉普拉斯金字塔分解后得到的顶层图像。对于顶层图像的融合，首先计算以其各个像素为中心的区域大小为M*N(M、N取奇数且M &gt;= 3、N &gt;= 3)的区域平均梯度：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.6.jpg" alt="Laplace6"></p>
+<p>其中，Ix与Iy分别为像素f(x,y)在x与y方向上的一阶差分，定义如下：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.7.jpg" alt="Laplace7"></p>
+<p>　　因此对于顶层图像中的每一个像素LAN(i, j)和LBN(i, j)都可以得到与之相对应的区域平均梯度GA(i, j)和GB(i, j)。由于平均梯度反映了图像中的微小细节反差和纹理变化特征，同时也反映出图像的清晰度。一般来说平均梯度越大，图像层次也丰富，则图像越清晰。因此顶层图像的融合结果为：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.8.jpg" alt="Laplace8"></p>
+<h5 id="（2）各层次处理"><strong>（2）各层次处理</strong></h5>
+<p>　　当0小于i小于N时，则对于经过拉普拉斯金字塔分解的第l层图像，首先计算其区域能量：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.9.jpg" alt="Laplace9"></p>
+<p>则其他层次图像的融合结果为：</p>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-lp1.10.jpg" alt="Laplace410"></p>
+<p>在得到金字塔各个层次的融合图像LF1、LF2、LFN后。通过前面的重构，便可得到最终的融合图像。</p>
+<p>　　第二种融合规则：</p>
+<p>　　采用最高层系数取平均，其余各层系数绝对值取大的融合策略进行融合。融合后图像的系数（灰度值）越接近较清晰图像的灰度值就说明融合效果好。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/图像融合/">图像融合</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2014/12/30/图像融合（三）-拉普拉斯金字塔/" data-title="图像融合（三）-- 拉普拉斯金字塔 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/12/30/图像融合（四）-对比度金字塔/" title="图像融合（四）-- 对比度金字塔">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  图像融合（四）-- 对比度金字塔</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2014/12/30/图像融合（一）-简单加权融合/"  title="图像融合（二）-- 简单加权融合">
+ <strong>NEXT:</strong><br/> 
+ <span>图像融合（二）-- 简单加权融合
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2、拉普拉斯金字塔融合"><span class="toc-number">1.</span> <span class="toc-text">2、拉普拉斯金字塔融合</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1、原理阐述"><span class="toc-number">1.1.</span> <span class="toc-text">2.1、原理阐述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#（1）高斯金字塔"><span class="toc-number">1.1.1.</span> <span class="toc-text">（1）高斯金字塔</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（2）拉普拉斯金字塔"><span class="toc-number">1.1.2.</span> <span class="toc-text">（2）拉普拉斯金字塔</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（3）重构"><span class="toc-number">1.1.3.</span> <span class="toc-text">（3）重构</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2、融合应用"><span class="toc-number">1.2.</span> <span class="toc-text">2.2、融合应用</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#（1）顶层处理"><span class="toc-number">1.2.1.</span> <span class="toc-text">（1）顶层处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#（2）各层次处理"><span class="toc-number">1.2.2.</span> <span class="toc-text">（2）各层次处理</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>15</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>6</sup></a></li>
+		
+			<li><a href="/tags/开始/" title="开始">开始<sup>1</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>2</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日记/" title="日记">日记<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>15</sup></a></li>
+		
+			<li><a href="/categories/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/categories/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志/" title="日志">日志<sup>1</sup></a></li>
+		
+			<li><a href="/categories/杂感/" title="杂感">杂感<sup>1</sup></a></li>
+		
+			<li><a href="/categories/软件测试/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>7</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2014 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+  </body>
+</html>
