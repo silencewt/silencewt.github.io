@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-01-09T07:08:22.812Z</updated>
+  <updated>2015-01-11T14:34:59.542Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -13,6 +13,426 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[maven小项目注册服务(一)--email和persist模块]]></title>
+    <link href="http://silencewt.github.io/2015/01/11/maven%E5%B0%8F%E9%A1%B9%E7%9B%AE%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1-%E4%B8%80-email%E5%92%8Cpersist%E6%A8%A1%E5%9D%97/"/>
+    <id>http://silencewt.github.io/2015/01/11/maven小项目注册服务-一-email和persist模块/</id>
+    <published>2015-01-11T01:32:06.000Z</published>
+    <updated>2015-01-11T01:38:29.000Z</updated>
+    <content type="html"><![CDATA[<p>跟着书里的讲解，跟着做了一遍该项目：</p>
+<p>首先明白注册账户的需求：</p>
+<p>　　账号的lD和Email地址都可以用来唯一地标识某个用户，而显示名称则用来显示在页面下，方便浏览。注册的时候用户还需要输入两次密码，以确保没有输错，系统则需要负责检查ID和email的唯一性，验证两次输入的密码是否一致，验证码是由系统随机生成的只能由肉眼识别其内容的图片，若输入正确的验证码信息，系统则会进行检查，如果验证码错误。系统会生成并返回新的验证码。所有检查都没问题了，系统就会生成一个激活链接，并发送到用户的邮箱。单击激活链接后，账户就被激活了，这时账户注册完成，用户可以进行登录。对于一个账户注册服务，还需要考虑一些安全因素，例如，需要在服务器端密文地保存密码，检查密码的强弱程度，更进一步则需要考虑验证码的失效时间，激活链接的失效时间等等。</p>
+<p><strong>需求用例</strong>：</p>
+<p><strong>主要场景</strong>：</p>
+<p>1、用户访问注册页面</p>
+<p>2、系统随机生成验证码图片</p>
+<p>3、用户输入ID、Email等注册信息</p>
+<p>4、输入验证码</p>
+<p>5、提交注册请求</p>
+<p>6、系统检查验证码、检查ID的唯一性，检查邮箱是否已被注册、密码和确认密码是否一致</p>
+<p>7、系统保存未激活的账户信息</p>
+<p>8、系统生成激活连接，发送给用户邮箱</p>
+<p>9、用户打开邮箱，访问激活链接</p>
+<p>10、系统解析激活连接，激活相关用户</p>
+<p>11、用户使用ID和密码登陆</p>
+<p><strong>扩展场景：</strong></p>
+<p>4a：用户无法看清验证码，请求重新生成    1、跳转到2</p>
+<p>6a：系统检测到用户输入的验证码有误        1、提示验证码有错，2、跳转到2</p>
+<p>6b：检测到 ID已被注册，邮箱，密码有误    1、提示错误信息，2、跳转到2</p>
+<p>从上面可以看出该服务有几个接口：生成验证码图片、处理注册请求、激活账户以及处理登陆请求。</p>
+<p><strong>接口结构：</strong></p>
+<p>acountService类：<br>generateCaptchaKey()<br>generateCaptchaImage(captchakey:string)<br>signUp(signUpRequest:SignUpRequest)：接收对象，进行验证。如果验证正确。则创建一个末被激活的账户，同时在后台也需要发送一封带有激活链接的邮件。<br>activate(activationNumber:string)：方法接收一个激活码，查找时应的账户进行激活<br>login(id:string,password:string)<br>signUpRequest：包含用户的注册信息，表单信息：id、Email、displayName、password、comfirmpassword、captchaKey、captchaValue。<br>generateCaptchaKey()的简单解释就是验证码，每个captcha都需要有一个key ,根据这个key ,系统才能得到对应的验证码图片以及实际值。因此，generateCaptchaImage会生成一个captchakey使用这个key再调用generateCaptchaImage方法就能得到验证码图片。验证码的key以及验证码图片被传送到客户端，用户通过肉眼识别再输人验证码的值，伴随着key再传送到服务器端验证，服务器端就可以通过这个key查到正确的验证码值，井与客户端传过来的值进行比对验证。</p>
+<p><strong>模块划分：</strong></p>
+<p>com.hust.silence.accout.service：系统的核心，它封装了所有下层细节，对外暴露简单的接日，这实际上是一个Facade模式。<br>com.hust.silence.accout.web：该模块包含所有与web相关的内容，包括jsp等，直接依赖于service模块<br>com.hust.silence.accout.persist：处理账户信息的持久化，包括增、删、改、查等，根据实现，可以基于数据库或者文件<br>com.hust.silence.accout.captcha：处理验证码的key生成、图片生成以及验证等<br>com.hust.silence.accout.email： 处理邮件服务的配置，激活邮件的编写和发送等</p>
+<p><strong>配置pom.xml</strong><br>加入需要的各种spring framework的模块，Greenmail是开源的邮件服务套件，Javax.mail为实现发送的一个类库。从上面的信息我们可以知道，该项目时是com.hust.silence的一个account项目，项目里有一个模块为account-email。</p>
+<hr>
+<h4 id="实现Email模块："><strong>实现Email模块</strong>：</h4>
+<p>account-email只有一个很简单的接口。</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccountEmailService</span> </span>{
+        <span class="keyword">void</span> sendMail(String to, String subject, String htmlText) <span class="keyword">throws</span> AccountEmailException;
+}
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountEmailServiceImpl</span> <span class="keyword">implements</span> <span class="title">AccountEmailService</span></span>{
+<span class="keyword">private</span> JavaMailSender javaMailSender;
+<span class="keyword">private</span> String systemEmail;
+
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMail</span>(String to, String subject, String htmlText)
+        <span class="keyword">throws</span> AccountEmailException {
+    <span class="comment">// TODO Auto-generated method stub</span>
+    <span class="keyword">try</span> {
+        MimeMessage msg = javaMailSender.createMimeMessage();
+        MimeMessageHelper msgHelper = <span class="keyword">new</span> MimeMessageHelper(msg);
+        msgHelper.setFrom(systemEmail);
+        msgHelper.setTo(to);
+        msgHelper.setSubject(subject);
+        msgHelper.setText(htmlText);
+        javaMailSender.send(msg);
+    } <span class="keyword">catch</span> (Exception e) {
+        <span class="comment">// TODO: handle exception</span>
+        <span class="keyword">throw</span> <span class="keyword">new</span> AccountEmailException(<span class="string">"fail to send mail"</span>,e);
+    }
+}
+<span class="comment">//实现依赖注入</span>
+<span class="keyword">public</span> JavaMailSender <span class="title">getJavaMailSender</span>(){
+    <span class="keyword">return</span> javaMailSender;
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setJavaMailSender</span>(JavaMailSender javaMailSender){
+    <span class="keyword">this</span>.javaMailSender = javaMailSender;
+}
+<span class="keyword">public</span> String <span class="title">getSystemEmail</span>(){
+    <span class="keyword">return</span> systemEmail;
+}
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSystememail</span>(String systemEmail){
+    <span class="keyword">this</span>.systemEmail = systemEmail;
+}
+}
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountEmailException</span> <span class="keyword">extends</span> <span class="title">Exception</span> </span>{
+<span class="javadoc">/**
+ *
+ */</span>
+<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">6514881539290222459</span>L;
+<span class="keyword">public</span> <span class="title">AccountEmailException</span>(String message) {
+    <span class="keyword">super</span>(message);
+}
+<span class="keyword">public</span> <span class="title">AccountEmailException</span>(String message, Throwable throwable){
+    <span class="keyword">super</span>(message, throwable);
+}
+}
+</code></pre><p><strong>配置文件</strong>：<br><strong>id=”propertyConfigurer”</strong>：这是springframework用来帮助载入properties文件的组件，代码中表示从classpath的根目录下载入名为account-email.properties文件中的属性。<br><strong>id=”javaMailSender”</strong>：定义邮件服务器的一些配置.包括协议、端口、主机，用户名、密码，是否需要认证等属性。这段配置还使用了propertyConfigurer的属性引用，比如host的值为$ { email.host }。之前定义的propertyConfigurer作用就在于此、可以将邮件服务器相关的配置分离到外部的properties文件中，比如可以定义这样一个properties文件。配置javaMailSender使用163：</p>
+<p>account-email.properties（在src/test/resources文件夹里）：<br>email.protocol=smtp<br>email.host=smtp.163.com<br>email.port=25<br>email.username=test@163.com<br>email.password=password<br>email.auth=true<br>email.systemEmail=test@163.com</p>
+<p><strong>测试</strong>：</p>
+<p>只需要测试一个sendMail（）接口，这个就需要准备properties文件，配置并启用一个测试使用的邮件服务器，准备好后，就调用该接口实现邮件发送，然后检查是否发送成功，关闭测试邮件服务器。具体代码：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountEmailServiceTest</span> </span>{
+<span class="keyword">private</span> GreenMail greenMail;
+
+<span class="annotation">@Before</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startMailServer</span>() <span class="keyword">throws</span> Exception{
+    greenMail = <span class="keyword">new</span> GreenMail(ServerSetup.SMTP);
+    greenMail.setUser(<span class="string">"1219611916@qq.com"</span>, <span class="string">"silence"</span>);
+    greenMail.start();
+}
+
+<span class="annotation">@Test</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSendMail</span>() <span class="keyword">throws</span> Exception{
+    <span class="comment">//根据account。xml创建一个spring framework的ApplicationContext</span>
+    ApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"account_email.xml"</span>);
+    <span class="comment">//从ctx中获取需要测试的ID为accountEmailService的bean并转换成AccountEmailService接口，</span>
+    <span class="comment">//针对接口的测试是最好的单元测试的实现</span>
+    AccountEmailService accout = (AccountEmailService)ctx.getBean(<span class="string">"accountEmailService"</span>);
+    String subject = <span class="string">"Test Subject"</span>;
+    String htmlText = <span class="string">"&lt;h3&gt;test&lt;/h3&gt;"</span>;
+    accout.sendMail(<span class="string">"1219611916@qq.com"</span>, subject, htmlText);
+    greenMail.waitForIncomingEmail(<span class="number">2000</span>, <span class="number">1</span>);
+    Message[] mags = greenMail.getReceivedMessages();
+    assertEquals(<span class="number">1</span>,mags.length);
+    assertEquals(subject, mags[<span class="number">0</span>].getSubject());
+    assertEquals(htmlText, GreenMailUtil.getBody(mags[<span class="number">0</span>]).trim());
+}
+
+<span class="annotation">@After</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stopMailServer</span>() <span class="keyword">throws</span> Exception{
+    greenMail.stop();
+}
+}
+</code></pre><hr>
+<h4 id="实现persist模块：">实现persist模块：</h4>
+<p>该模块负责账户数据的持久化，以XML文件的形式保存账户数据，井支持账户的创建、读取、更新、删除等操作。</p>
+<p>配置代码：</p>
+<pre><code>  <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.hust.silence.account<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+ <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>account-persist<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">name</span>&gt;</span>account-persist<span class="tag">&lt;/<span class="title">name</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">url</span>&gt;</span>http://maven.apache.org<span class="tag">&lt;/<span class="title">url</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">properties</span>&gt;</span>
+<span class="tag">&lt;<span class="title">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">project.build.sourceEncoding</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dom4j.version</span>&gt;</span>1.6.1<span class="tag">&lt;/<span class="title">dom4j.version</span>&gt;</span>
+<span class="tag">&lt;<span class="title">springframework.version</span>&gt;</span>2.5.6<span class="tag">&lt;/<span class="title">springframework.version</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">properties</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">dependencies</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.7<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+  <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">test</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>dom4j<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>dom4j<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">version</span>&gt;</span>${dom4j.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-core<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">version</span>&gt;</span>${springframework.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-beans<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">version</span>&gt;</span>${springframework.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+<span class="tag">&lt;<span class="title">dependency</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>spring-context<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">version</span>&gt;</span>${springframework.version}<span class="tag">&lt;/<span class="title">version</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span>
+
+  <span class="tag">&lt;<span class="title">build</span>&gt;</span>
+<span class="tag">&lt;<span class="title">testResources</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">testResource</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">directory</span>&gt;</span>src/test/resources<span class="tag">&lt;/<span class="title">directory</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">filtering</span>&gt;</span>true<span class="tag">&lt;/<span class="title">filtering</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">testResource</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">testResources</span>&gt;</span>
+<span class="tag">&lt;<span class="title">plugins</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">plugin</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>org.apache.maven.plugins<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>maven-resources-plugin<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span>
+        <span class="tag">&lt;<span class="title">configuration</span>&gt;</span>
+            <span class="tag">&lt;<span class="title">encoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="title">encoding</span>&gt;</span>
+        <span class="tag">&lt;/<span class="title">configuration</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">plugin</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">plugins</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">build</span>&gt;</span>
+<span class="tag">&lt;/<span class="title">project</span>&gt;</span> 　
+</code></pre><p>dom4j是支持XML操作的，build元素包含testresource是开启资源过滤的，在单元测试中用到。</p>
+<p>具体代码：</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccountPersistService</span> </span>{
+Account createAccount(Account account) <span class="keyword">throws</span> AccountPersistException;
+Account readAccount(String id) <span class="keyword">throws</span> AccountPersistException;
+Account updateAccount(Account account) <span class="keyword">throws</span> AccountPersistException;
+<span class="keyword">void</span> deleteAccount(String id) <span class="keyword">throws</span> AccountPersistException;
+}
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountPersistServiceImpl</span>
+<span class="keyword">implements</span> <span class="title">AccountPersistService</span>
+</span>{
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ROOT = <span class="string">"account-persist"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNTS = <span class="string">"accounts"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT = <span class="string">"account"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT_ID = <span class="string">"id"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT_NAME = <span class="string">"name"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT_EMAIL = <span class="string">"email"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT_PASSWORD = <span class="string">"password"</span>;
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String ELEMENT_ACCOUNT_ACTIVATED = <span class="string">"activated"</span>;
+
+    <span class="keyword">private</span> String file;
+
+    <span class="keyword">private</span> SAXReader reader = <span class="keyword">new</span> SAXReader();
+
+    <span class="keyword">public</span> String <span class="title">getFile</span>()
+    {
+        <span class="keyword">return</span> file;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFile</span>( String file )
+    {
+        <span class="keyword">this</span>.file = file;
+    }
+
+    <span class="keyword">public</span> Account <span class="title">createAccount</span>( Account account )
+        <span class="keyword">throws</span> AccountPersistException
+    {
+        Document doc = readDocument();
+
+        Element accountsEle = doc.getRootElement().element(ELEMENT_ACCOUNTS);
+
+        accountsEle.add( buildAccountElement( account ) );
+
+        writeDocument( doc );
+
+        <span class="keyword">return</span> account;
+    }
+
+<span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deleteAccount</span>( String id )
+    <span class="keyword">throws</span> AccountPersistException
+{
+    Document doc = readDocument();
+
+    Element accountsEle = doc.getRootElement().element( ELEMENT_ACCOUNTS );
+
+    <span class="keyword">for</span> ( Element accountEle : (List&lt;Element&gt;) accountsEle.elements() )
+    {
+        <span class="keyword">if</span> ( accountEle.elementText( ELEMENT_ACCOUNT_ID ).equals( id ) )
+        {
+            accountEle.detach();
+
+            writeDocument( doc );
+
+            <span class="keyword">return</span>;
+        }
+    }
+}
+
+<span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)
+<span class="keyword">public</span> Account <span class="title">readAccount</span>( String id )
+    <span class="keyword">throws</span> AccountPersistException
+{
+    Document doc = readDocument();
+
+    Element accountsEle = doc.getRootElement().element( ELEMENT_ACCOUNTS );
+
+    <span class="keyword">for</span> ( Element accountEle : (List&lt;Element&gt;) accountsEle.elements() )
+    {
+        <span class="keyword">if</span> ( accountEle.elementText( ELEMENT_ACCOUNT_ID ).equals( id ) )
+        {
+            <span class="keyword">return</span> buildAccount( accountEle );
+        }
+    }
+
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">public</span> Account <span class="title">updateAccount</span>( Account account )
+    <span class="keyword">throws</span> AccountPersistException
+{
+    <span class="keyword">if</span> ( readAccount( account.getId() ) != <span class="keyword">null</span> )
+    {
+        deleteAccount( account.getId() );
+
+        <span class="keyword">return</span> createAccount ( account );
+    }
+
+    <span class="keyword">return</span> <span class="keyword">null</span>;
+}
+
+<span class="keyword">private</span> Account <span class="title">buildAccount</span>( Element element )
+{
+    Account account = <span class="keyword">new</span> Account();
+
+    account.setId( element.elementText( ELEMENT_ACCOUNT_ID ) );
+    account.setName( element.elementText( ELEMENT_ACCOUNT_NAME ) );
+    account.setEmail( element.elementText( ELEMENT_ACCOUNT_EMAIL ) );
+    account.setPassword( element.elementText( ELEMENT_ACCOUNT_PASSWORD ) );
+    account.setActivated( ( <span class="string">"true"</span>.equals( element.elementText( ELEMENT_ACCOUNT_ACTIVATED ) ) ? <span class="keyword">true</span> : <span class="keyword">false</span> ) );
+
+    <span class="keyword">return</span> account;
+}
+
+<span class="keyword">private</span> Element <span class="title">buildAccountElement</span>( Account account )
+{
+    Element element = DocumentFactory.getInstance().createElement( ELEMENT_ACCOUNT );
+
+    element.addElement( ELEMENT_ACCOUNT_ID ).setText( account.getId() );
+    element.addElement( ELEMENT_ACCOUNT_NAME ).setText( account.getName() );
+    element.addElement( ELEMENT_ACCOUNT_EMAIL ).setText( account.getEmail() );
+    element.addElement( ELEMENT_ACCOUNT_PASSWORD ).setText( account.getPassword() );
+    element.addElement( ELEMENT_ACCOUNT_ACTIVATED ).setText( account.isActivated() ? <span class="string">"true"</span> : <span class="string">"false"</span> );
+
+    <span class="keyword">return</span> element;
+}
+
+<span class="keyword">private</span> Document <span class="title">readDocument</span>()
+    <span class="keyword">throws</span> AccountPersistException
+{
+    File dataFile = <span class="keyword">new</span> File( file );
+
+    <span class="keyword">if</span>( !dataFile.exists() )
+    {
+        dataFile.getParentFile().mkdirs();
+
+        Document doc = DocumentFactory.getInstance().createDocument();
+
+        Element rootEle = doc.addElement( ELEMENT_ROOT );
+
+        rootEle.addElement( ELEMENT_ACCOUNTS );
+
+        writeDocument( doc );
+    }
+
+    <span class="keyword">try</span>
+    {
+        <span class="keyword">return</span> reader.read( <span class="keyword">new</span> File( file ) );
+    }
+    <span class="keyword">catch</span> ( DocumentException e )
+    {
+        <span class="keyword">throw</span> <span class="keyword">new</span> AccountPersistException( <span class="string">"Unable to read persist data xml"</span>, e );
+    }
+}
+
+<span class="keyword">private</span> <span class="keyword">void</span> <span class="title">writeDocument</span>( Document doc )
+    <span class="keyword">throws</span> AccountPersistException
+{
+    Writer out = <span class="keyword">null</span>;
+
+    <span class="keyword">try</span>
+    {
+        out = <span class="keyword">new</span> OutputStreamWriter( <span class="keyword">new</span> FileOutputStream( file ), <span class="string">"utf-8"</span> );
+
+        XMLWriter writer = <span class="keyword">new</span> XMLWriter( out, OutputFormat.createPrettyPrint() );
+
+        writer.write( doc );
+    }
+    <span class="keyword">catch</span> ( IOException e )
+    {
+        <span class="keyword">throw</span> <span class="keyword">new</span> AccountPersistException( <span class="string">"Unable to write persist data xml"</span>, e );
+    }
+    <span class="keyword">finally</span>
+    {
+        <span class="keyword">try</span>
+        {
+            <span class="keyword">if</span> ( out != <span class="keyword">null</span>)
+            {
+                out.close();
+            }
+        }
+        <span class="keyword">catch</span> ( IOException e )
+        {
+            <span class="keyword">throw</span> <span class="keyword">new</span> AccountPersistException( <span class="string">"Unable to close persist data xml writer"</span>, e );
+        }
+    }
+}
+}
+</code></pre><p>Account是一个简单的类：对变量的读取和设置</p>
+<p>private String id;<br>private String name;<br>private String email;<br>private String password;<br>private boolean activated;　</p>
+<p>　　该测试用例遵守了测试接口而不测试实现这一原则:也就是说，测试代码不能引用实现类，由于测试是从接口用户的角度编写的，这样就能保证接口的用户无须知晓接口的实现细节，既保证了代码的解藕，也促进了代码的设计。</p>
+<p> 测试代码：这里只给出了读取readAccount的test</p>
+<pre><code><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountPersistServiceTest</span> </span>{
+<span class="keyword">private</span> AccountPersistService service;
+<span class="annotation">@Before</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">prepare</span>() <span class="keyword">throws</span> Exception{
+    File persistDataFile = <span class="keyword">new</span> File(<span class="string">"target/persist-classes/persist_data.xml"</span>);
+    <span class="keyword">if</span>(persistDataFile.exists()){
+        persistDataFile.delete();
+    }
+    ApplicationContext ctx = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"account_persist.xml"</span>);
+    service = (AccountPersistService) ctx.getBean(<span class="string">"accountPersistService"</span>);
+    Account account = <span class="keyword">new</span> Account();
+    account.setId(<span class="string">"ww"</span>);
+    account.setName(<span class="string">"wwss"</span>);
+    account.setEmail(<span class="string">"16@qq.com"</span>);
+    account.setPassword(<span class="string">"####"</span>);
+    account.setActivated(<span class="keyword">true</span>);
+    service.createAccount(account);
+}
+<span class="annotation">@Test</span>
+<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testReadAccount</span>() <span class="keyword">throws</span> Exception{
+    Account account = service.readAccount(<span class="string">"ww"</span>);
+    assertEquals(<span class="string">"ww"</span>,account.getId());
+    assertEquals(<span class="string">"wwss"</span>,account.getName());
+    assertEquals(<span class="string">"126@qq.com"</span>,account.getEmail());
+    assertEquals(<span class="string">"####"</span>,account.getPassword());
+    assertTrue(account.isActivated());
+}
+}
+</code></pre><p>　　想要将上面的代码单个模块运行成功，还需要给出相应的配置文件，xml文件放在src/main/resources下，properties文件放在src/test/resources。尤其是这里只给出了相应的两个模块的代码，有兴趣的可以继续写完成。<br>account_email.properties:<br>email.protocol=smtp<br>email.host=”127.0.0.1”<br>email.port=”25”<br>email.username=16@qq.com<br>email.password=####<br>email.auth=true<br>email.systemEmail=16@qq.com</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>跟着书里的讲解，跟着做了一遍该项目：</p>
+<p>首先明白注册账户的需求：</p>
+<p>　　账号的lD和Email地址都可以用来唯一地标识某个用户，而显示名称则用来显示在页面下，方便浏览。注册的时候用户还需要输入两次密码，以确保没有输错，系统则需要负责检查ID和emai]]>
+    </summary>
+    
+      <category term="maven" scheme="http://silencewt.github.io/tags/maven/"/>
+    
+      <category term="软件测试" scheme="http://silencewt.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[2014图灵技术图书最受欢迎TOP15]]></title>
@@ -958,41 +1378,6 @@ http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span>
       <category term="心路历程" scheme="http://silencewt.github.io/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/"/>
     
       <category term="心路历程" scheme="http://silencewt.github.io/categories/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Hello World]]></title>
-    <link href="http://silencewt.github.io/2014/12/28/hello-world/"/>
-    <id>http://silencewt.github.io/2014/12/28/hello-world/</id>
-    <published>2014-12-28T02:18:07.000Z</published>
-    <updated>2014-09-12T14:17:00.000Z</updated>
-    <content type="html"><![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<a id="more"></a>
-
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-]]>
-    
-    </summary>
     
   </entry>
   
