@@ -4,15 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>车牌识别LPR（四）-- 车牌定位 | Silence 婷婷 Blog</title>
+    <title>用maven进行测试 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="第四篇：车牌定位　　
-　　车牌定位就是采用一系列图像处理或者数学的方法从一幅图像中将车牌准确地定位出来。车牌定位提取出的车牌是整个车牌识别系统的数据来源，它的效果的好坏直接影响到整个系统的表现，只有准确地定位出车牌，才会有后续的车牌分割与字符识别。
-　　目前车牌定位有两大类、基于灰度、基于彩色。
-基">
+    <meta name="description" content="maven的重要职责之一就是自动运行单元测试，它通过maven-surefire-plugin与主流的单元测试框架junit和testng集成，并且能够自动生成丰富的结果报表。
+　　maven并不是一个单元测试框架，他只是在构建执行打特定的生命周期阶段的时候，通过插件来执行JUnit或testNG的">
     
     
     
@@ -123,15 +121,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/29/车牌识别LPR（四）-车牌定位/" title="车牌识别LPR（四）-- 车牌定位" itemprop="url">车牌识别LPR（四）-- 车牌定位</a>
+      <a href="/2015/01/12/用maven进行测试/" title="用maven进行测试" itemprop="url">用maven进行测试</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-12-29T07:24:23.000Z" itemprop="datePublished">12月 29 2014</time>
-    更新日期:<time datetime="2014-12-29T07:37:06.000Z" itemprop="dateModified">12月 29 2014</time>
+    <time datetime="2015-01-12T02:26:31.000Z" itemprop="datePublished">1月 12 2015</time>
+    更新日期:<time datetime="2015-01-12T02:28:14.000Z" itemprop="dateModified">1月 12 2015</time>
     
   </p>
 </header>
@@ -140,50 +138,57 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#基于灰度："><span class="toc-number">1.</span> <span class="toc-text">基于灰度：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基于彩色的："><span class="toc-number">2.</span> <span class="toc-text">基于彩色的：</span></a></li></ol>
+		
 		</div>
 		
-		<p>第四篇：车牌定位　　</p>
-<p>　　车牌定位就是采用一系列图像处理或者数学的方法从一幅图像中将车牌准确地定位出来。车牌定位提取出的车牌是整个车牌识别系统的数据来源，它的效果的好坏直接影响到整个系统的表现，只有准确地定位出车牌，才会有后续的车牌分割与字符识别。</p>
-<p>　　目前车牌定位有两大类、基于灰度、基于彩色。</p>
-<h4 id="基于灰度：">基于灰度：</h4>
-<p>　　我们采用的是<strong>基于灰度的形态学的车牌定位</strong>：首先根据车牌区域中丰富的纹理特征，提取车牌图像中垂直方向的边缘并二值化。然后对得到的二值图像进行数学形态学(膨胀、腐烛、幵闭运算等)的运算，使得车牌区域形成一个闭合的连通区域。最后通过车牌的几何特征(高、宽、宽高比等)对得到的候选区域进行筛选，最终得到车牌图像。</p>
-<p>　　<strong>基于灰度的还有边缘检测的车牌定位</strong>：由于车牌字符的灰度值与车牌底色的灰度值相差较大，字符与底色的交界处就有灰度突变，灰度突变处就会产生边缘，这是车牌定位技术中非常重要的特征。也可以通过检测车牌的外边框来定位车牌，由于外边框的上下左右四边都为直线，而且有明显的边缘特征，所以首先利用边缘检测算法提取车牌边框位置，然后，用Hough变换算法检测直线，确认外边框的上下左右四条边位置就确定了车牌在图像中的位置。</p>
-<p>　　<strong>基于投影法的车牌定位方法</strong>：首先对车牌图像进行二值化，由于车牌区域存在明显的剧烈的字符与背景的灰度跳变，将跳变次数投影到垂直轴上，那么车牌区域对应的垂直轴上会有一个明显的峰值，这样可以得到车牌的上下边界。然后对上下边界内的区域进行水平投影，字符区域会出现明显的峰值，这样可以得到车牌的左右边界。这种方法比较理想化。</p>
-<p>　　<strong>基于纹理分析的车牌定位方法</strong>：所谓的纹理特征是指对图像进行扫描得到的灰度变化曲线，由于扫描经过车牌得到的变化曲线明显不同于经过非车牌得到的曲线，根据这个特点再结合形态学操作和其它先验知识就能从图像中提取出车牌。</p>
-<h4 id="基于彩色的：">基于彩色的：</h4>
-<p>　　从颜色空间的角度来看，HSV (Hue色调，Saturation饱和度，Value亮度)颜色空间具有线性伸缩性，比RGB颜色空间更容易区分色彩。HSV车牌定位典型的思路是首先将车牌图像从RGB空间转换到HSV空间，然后寻找图像中含有蓝白相间、黄黑相间、白红相间和白黑相间的地方，对得到的候选区域进一步用字符颜色提取车牌字符，最后用车牌的字符特征确定车牌位置。基于彩色图像的车牌定位方法对字符颜色和背景颜色固定的车牌可以取得较好的效果。</p>
-<p>　　<strong>基于彩色图像的边缘检测和区域生长相结合的车牌定位</strong>：实现该方法的基本思想是：首先可以利用边緣检测算子对原始彩色(RGB空问)图像进行边缘检测，使得车牌区域的纵向纹理特征得到增强；接着利用数学形态学中的膨胀算法实现区域的连通，然后采用区域生长的方法对候选区域进行标记，最后利用车牌具有的特征和字符排列的频率特点，去除伪车牌区域，得到车牌区域。</p>
-<p>　　<strong>基于纹理和颜色综合特征的车牌定位</strong>：首先将原始彩色图像M0的颜色空间转化到HSV颜色空间Ml；接着对Ml进行色彩分割，把所需要的颜色的区域设置为前景白色，其他区域设为背景黑色，此时得到图像M2，其次对M2采用区域生长的方法进行处理，并生成连通区域，得到车牌区域的集合A，然后若集合A中不包含车牌，则继续对Ml进行色彩分割，提取下一块前景颜色区域，并对该区域进行车牌特征分析，重复上述过程。</p>
-<p>　　<strong>车牌轮廓特征判断条件</strong>：</p>
-<pre><code>（1）外接轮廓的高度大于5个像素或小于25个像素
-
-（2）外接轮廓的宽度大于20个像素或小于80个像素
-
-（3）外接轮廓的宽高比大于2或小于10
-</code></pre><p> 　　由于我国车牌种类繁多，颜色组合不一致，会遇到以下问题：一方面各地发放的车牌的底色色调会有所不同，另一方面受自然光照变化影响，采集到车牌图像的色度的变化范围也很大。因此，定位我国车牌的方法不适宜直接利用颜色信息进行定位。</p>
-<p>　　其实，还有一些文献里提出<strong>支持向量机和adaboost等分级分类的定位方法</strong>，虽然使用训练的方法可以很准确的得到车牌图像，但是实际中由于环境的复杂性，单纯的一种方法并不不能得到很好的结果。对图像进行预处理，结合三次定位，像素统计粗定位，颜色阈值定位，文理特征定位，一次次的精确定位结果，调整参数，知道得到正确的车牌图像。</p>
-<p>　　这里有涉及到边缘检测的应用，其中边缘检测就有几种常用的算子方法。还涉及颜色空间的转换，这里不做具体展开。</p>
+		<p>　　maven的重要职责之一就是自动运行单元测试，它通过maven-surefire-plugin与主流的单元测试框架junit和testng集成，并且能够自动生成丰富的结果报表。</p>
+<p>　　maven并不是一个单元测试框架，他只是在构建执行打特定的生命周期阶段的时候，通过插件来执行JUnit或testNG的测试用例，这个插件就是maven-surefire-plugin，也叫做测试运行器。maven-surefire-plugin会自动执行测试源码路劲下（src/test/java）的所有符合以下命名模式的测试用例
+　　</p>
+<blockquote>
+<p>*<em>/Test</em>.java：任何子目录下的所有命名以Test开头的java类</p>
+<p>　　*<em>/*</em>Test.java：任何子目录下的所有命名以Test结尾的java类</p>
+<p>　　*<em>/*</em>TestCase.java：任何子目录下的所有命名以TestCase结尾的java类</p>
+</blockquote>
+<p>　　只要将测试类按上述模式命名，maven就能自动运行它们，用户也就不再需要定义测试集合（testsuite）来聚合测试用例了。</p>
+<p>　　当然也可以自定义来包含一些不符合上述命名规则的测试类，以下定义以Tests结尾的用例：</p>
+<pre><code><span class="variable">&lt;plugin&gt;</span>
+  <span class="variable">&lt;groupId&gt;</span>org.apache.maven.plugin<span class="variable">&lt;/groupId&gt;</span>
+  <span class="variable">&lt;artifactId&gt;</span>maven-surefire-plugin<span class="variable">&lt;/artifactId&gt;</span>
+  <span class="variable">&lt;version&gt;</span>2.5<span class="variable">&lt;version&gt;</span>
+  <span class="variable">&lt;configuration&gt;</span>
+<span class="variable">&lt;includes&gt;</span>
+   <span class="variable">&lt;include&gt;</span><span class="keyword">*</span><span class="keyword">*</span>/<span class="keyword">*</span>Tests.java<span class="variable">&lt;/include&gt;</span>
+<span class="variable">&lt;/includes&gt;</span>
+  <span class="variable">&lt;/configuration&gt;</span>
+<span class="variable">&lt;/plugin&gt;</span>
+</code></pre><p>　　日常工作中，软件开发人员总有很多理由来跳过单元测试，“我敢保证这次改动不会导致任何测试失败，测试运行太耗时了，暂时跳过一，有持续集成服务跑所有测试呢，我本地就不执行啦。在大部分情况下，这想法都是不对的。任何改动都要交给测试去验证，测试运行耗时过长应该考虑优化测试，更不要完全依赖持续集成服务来报告错误，测试错误应该尽早在尽小范围内发现，并及时修复。</p>
+<p>　　maven同时也可以通过设置skipTest来跳过测试。</p>
+<p><strong>测试报告</strong>：</p>
+<p>　　surefire会在target-report下生成两种格式的错误与报告，简单文本格式和支持JUnit的XML格式。</p>
+<p><strong>测试覆盖率报告</strong>：</p>
+<p>　　cobertura是一个开源的测试覆盖率统计工具，使用时添加插件cobertura-maven-plugin</p>
+<p><strong>testng</strong>：</p>
+<p>　　可以使用testing.xml的文件，来配置想要运行的测试集合。然后再pom文件里在配置使用该文件。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/LPR/">LPR</a><a href="/tags/lab/">lab</a>
+  <span></span> <a href="/tags/maven/">maven</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/lab/">lab</a>
+  <a class="article-category-link" href="/categories/软件测试/">软件测试</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/12/29/车牌识别LPR（四）-车牌定位/" data-title="车牌识别LPR（四）-- 车牌定位 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2015/01/12/用maven进行测试/" data-title="用maven进行测试 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -193,18 +198,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2014/12/29/车牌识别LPR（五）-一种车牌定位法/" title="车牌识别LPR（五）-- 一种车牌定位法">
+ <a href="/2015/01/12/maven小项目注册服务-三-web模块/" title="maven小项目注册服务(三)--web模块">
   <strong>PREVIOUS:</strong><br/>
   <span>
-  车牌识别LPR（五）-- 一种车牌定位法</span>
+  maven小项目注册服务(三)--web模块</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2014/12/29/车牌识别LPR（三）-LPR系统整体结构/"  title="车牌识别LPR（三）-- LPR系统整体结构">
+<a href="/2015/01/12/maven小项目注册服务-二-captcha模块/"  title="maven小项目注册服务(二)--captcha模块">
  <strong>NEXT:</strong><br/> 
- <span>车牌识别LPR（三）-- LPR系统整体结构
+ <span>maven小项目注册服务(二)--captcha模块
 </span>
 </a>
 </div>
@@ -221,7 +226,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#基于灰度："><span class="toc-number">1.</span> <span class="toc-text">基于灰度：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#基于彩色的："><span class="toc-number">2.</span> <span class="toc-text">基于彩色的：</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
