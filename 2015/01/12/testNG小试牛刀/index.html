@@ -4,13 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>为什么想做测试之我的测试开端 | Silence 婷婷 Blog</title>
+    <title>testNG小试牛刀 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="&amp;emsp;&amp;emsp;这个问题曾经纠结了我很久，开发还是测试？最终出于自己内心的渴望与求知决定我要从事软测这个行业。
-&amp;emsp;&amp;emsp;从本科我就开始接触主流的编程语言，也一直以为自己以后会从事软件设计这份工作，直到大三找实习的时候接触到软测，加上身边很多人都说女孩子适合做软测，不累，当初就">
+    <meta name="description" content="testNG是一个测试框架，其灵感来自JUnit和NUnit的，但引入了一些新的功能，使其功能更强大，使用更方便。
+　　testNG是一个开源自动化测试框架；testNG表示下一代。 testNG是类似于JUnit（特别是JUnit 4），但它不是一个JUnit扩展。它的灵感来源于JUnit。它的目">
     
     
     
@@ -121,15 +121,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/10/26/为什么想做测试之我的测试开端/" title="为什么想做测试之我的测试开端" itemprop="url">为什么想做测试之我的测试开端</a>
+      <a href="/2015/01/12/testNG小试牛刀/" title="testNG小试牛刀" itemprop="url">testNG小试牛刀</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-10-26T02:06:00.000Z" itemprop="datePublished">10月 26 2014</time>
-    更新日期:<time datetime="2015-01-10T05:56:41.000Z" itemprop="dateModified">1月 10 2015</time>
+    <time datetime="2015-01-12T13:28:22.000Z" itemprop="datePublished">1月 12 2015</time>
+    更新日期:<time datetime="2015-01-12T13:37:18.000Z" itemprop="dateModified">1月 12 2015</time>
     
   </p>
 </header>
@@ -138,57 +138,95 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#testNG的特点："><span class="toc-number">1.</span> <span class="toc-text">testNG的特点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本使用："><span class="toc-number">2.</span> <span class="toc-text">基本使用：</span></a></li></ol>
 		</div>
 		
-		<p>&emsp;&emsp;这个问题曾经纠结了我很久，开发还是测试？最终出于自己内心的渴望与求知决定我要从事软测这个行业。</p>
-<p>&emsp;&emsp;从本科我就开始接触主流的编程语言，也一直以为自己以后会从事软件设计这份工作，直到大三找实习的时候接触到软测，加上身边很多人都说女孩子适合做软测，不累，当初就抱着这么单纯的想法，懵懵懂懂的就想往测试这个方向走了，算是在心里种下了一颗种子。当时也是为了增加项目经历和拥有开发经验（当时觉得有开发经历能找到好工作）就选择了现在所在的实验室，进入实验室后才发现这个环境和我所想的不一样，不到半年，我就对自己的前途感到迷茫了，看不清楚路在哪里。实验室的研究方向变了，周围有很多人都鄙视做软测的，都说测试没有开发的工资高，测试是很low的一个工作，本科生大专生才做的，根本没有技术含量，在一些公司根本不重要，各种不好的话语动摇了我的决心，于是之前种下的种子没有浇水施肥，还忍受着虫害，时间一长，渐渐地快死了。</p>
-<p>&emsp;&emsp;就在这纠结的期间，实验室师姐拉了我一把，师姐是想做前端的，跟我介绍了前端的各种技术，于是在我不确定的情况下，我跟着师姐断断续续学习了将近2个月的前端知识，从一点基础都没有的情况下，学到了：</p>
+		<p>　　testNG是一个测试框架，其灵感来自JUnit和NUnit的，但引入了一些新的功能，使其功能更强大，使用更方便。</p>
+<p>　　testNG是一个开源自动化测试框架；testNG表示下一代。 testNG是类似于JUnit（特别是JUnit 4），但它不是一个JUnit扩展。它的灵感来源于JUnit。它的目的是优于JUnit的，尤其是当测试集成的类。 testNG的创造者是Cedric Beust（塞德里克·博伊斯特）</p>
+<p>　　testNG消除了大部分的旧框架的限制，使开发人员能够编写更加灵活和强大的测试。 因为它在很大程度上借鉴了Java注解annotation（JDK5.0引入的）来定义的测试，它也可以告诉你如何使用这个新功能在真实的Java语言生产环境中。</p>
+<h3 id="testNG的特点：">testNG的特点：</h3>
 <ul>
-<li>了解了什么是前端，前端开发的一整套体系</li>
-<li>了解互联网的消息</li>
-<li>知道怎么订阅优秀人才的博客</li>
-<li>学会怎么获取和学习有用的信息</li>
-</ul>
-<p>这个过程反而让我对网页性能起了想法：</p>
-<ul>
-<li>是什么技术让前端写出来的页面可以满足客户的无限次刷屏？</li>
-<li>是什么保证了系统不会再大量使用人员的情况下崩溃？就像双十一那样</li>
-</ul>
-<ul>
-<li>淘宝是如何做到在双十一那天，满足几百万笔交易的？</li>
-<li>如何在11月11号凌晨的时候保证系统不崩溃的？</li>
-<li>想到了12306网站，为什么铁道部的购票系统还是会在春节购票期间崩溃，还是会在抢票的时候刷不进去，让很多人干瞪着屏幕，就是没法点击购买？</li>
-<li>为什么我们学校的管理系统，每到学生选课的时候就崩溃（这是学校的十大吐槽点）</li>
+<li>注解</li>
+<li>testNG使用Java和面向对象的功能</li>
+<li>支持综合类测试（例如，默认情况下，没有必要创建一个新的测试每个测试方法的类的实例）</li>
+<li>独立的编译时间测试代码运行时配置/数据信息</li>
+<li>灵活的运行时配置</li>
+<li>主要介绍“测试组”。当编译测试，只要问testNG运行所有的“前端”的测试，或“快”，“慢”，“数据库”等</li>
+<li>支持依赖测试方法，并行测试，负载测试，局部故障</li>
+<li>灵活的插件API</li>
+<li>支持多线程测试</li>
 </ul>
 <hr>
-<p>&emsp;&emsp;按每年的招生情况来说最多也就8000多人进行选课，排除一半（因为体育课是两个学期上的）加上部分不重视选课的学生，那么最多就是2000左右的人会有可能同时登入系统，但却不一定在同一个时段，偌大一个学校的管理系统会承受不住2000人同时登入，进入让系统崩溃达一天？研发出来的系统是如何保证一上线后就可以满足高并发量的要求的，就像淘宝双十一？如何确定开发出来的系统可以满足多少人同时进行某一项操作的？这些让我很迷惑。我知道这些问题是属于测试技术范畴的，只有测试人员可以告诉我。于是我就在<code>测试和开发</code>之间两难了。</p>
-<p>&emsp;&emsp;就在我不知道如何抉择的时候？小微金服来了。2014年4月20日，阿里旗下的<code>小微金服</code>带着他的测试技术团队，在我们学校开了一堂<code>测试技术大讲堂</code>。一天6个人分享了在测试不同领域的技术和感受，从<strong>测试流程</strong>、<strong>测试设计和测试分析</strong>、<strong>性能测试</strong>、<strong>自动化测试</strong>到<strong>测试架构平台搭建</strong>，让我豁然开朗，让我彻底明白之前我对测试的狭隘认识，是多么的愚蠢，多么的单纯。他们带我见识了真正的测试领域是怎么样的，真正的测试工作是怎样的，让我看到测试的魅力所在。测试是一个技术岗位，而不是简简单单的点击几下鼠标就行的。这一天坚定了我要做软测的决心，让我摇摆不定的心终于有了航行的方向。更加确定自己的目标，我要进阿里，我要进小微金服团队。</p>
-<p>&emsp;&emsp;于是我找了很多书看，关注了一些有名的技术博客，留意测试行业的发展，结合自身的兴趣，对互联网web的发展和手机移动端发展的关注，从事web测试、或者移动端测试（app测试）方向，想让我手下的产品能做到让用户不卸载，能做到零体验bug，能承受大量用户对某一业务的同时操作和请求，能让产品更好的服务于用户。<em>所有的这些需要我有扎实的测试知识和理念思想作为基础。</em></p>
-<p>&emsp;&emsp;测试人员是第一批接触产品的人，是代表用户使用和反馈产品问题的人，一个产品若最后通不过测试这一关是无法上线的，可以说测试人员握有生杀大权，相应的<strong>身上的责任就很重，给予的成就感于会很强，而我喜欢这样的感觉，开发创造了世界，而我们将拯救世界，让产品要么不上线，要么就永久的在线上获得用户的青睐，而不是短暂的一闪而过，</strong>各种问题导致用户卸载。</p>
-<p>&emsp;&emsp;<strong>当接触开发越多的时候，会对测试的重要性有更深的体会，熟知开发流程，知道bug最有可能出现在哪里？分析bug产生因素时有很清晰的流程，可以很好的和开发交流，可以结合测试的需求快速的开发适合的测试工具，可以实现自动化测试。</strong></p>
-<p>&emsp;&emsp;当你交付给客户的产品出现性能问题，出现功能需求无响应问题，出现质量问题的时候，你不得不重新返工，不得不遭受用户的质疑，造成用户的流失，公司的损失巨大。<strong>可以用金钱弥补的损失就不算是大损失，但让用户体验差，失去用户，失去用户的信任才是最大的损失，一旦失去用户将很难在将来把用户召集回来。</strong></p>
-<p><strong>这些是我对测试的一点浅浅的理解，有不对的或理解错误的望各位指教。</strong></p>
+<p>　　testNG.xml文件记录了一些非常简单的术语。xml是一个以XML记录所有测试的文件口这个文件能够很容易地在一个文件中描述所有测试套件和它们的参数，可以将它签人到代码库中，或通过电子邮件发送给其他组员。也可以很容易地提取测试的子集，或分成几种运行时配置。这个文件并不是运行testNG所必须的。</p>
+<p>　　</p>
+<blockquote>
+<p>一个suite(套件)由一个或多个测试组成。</p>
+<p>一个test(测试)由一个或多个类组成。</p>
+<p>一个class(类)由一个或多个方法组成。</p>
+</blockquote>
+<hr>
+<p><strong>testNG相对于junit的一些优点</strong>：</p>
+<p>　　1. testNG是一个设计用来简化广泛的测试需求的测试框架，从单元测试到集成测试这个是testNG设计的出发点，不仅仅是单元测试，而且可以用于集成测试。设计目标的不同，对比junit的只适合用于单元测试，testNG无疑走的更远。可以用于集成测试，这个特性是我选择testNG的最重要的原因。</p>
+<p>　　2. 测试的过程的三个典型步骤，注意和junit(4.0)相比，多了一个将测试信息添加到testng.xml文件或者build.xml测试信息尤其是测试数据不再写死在测试代码中，好处就是修改测试数据时不需要修改代码/编译了，从而有助于将测试人员引入单元测试/集成测试。</p>
+<p>　　3. 基本概念，相比junit的TestCase/TestSuite，TestNG有suite/test/test method三个级别，即将test/test method明确区分开了。</p>
+<hr>
+<h3 id="基本使用：">基本使用：</h3>
+<p><strong>1、异常处理</strong></p>
+<p>　　testNG可以简单方便的检测异常的发生，通过@ExpectedExceptions标注预期捕获的异常，当确实发生预期的异常，testNG认为测试通过。也可以指定标注多个异常。</p>
+<p><strong>2、失败处理</strong><br>　　当testNG运行的case有失败的时候，会在test-output目录下生成一个testng-failed.xml文件，这对于批量执行测试定位问题很有帮助，testng可以单独执行这些失败的测试。</p>
+<p><strong>3、使用参数</strong></p>
+<p>　　testNG传参数的两种方式（xml文件，@DataProvider）</p>
+<p><strong>使用testng.xml设置参数</strong></p>
+<p> 　　参数在xml文件中可以在suite级别定义，也可以在test级别定义；testNG会尝试先在包含当前类的test标签中寻找参数，如果没找到则在上层的suite标签中查找。即在test标签中相同的参数对当前类当前方法的优先级比较高。 testNG支持这种传参方式的类型如下：String、 int/Integer、boolean/Boolean、 byte/Byte、 char/Character、 double/Double、 float/Float、 long/Long、 short/Short。对于非上述类型TestNG无法通过这种方式进行传参，可以通过@DataProvider方式传参</p>
+<p> <strong>DataProvider方式传参</strong></p>
+<p>　　只提供了一个字符串属性：名称，供测试方法作为传递参数的annotation使用两种DataProvider，一种是返回一个二维数组对象，如上面的例子；另外一种DataProvider是返回一个Iterator，DataProvider可以向测试方法传递任意类型任意数目的参数，利用DataProvider提供不同的参数集合对一个测试方法进行多次调用。</p>
+<p><strong>4、Annotation</strong></p>
+<p>　　快速预览，这些可以在官方的文档上找到更详细的资料。</p>
+<p>　</p>
+<blockquote>
+<p>@BeforeSuite:        被注释的方法将在所有测试运行前运行 　　<br>@AfterSuite:    　被注释的方法将在所有测试运行后运行<br>@BeforeTest: 　被注释的方法将在测试运行前运行 　　<br>@AfterTest: 　被注释的方法将在测试运行后运行 　　<br>@BeforeGroups:       被配置的方法将在列表中的gourp前运行。这个方法保证在第一个属于这些组的测试方法调用前立即执行。<br>@AfterGroups:     被配置的方法将在列表中的gourp后运行。这个方法保证在最后一个属于这些组的测试方法调用后立即执行。 　　<br>@BeforeClass:    被注释的方法将在当前类的第一个测试方法调用前运行。 　　<br>@AfterClass:       被注释的方法将在当前类的所有测试方法调用后运行<br>@BeforeMethod:        被注释的方法将在每一个测试方法调用前运行。<br>@AfterMethod:        被注释的方法将在每一个测试方法调用后运行。</p>
+</blockquote>
+<p><strong>5、分组</strong></p>
+<p>　　testNG的annotation有分组的功能，这些分组的名称和编号完全由我们自己来决定。@Test（groups={“fast”,”database”}）定义了分组之后可以在排除或者运行某个组。testNG容许执行复杂的测试方法分组。不仅可以申明方法属于组，而且可以指定分组包含其他分组。然后TestNG可以被调用，并被要求包含某些分组和排除其他的分组。这将提供怎样划分测试的最大弹性，并且如果想运行两个不同的测试装置不需要重新编译。</p>
+<p><strong>6、依赖</strong></p>
+<p>　　有些时候，需要测试方法按照一个特定的顺序被调用。这非常有用，比如：
+　　</p>
+<ul>
+<li><p>在运行更多测试方法前确认特定数量的测试方法调用完成并且成功</p>
+</li>
+<li><p>初始化测试并希望这个初始化方法也作为测试方法（被标记为@Before/After的方法将不作为最终报告的一部分）</p>
+</li>
+</ul>
+<p>为了做到这点，需要使用@Test注解的dependsOnMethods属性或者dependsOnGroups属性。</p>
+<p>这里有两种依赖：</p>
+<ul>
+<li>强依赖。在运行你的测试方法前所有依赖方法必须运行并且成功。哪怕有一个依赖方法失败，测试方法都不会被调用，在报告中将被标记为SKIP。</li>
+<li>软依赖。测试方法在依赖方法运行后总是会被运行，即使某些依赖方法失败。对于只想确认测试方法是按照特定顺序运行，而测试方法并不真正依赖其他方法是否成功的情况下非常有用。软依赖通过在@Test注解中增加”alwaysRun=true”来实现。</li>
+</ul>
+<hr>
+<p>　　除了上面基本的使用之外还有，testNG在并发测试、异步测试和多线程测试方面的应用等等。</p>
+<p>关于testng的使用可以参考官方文档：<a href="http://testng.org/doc/documentation-main.html" target="_blank" rel="external">http://testng.org/doc/documentation-main.html</a></p>
+<p>这是看了《java测试新技术—testng》这本书的一点记录，虽没有全部理解，但是对于很多部分还是了解理解了。知道有这么个东西。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/测试杂感/">测试杂感</a><a href="/tags/心路历程/">心路历程</a>
+  <span></span> <a href="/tags/testNG/">testNG</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/心路历程/">心路历程</a>
+  <a class="article-category-link" href="/categories/软件测试/">软件测试</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/10/26/为什么想做测试之我的测试开端/" data-title="为什么想做测试之我的测试开端 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2015/01/12/testNG小试牛刀/" data-title="testNG小试牛刀 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -197,19 +235,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/25/性能测试（一）---理发店模型/" title="性能测试（一）---理发店模型">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  性能测试（一）---理发店模型</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/09/16/对艾扬格大师的光耀生命有感/"  title="对艾扬格大师的光耀生命有感">
+<a href="/2015/01/12/maven小项目注册服务-三-web模块/"  title="maven小项目注册服务(三)--web模块">
  <strong>NEXT:</strong><br/> 
- <span>对艾扬格大师的光耀生命有感
+ <span>maven小项目注册服务(三)--web模块
 </span>
 </a>
 </div>
@@ -226,7 +256,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#testNG的特点："><span class="toc-number">1.</span> <span class="toc-text">testNG的特点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基本使用："><span class="toc-number">2.</span> <span class="toc-text">基本使用：</span></a></li></ol>
   </div>
 
 <div id="asidepart">
