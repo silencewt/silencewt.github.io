@@ -1,0 +1,538 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>公交wifi运营平台分析 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="一、前言背景
+　　昨晚下午，老板让看一些车载公交wifi后台管理的一些东西，这个随着移动端设备而兴起的wifi战，慢慢的也会越演越烈。
+　　现在于很多人在外面的时候，进入一家店首先看的不是菜单，而是问一句“你们的wifi密码是多少”？没有贴着“免费wifi”标签的店，估计都不会有人进去用餐，咖啡店，">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/17/公交wifi运营平台分析/" title="公交wifi运营平台分析" itemprop="url">公交wifi运营平台分析</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-01-17T11:55:16.000Z" itemprop="datePublished">1月 17 2015</time>
+    更新日期:<time datetime="2015-01-17T11:55:57.000Z" itemprop="dateModified">1月 17 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、前言背景"><span class="toc-number">1.</span> <span class="toc-text">一、前言背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、wifi推送系统"><span class="toc-number">2.</span> <span class="toc-text">二、wifi推送系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、wifi系统组成"><span class="toc-number">3.</span> <span class="toc-text">三、wifi系统组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）网络架构"><span class="toc-number">3.1.</span> <span class="toc-text">（一）网络架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（二）系统功能"><span class="toc-number">3.2.</span> <span class="toc-text">（二）系统功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、公交wifi难点"><span class="toc-number">4.</span> <span class="toc-text">四、公交wifi难点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）网速"><span class="toc-number">4.1.</span> <span class="toc-text">（一）网速</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（二）wifi盈利模式探索"><span class="toc-number">4.2.</span> <span class="toc-text">（二）wifi盈利模式探索</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、总结"><span class="toc-number">5.</span> <span class="toc-text">五、总结</span></a></li></ol>
+		</div>
+		
+		<h3 id="一、前言背景">一、前言背景</h3>
+<p>　　昨晚下午，老板让看一些车载公交wifi后台管理的一些东西，这个随着移动端设备而兴起的wifi战，慢慢的也会越演越烈。</p>
+<p>　　现在于很多人在外面的时候，进入一家店首先看的不是菜单，而是问一句“你们的wifi密码是多少”？没有贴着“免费wifi”标签的店，估计都不会有人进去用餐，咖啡店，甜品店，餐厅，美发店……到处都可以看到免费wifi的字样，wifi已经成为标配了。随着移动端的兴起，微信营销的推广，对WiFi的需求也越来越多，这个可以说是生有体会，武汉某商圈的兴起就和wifi，微信脱不了关系。聚餐、活动总是可以看到大半以上的成员拿着手机再看。正是，对WiFi的需求的增加，让wifi营销成为关注点，除了固定地点，餐厅、美发店等，移动wifi也成为了热点，地铁wifi，公交wifi，渐渐地进入人们的生活。</p>
+<p>　　2014年中国智能手机用户规模已达到5亿人，到2017年全球手机用户量预计增长至45.5亿。智能终端的全面普及和移动互联网的发展带来wifi接入需求迅速膨胀的同时，也带来基于移动通信与wifi应用创新的巨大市场机遇。现在智慧城市建设如火如荼，其中就有公交wifi热，公交wifi建设造价不低，而且后期流量使用巨大，产生的费用也是不少的，所以也不能全靠政府买单，自然就有了运营盈利这块。直接向用户收费一般都是不可取的，只能间接的，例如广告，通过广告商的投入来盈利。公交WiFi是指在公交车上实现WiFi。公交WiFi是政府部门及相关单位为了方便乘客出行、提高乘车体验，通过在公交车上安装无线网络设备，乘客只需通过移动终端即可实现无线互联的一种WiFi利用方式。</p>
+<p>　　中国科学院发布的《中国新型城市化报告2012》中提到，在选取的中国百万人口以上的50个主要城市中，居民平均单行上班时间要花39分钟。而大部分上班族选用的上班交通工具均为公交车，而且途中都在使用手机、平板等上网浏览新闻、刷微博、上微信、听音乐、看视频等。</p>
+<p>　　公共交通系统是市民出行的主要交通工具，为了提供给乘客更智能、更舒适、更便捷的乘车环境和相关设施，将无聊的上班时间变得有趣而且有用，结合目前已经日益成熟的无线信息系统，在载客运输的基本职能上给乘客带来更多有价值的增值服务。从受众的视听感受来看，音视频往往会更加形象、便于记忆，达到更及时准确的传播。未来，公交WiFi将作为智慧城市发展的一部分进入我们的生活，势必从一线省会城市向二三线城市普及和推广。</p>
+<p>　　来自某调研公司的数据表明，国内公交WiFi供应商产品中，涉及到“广告推送”的大部分是由设备内部存储的内容来实现，其存储的内容若要更新，必须修改代码，无法实现直接覆盖，这样导致了设备内部的存储内容更新困难，且由于公交WiFi是通过一车一设备的方式实现的，因此采用这样的方式就要求终端客户需对每一台设备进行单独更新，如想要二次开发，依托终端用户的力量不足，而求助于供应商则需要消耗极大的人力物力。不仅如此，设备内的广告内容不能由后台统一推送，无法实现广告主动推送功能，则广告功效自然无从谈起。于是出现了一些新的，满足要求的wifi设备，其中属厦门才茂公司的车载公交wifi路由器最为成熟。</p>
+<h3 id="二、wifi推送系统">二、wifi推送系统</h3>
+<p>　　目前一些商家为了是用户能够快速的连上自家wifi，从一开始的密码设置到现在的直接连通，很多商家并没有多想到通过wifi来营销。商家还是有别于公交wifi，公交的盈利大部分来自于广告，那么如果公交上拥有了wifi，那么自然会考虑到如何从中获取盈利。目前存在以下几个方式：</p>
+<p>　　第一，wifi广告认证就是用户使用商家提供的免费wifi网络时，会在上网登录页面看到商家的广告信息，看10-30秒广告即可上网。</p>
+<p>　　第二，wifi微信认证的原理是用户接入无线网络，微信就可以上网了，用户根据商家认证页面提示启动微信，扫描商家的官方微信二维码关注商家微信，即可获得上网权限，商家通过免费的wifi服务获得了微信粉丝，为以后的营销做好了准备。</p>
+<p>　　第三，wifi短信认证是通手机接收短信验证码获取上网权限，认证系统会留下用户的手机号码，为商家二次营销做好准备。</p>
+<p>　   第四，wifi微博认证的形式和微信认证的形式相似，成为商家微博粉丝即可获得上网权限。</p>
+<p>　　第五，wifi App下载就是让接入无线网络的用户下载App来获取上网权限。wifi营销更突出了商家与用户之间的互动，将商家的活动信息精确无误的传递给用户，让用户在享受免费wifi服务的同时，能够更清晰的了解商家信息，引起用户兴趣和关注度，进而选择二次消费。</p>
+<h3 id="三、wifi系统组成">三、wifi系统组成</h3>
+<h4 id="（一）网络架构">（一）网络架构</h4>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/wifi.jpg" alt="ｗｉｆｉ"></p>
+<h4 id="（二）系统功能">（二）系统功能</h4>
+<p>　　后台网管：后台网管是一个远程的WIFI设备集中管理系统，可实现设备的远程查询、远程配置、远程升级等功能，WIFI设备的运行并不依赖于网管，“后台网管”功能的加入将使WIFI设备的集中管理变得更加灵活，更加智能；</p>
+<p>　　广告推送系统：广告推送子系统可用于发布公共信息，推送商业广告，广告页面可根据不同需求进行定制修改，广告推送方式多样灵活；</p>
+<p>　　用户接入认证系统：用户接入认证子系统是一个用户注册、用户认证及用户计费/计时系统，该系统对用户接入Internet访问进行控制，用户只需打开web浏览器即可进行认证，提供多种接入认证方式，包括注册帐号、短信验证码方式，以及手机号黑白名单等方式，“接入认证系统”使运营者对用户接入Internet的控制变得可能；</p>
+<p> 　   用户上网行为管理系统：上网行为管理系统可对用户访问Internet的内容进行管理/限制，同时也可记录用户访问的Internet内容，“上网行为管理”功能在流量控制及内容限制方面尤为突出。</p>
+<p>　　各子系统的功能完整独立，可根据不同运营要求自由组合，如果只监控WIFI设备的运行状况，搭配“后台网管”即可；需要以广告推送方式来发布公共信息，可搭配“广告推送系统“；如果考虑用户接入的统计和控制，则要加上“接入认证系统”；对用户上网行为有要求的情况下，可加入“上网行为管理系统”；</p>
+<p>　　商家购买该wifi路由之后，可以选择性的接入上述系统，拥有该系统的登入账号，并对其进行管理。可以选择B/S，或者C/S系统。对于公交车而言，可以根据移动设备联网的手机号情况，熟悉有哪些用户是经常乘坐哪一路的公交，可以针对的性的对其进行相应的广告推送。</p>
+<p>　　这个系统比较重要的就是每个登入用户数据的收集，以及对数据的分析，进而有目的性的推送消息，以及流量的导入。</p>
+<p>　　以下功能应该属于后台网管部分。主要是商家对路由器的控制和设置。</p>
+<p>　　1、支持多种认证方式：</p>
+<p>　　　　短信验证、WEB认证、微信认证、QQ认证、微博认证等方式</p>
+<p>　　2、流量控制</p>
+<p>　　带宽管理</p>
+<p>　　流量控制策略，是通过为用户和应用指定“带宽通道对象”，让指定的用户和应用走指定的通道，实现对用户和应用的带宽上下限管理，例如限制迅雷、FTP的　　下载带宽等。</p>
+<p>　　3、每用户控制</p>
+<p>　　每用户控制，就是对每个用户进行控制，策略中无论是时长限额、流量限额还是带宽限制、连接数限制，针对的都是个体用户，而并非用户组，比如时长限　　　　制QQ使用1小时，表示用户组内每个用户使用QQ不能超过1小时，带宽控制中限制上传带宽为100kbps，指的是用户组内每个用户上传带宽最大值为100kbps……，　　通过每用户控制，可以使网络资源得到更加合理的应用。</p>
+<p>　　每用户控制主要包含4个部分：</p>
+<blockquote>
+<p>带宽控制：限制每用户的上传、下载带宽；<br>连接控制：限制每用户的并发连接数及每秒新建连接数；<br>时长限额：限制每用户使用网络应用的最大时长，超时长被阻塞；<br>流量限额：限制每用户使用网络应用的最大流量，超流量被阻塞；</p>
+</blockquote>
+<p>　　为保证每位乘客都可以较好的体验上网，对每个用户的流量是必须进行控制的，不然会出现某个用户使用了某个霸道的app，直接占用所有的带宽流量，那么就会影响到其他用户的无法联网。</p>
+<p>　　4、带宽控制</p>
+<p>　　通过带宽控制策略实现对目标组织结构中每个用户限制其上传和下载带宽，实现流量管控</p>
+<p>　　5、用户管理</p>
+<p>　　　　支持用户导入</p>
+<p>　　　　IP导入</p>
+<p>　　　　第三方数据导入</p>
+<p>　　　　自定义</p>
+<p>　　6、流量阈值</p>
+<p>　　流量阈值功能即指当网口总流量超阈值时触发，除了可以通过声音或者邮件进行外，还可以通过弹屏方式显示具体的超阈值流量信息。</p>
+<p>　　7、日志管理</p>
+<p>　　日志记录了系统主要的操作和事件，以及系统的各项信息，辅助技术支持人员进行系统维护和故障诊断。日志管理中提供多种日志查询。</p>
+<p>　　日志可以显示每个路由器的运行情况，不便于日常的维护和维修，及时的对无法联网的路由器进行维护。</p>
+<p>　　以下功能是对应广告商的管理：</p>
+<p>　　1、及时跟新广告内容，针对性的对每条线路公交推送相应的广告内容。</p>
+<p>　　2、对用户实行流量的导入，获得用户的点击量和浏览量。记录用户的上网行为并对其进行管理，用户上线下线的管理，使用wifi时长的记录和次数，以图表的形式清　　晰的展现出来，便于进行分析。如哪种形式的广告更能够吸引用户点击，哪种标语的出现可以增加用户的浏览时间？某条公交线路上的用户对哪一商圈的信息比较关　　注？某条线路上的用户对哪一个方面会比较感兴趣，一般在什么时间段会关注使用公交上的wifi？……等等，通过对这些数据的收集和分析，有便于公交寻找相对应的　　广告投放，增加盈利。</p>
+<p>　　3、后台可以根据不同，对广告页面推送进行多元化管理，对广告商的综合管理，每个广告的方式、时长，出现的次数，图片和信息的更新等等。</p>
+<p>　　这个部分重点就在于对广告的管理和用户信息的采集。</p>
+<h3 id="四、公交wifi难点">四、公交wifi难点</h3>
+<h4 id="（一）网速">（一）网速</h4>
+<p>　　公交wifi是移动场景下的，使用的是运营商无线信号，和固定场景下使用的有线宽带wifi是不同的。无线信号的资源是有限的，而有线宽带的资源却是接近无限的。所以，前者的上网体验肯定比不上后者。对于用户来说，用公交wifi上网同用手机流量上网来比，信号会更好。随着运营商的努力，随着4G时代的到来，无线信号越来越好了。那么用户在公交车上的体验也会越来越好。其实技术是成熟的，主要看基础设施的发展。</p>
+<h4 id="（二）wifi盈利模式探索">（二）wifi盈利模式探索</h4>
+<p>　　wifi战就是数据战服务商探索盈利模式。目前，刚起步的公交wifi也处在烧钱阶段。公交免费wifi前期投入还是蛮大的，公交免费wifi的成本中，硬件成本主要是车载路由器，然后是日常维护和向运营商购买流量的成本。支持3G网络的车载路由价格在2000元左右，而支持4G网络的路由在3000元左右。再加上人工等成本，笼统地计算，一辆公交车硬件成本为4000多元。这里并每月有加上向运营商购买的流量费。</p>
+<p>目前现有的盈利模式：</p>
+<p>　　第一种是卖广告，这也是比较成熟的盈利模式之一。这种模式虽然是盈利最直接的一种模式，但无疑也最影响用户体验的。公交wifi模式下，所提供的所有视频、音乐、读书等内容不能够实时，用户自由选择性也不强，只能通过广告弹窗的方式让用户获得信息。</p>
+<p>　　第二种应用分发，把流量变现，比如在wifi开放平台上承载各种应用，然后把流量导到微信公众号、支付宝钱包等，在用户登录wifi的时候推荐能用于下次自动登录的应用程序，这个App能作为应用市场，给用户分发有刚性需求的应用和游戏。</p>
+<p>　　第三种以网换网，用移动互联网模式来思考，采用‘以网换网’O2O模式，通过社交游戏实现变现，比如，在公交车上，乘客可以在享受热门游戏或者使用一些热门移动应用上网服务的同时，换取免费使用公交WiFi的流量。</p>
+<h3 id="五、总结">五、总结</h3>
+<p>　　公交wifi，说到底就是一种数据之战，但却建立在良好的网络基础上，配合硬件和网络的使用，根据获得的数据针对性的推送消息，这个如果能很好的实现，所获得的价值是很可观的。公交是一个庞大的交通链，城市的主动脉，若能解决上述问题，使公交wifi得以很好的利用，将又是移动互联网的一次应用。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/01/17/公交wifi运营平台分析/" data-title="公交wifi运营平台分析 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/01/17/python学习笔记（一）/" title="python学习笔记（一）">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  python学习笔记（一）</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/01/12/testNG小试牛刀/"  title="testNG小试牛刀">
+ <strong>NEXT:</strong><br/> 
+ <span>testNG小试牛刀
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、前言背景"><span class="toc-number">1.</span> <span class="toc-text">一、前言背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、wifi推送系统"><span class="toc-number">2.</span> <span class="toc-text">二、wifi推送系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、wifi系统组成"><span class="toc-number">3.</span> <span class="toc-text">三、wifi系统组成</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）网络架构"><span class="toc-number">3.1.</span> <span class="toc-text">（一）网络架构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（二）系统功能"><span class="toc-number">3.2.</span> <span class="toc-text">（二）系统功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#四、公交wifi难点"><span class="toc-number">4.</span> <span class="toc-text">四、公交wifi难点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#（一）网速"><span class="toc-number">4.1.</span> <span class="toc-text">（一）网速</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#（二）wifi盈利模式探索"><span class="toc-number">4.2.</span> <span class="toc-text">（二）wifi盈利模式探索</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#五、总结"><span class="toc-number">5.</span> <span class="toc-text">五、总结</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>17</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>3</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>3</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>18</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>3</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>
