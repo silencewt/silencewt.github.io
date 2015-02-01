@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-01-17T12:29:26.502Z</updated>
+  <updated>2015-02-01T13:55:33.387Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -13,6 +13,290 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[python 批量更换图片格式脚本]]></title>
+    <link href="http://silencewt.github.io/2015/02/01/python-%E6%89%B9%E9%87%8F%E6%9B%B4%E6%8D%A2%E5%9B%BE%E7%89%87%E6%A0%BC%E5%BC%8F%E8%84%9A%E6%9C%AC/"/>
+    <id>http://silencewt.github.io/2015/02/01/python-批量更换图片格式脚本/</id>
+    <published>2015-02-01T13:52:23.000Z</published>
+    <updated>2015-02-01T13:54:49.000Z</updated>
+    <content type="html"><![CDATA[<p>问题：将某文件下的所有jpg的图片更换为png的图片</p>
+<p>简单的实现:</p>
+<pre><code><span class="comment"># -*- coding:utf-8 -*-</span>
+<span class="keyword">from</span> os.path <span class="keyword">import</span> splitext
+<span class="keyword">import</span> glob
+<span class="keyword">from</span> PIL <span class="keyword">import</span> Image
+
+<span class="function"><span class="keyword">def</span> <span class="title">get_all_file</span><span class="params">(filename)</span>:</span>
+    files = glob.glob(filename)
+    <span class="keyword">return</span> files
+
+<span class="function"><span class="keyword">def</span> <span class="title">to_ather_file</span><span class="params">(files, type)</span>:</span>
+    <span class="keyword">for</span> jpg <span class="keyword">in</span> files:
+        im = Image.open(jpg)
+        png = splitext(jpg)[<span class="number">0</span>]+<span class="string">"."</span> + type
+        im.save(png)
+        <span class="keyword">print</span> png
+
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    filename = <span class="string">"./image/*.[Jj][Pp][Gg]"</span>
+    files = get_all_file(filename)
+    to_ather_file(files, <span class="string">"png"</span>)
+</code></pre><p>　　这是一种很简单的是实现方法，就是先用glob获得某路径下的所有文件，该文件下都是jpg图片（题目是给定的，也可以考虑存在其他图片的情况的处理方式，就是获得文件的后缀名，判断是否为jpg），然后依次读入图片，使用splitext获得文件名和后缀名，然后按照要求重组文件名并保存就好了。</p>
+<p>这里介绍两个部分：</p>
+<p><strong>glob模块：</strong></p>
+<p>在python中，glob模块是用来查找匹配的文件的    在查找的条件中，需要用到Unix shell中的匹配规则：     </p>
+<p>  *    :   匹配所所有       </p>
+<p>  ?    :   匹配一个字符       </p>
+<p>*.*  :   匹配如：[hello.txt,cat.xls,xxx234s.doc]     </p>
+<p>  ?.*  :   匹配如：[1.txt,h.py]     </p>
+<p>  ?.gif:   匹配如：[x.gif,2.gif]   </p>
+<p> 可以参考：fnmatch    如果没有匹配的，glob.glob(path)将返回一个空的list:[]</p>
+<p>也就说：glob是用来寻找文件的。某种命名规则的文件的。</p>
+<pre><code><span class="keyword">import</span> glob
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_all</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面所有的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.*'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_my_file</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面文件名为4个字符的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\????.txt'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_batch_file</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.txt'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span>
+     print(<span class="string">'获取目录[c:\\tmp]下面所有的文件：'</span>)
+     tem_files = get_all()
+     print(tem_files)
+     print(<span class="string">'获取目录[c:\\tmp]下面文件名为4个字符的文件：'</span>)
+     tem_files = get_my_file()
+     print(tem_files)
+     print(<span class="string">'获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件：'</span>)
+     tem_files = get_batch_file()
+     print(tem_files)
+
+ <span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+     main()
+</code></pre><p>　　</p>
+<p><strong>python文件操作：</strong><br>有关文件夹与文件的查找，删除等功能 在 os 模块中实现。使用时需先导入这个模块，</p>
+<p>导入的方法是:</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> os</span>
+</code></pre><p>1、将一个路径名分解为目录名和文件名两部分</p>
+<pre><code>fpath , fname = os.path.<span class="built_in">split</span>( <span class="string">"你要分解的路径"</span>)
+</code></pre><p>例如：</p>
+<pre><code><span class="keyword">a</span>, <span class="keyword">b</span> = os.path.<span class="built_in">split</span>( <span class="string">"c:\\123\\456\\test.txt"</span> )
+
+<span class="keyword">print</span> <span class="keyword">a</span>
+
+<span class="keyword">print</span> <span class="keyword">b</span>
+</code></pre><p>显示：</p>
+<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>
+
+test.txt
+</code></pre><p>2、 分解文件名的扩展名</p>
+<pre><code>fpathandname , fext = <span class="built_in">os</span>.path.splitext( <span class="string">"你要分解的路径"</span>)
+</code></pre><p>例如：</p>
+<pre><code>a, b = os.path.splitext( <span class="string">"c:\\123\\456\\test.txt"</span> )
+
+print a
+
+print b
+</code></pre><p>显示：</p>
+<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>\test
+
+.txt
+</code></pre><p>文件操作还有很多有用的函数，可以通过查找手册来看。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>问题：将某文件下的所有jpg的图片更换为png的图片</p>
+<p>简单的实现:</p>
+<pre><code><span class="comment"># -*- coding:utf-8 -*-</span>
+<span class="keyword">from</s]]>
+    </summary>
+    
+      <category term="python" scheme="http://silencewt.github.io/tags/python/"/>
+    
+      <category term="python" scheme="http://silencewt.github.io/categories/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[python类似微信未读信息图片脚本]]></title>
+    <link href="http://silencewt.github.io/2015/02/01/python%E7%B1%BB%E4%BC%BC%E5%BE%AE%E4%BF%A1%E6%9C%AA%E8%AF%BB%E4%BF%A1%E6%81%AF%E5%9B%BE%E7%89%87%E8%84%9A%E6%9C%AC/"/>
+    <id>http://silencewt.github.io/2015/02/01/python类似微信未读信息图片脚本/</id>
+    <published>2015-02-01T13:32:18.000Z</published>
+    <updated>2015-02-01T13:33:09.000Z</updated>
+    <content type="html"><![CDATA[<p>其实就是实现一个效果，给一张图片，然后再右上角给出未读的信息数目，就像我们打开微信的时候，总是看到红点就忍不住想要点击去查看一样。</p>
+<p>类似这种效果：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/new_weixin.jpg" alt="weixn"></p>
+<p>可以知道，图片是给定的，那么只要随机生成一个数字，然后再在图片的右上角显示出来就好了，这里可以使用PIL，这样就比较方便的实现了，</p>
+<p>代码：</p>
+<pre><code><span class="keyword">from</span> PIL <span class="keyword">import</span> Image,ImageDraw, ImageFont
+
+<span class="keyword">import</span> random
+
+origin_image = <span class="string">"./image/test.jpg"</span>
+new_image = <span class="string">"./image/new_test.jpg"</span>
+color = (<span class="number">255</span>,<span class="number">0</span>,<span class="number">0</span>)
+
+<span class="function"><span class="keyword">def</span>  <span class="title">numRandom</span><span class="params">()</span>:</span>
+    <span class="keyword">return</span> random.randint(<span class="number">0</span>, <span class="number">100</span>)
+
+<span class="function"><span class="keyword">def</span> <span class="title">draw_text_for_image</span><span class="params">(text, origin_image,fill_color)</span>:</span>
+<span class="keyword">try</span>:
+    image = Image.open(origin_image)
+    size = image.size
+    x = size[<span class="number">0</span>] - <span class="number">60</span>
+    font = ImageFont.truetype(<span class="string">"arial.ttf"</span>, <span class="number">36</span>)
+    draw = ImageDraw.Draw(image)
+    draw.text((x, <span class="number">15</span>), text, font=font, fill=fill_color)
+    image.save(new_image,<span class="string">'jpeg'</span>);
+<span class="keyword">except</span> :
+    <span class="keyword">print</span> <span class="string">"Unable to load image"</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    text = str(numRandom())
+    draw_text_for_image(text,origin_image,color)    
+</code></pre><p>先得到需要的图片和保存的图片路径，利用随机数产生一个随机数字，ImageDraw实现在图片是添加文字。</p>
+<p>image.size获得图片的长宽，返回一个元祖。</p>
+<p>这里说说最后一个_<em>name<strong> ==\ “\</strong>main_</em>“:</p>
+<p>　　当打开一个.py文件时,经常会在代码的最下面看到if _<em>name<strong> == ‘\</strong>main_</em>‘:</p>
+<p>　　模块是对象，并且所有的模块都有一个内置属性 _<em>name<strong>。一个模块的 \</strong>name<strong> 的值取决于您如何应用模块。如果 import 一个模块，那么模块\</strong>name<strong> 的值通常为模块文件名，不带路径或者文件扩展名。但是您也可以像一个标准的程序样直接运行模块，在这 种情况下,，\</strong>name<strong> 的值将是一个特别缺省”\</strong>main_</em>“。</p>
+<p>在cmd 中直接运行.py文件，则_<em>name<strong>的值是’\</strong>main_</em>‘；</p>
+<p>而在import 一个.py文件后，_<em>name<strong>的值就不是’\</strong>main_</em>‘了；</p>
+<p>从而用if _<em>name<strong> == ‘\</strong>main_</em>‘来判断是否是在直接运行该.py文件</p>
+<p>如:</p>
+<pre><code><span class="comment">#Test.py</span>
+
+<span class="class"><span class="keyword">class</span> <span class="title">Test</span>:</span>
+
+<span class="function"><span class="keyword">def</span> <span class="title">__init</span><span class="params">(self)</span>:</span><span class="keyword">pass</span>
+
+<span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(self)</span>:</span><span class="keyword">print</span> <span class="string">'Hello, World!'</span>
+
+<span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+
+Test().f()
+
+<span class="comment">#End</span>
+</code></pre><p>你在cmd中输入：</p>
+<p>C:&gt;python Test.py</p>
+<p>Hello, World!</p>
+<p>说明：”_<em>name<strong> == ‘\</strong>main_</em>‘“是成立的</p>
+<p>你再在cmd中输入:</p>
+<p>C:&gt;python</p>
+<p>>&gt;&gt;import Test</p>
+<p>>&gt;&gt;Test._<em>name<strong>                #Test模块的\</strong>name_</em></p>
+<p>‘Test’</p>
+<p>>&gt;&gt;_<em>name<strong>                       #当前程序的\</strong>name_</em></p>
+<p>‘_<em>main_</em>‘</p>
+<p>无论怎样，Test.py中的”_<em>name<strong> == ‘\</strong>main_</em>‘“都不会成立的!</p>
+<p>所以，下一行代码永远不会运行到</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>其实就是实现一个效果，给一张图片，然后再右上角给出未读的信息数目，就像我们打开微信的时候，总是看到红点就忍不住想要点击去查看一样。</p>
+<p>类似这种效果：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/new_w]]>
+    </summary>
+    
+      <category term="python" scheme="http://silencewt.github.io/tags/python/"/>
+    
+      <category term="python" scheme="http://silencewt.github.io/categories/python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[python生成验证码脚本]]></title>
+    <link href="http://silencewt.github.io/2015/02/01/python%E7%94%9F%E6%88%90%E9%AA%8C%E8%AF%81%E7%A0%81%E8%84%9A%E6%9C%AC/"/>
+    <id>http://silencewt.github.io/2015/02/01/python生成验证码脚本/</id>
+    <published>2015-02-01T13:14:07.000Z</published>
+    <updated>2015-02-01T13:15:40.000Z</updated>
+    <content type="html"><![CDATA[<p>最近每天都用python写一个小的脚本，练习使用python语法。</p>
+<p>验证码的生成：</p>
+<p>这里使用了python的图像处理库PIL，安装PIL的过程中出了一个小麻烦，就使用Pillow-win32的一个文件，具体的我也忘了，可以百度下。</p>
+<p>直接看代码：</p>
+<pre><code><span class="comment"># -*- coding:utf-8 -*-</span>
+
+<span class="keyword">from</span> PIL <span class="keyword">import</span> Image,ImageFont,ImageDraw,ImageFilter
+<span class="keyword">import</span> random
+<span class="comment">#返回随机字母</span>
+<span class="function"><span class="keyword">def</span> <span class="title">charRandom</span><span class="params">()</span>:</span>
+    <span class="keyword">return</span> chr((random.randint(<span class="number">65</span>,<span class="number">90</span>)))
+<span class="comment">#返回随机数字</span>
+<span class="function"><span class="keyword">def</span> <span class="title">numRandom</span><span class="params">()</span>:</span>
+    <span class="keyword">return</span> random.randint(<span class="number">0</span>,<span class="number">9</span>)
+<span class="comment">#随机颜色</span>
+<span class="function"><span class="keyword">def</span> <span class="title">colorRandom1</span><span class="params">()</span>:</span>
+<span class="keyword">return</span>       (random.randint(<span class="number">64</span>,<span class="number">255</span>),random.randint(<span class="number">64</span>,<span class="number">255</span>),random.randint(<span class="number">64</span>,<span class="number">255</span>))
+<span class="comment">#随机长生颜色2</span>
+<span class="function"><span class="keyword">def</span> <span class="title">colorRandom2</span><span class="params">()</span>:</span>
+<span class="keyword">return</span> (random.randint(<span class="number">32</span>,<span class="number">127</span>),random.randint(<span class="number">32</span>,<span class="number">127</span>),random.randint(<span class="number">32</span>,<span class="number">127</span>))
+
+width = <span class="number">60</span> * <span class="number">4</span>
+height = <span class="number">60</span>
+image = Image.new(<span class="string">'RGB'</span>, (width,height), (<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>));
+<span class="comment">#创建font对象</span>
+font = ImageFont.truetype(<span class="string">'Arial.ttf'</span>,<span class="number">36</span>);
+
+<span class="comment">#创建draw对象</span>
+draw = ImageDraw.Draw(image)
+<span class="comment">#填充每一个颜色</span>
+<span class="keyword">for</span> x <span class="keyword">in</span> range(width):
+    <span class="keyword">for</span> y <span class="keyword">in</span> range(height):
+        draw.point((x,y), fill=colorRandom1())
+
+<span class="comment">#输出文字</span>
+<span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">4</span>):
+    draw.text((<span class="number">60</span>*t+<span class="number">10</span>,<span class="number">10</span>), charRandom(),font=font, fill=colorRandom2())
+
+<span class="comment">#模糊</span>
+image = image.filter(ImageFilter.BLUR)
+image.save(<span class="string">'./image/code.jpg'</span>,<span class="string">'jpeg'</span>)
+</code></pre><p>PIL对于图像的处理还是可以的：</p>
+<p>这里是官方的文档：<a href="http://effbot.org/imagingbook/" target="_blank" rel="external">http://effbot.org/imagingbook/</a> 讲的很详细</p>
+<p>Image 类是 PIL 库中一个非常重要的类，通过这个类来创建实例可以有直接载入图像文件，读取处理过的图像和通过抓取的方法得到的图像这三种方法。可以对图形进行简单的操作例如旋转、裁剪、缩小放大，滤波等等。</p>
+<p>ImageFont模块是字体模块，可以对字体进行设置</p>
+<p>上面程序的思想：</p>
+<pre><code><span class="number">1</span>、定义了几个随机获取颜色和数字字母的函数，获得验证码的文字
+
+<span class="number">2</span>、Image.<span class="keyword">new</span>生成一个黑色的画布，也就是图片，大小<span class="number">60</span>*<span class="number">240</span>
+
+<span class="number">3</span>、ImageFont定义图片上将使用的字体
+
+<span class="number">4</span>、对该图片生成一个draw对象，通过该draw对象，改变图像的像素，使用随见长生的颜色
+
+<span class="number">5</span>、在图片上产生文字，文字也使用随机的颜色
+
+<span class="number">6</span>、对图片进行模糊化处理
+
+<span class="number">7</span>、将图片保存
+</code></pre><p>最后就可以在image文件下得到code.jpg 的图片<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/code.jpg" alt="code"></p>
+<p><strong>扩展：</strong></p>
+<p>可以的话，还可以通过draw对象在图片上随机产生几根线条，将验证码变得更难看懂，可以将文字倾斜等等。</p>
+<pre><code>image.rotate(random.randint(<span class="number">0</span>,<span class="number">30</span>),expand=<span class="number">0</span>)
+
+<span class="function"><span class="keyword">def</span> <span class="title">randomLine</span><span class="params">(self, num)</span>:</span>
+　　draw = ImageDraw.Draw(self.image)
+　　<span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,num):
+　　draw.line([self.randomPoint(),self.randomPoint()], self.randomRGB())
+　　<span class="keyword">del</span> draw
+</code></pre><p>　　</p>
+<p>　　关于验证码还有很多可以值得看的，之前在用opencv的时候，就想着做一个验证码识别的程序，从而可以实现自动登入系统，不需要每次都手工输入验证码，这好像也是图灵研究的一部分，也是人和机器的区分标志，<strong>全自动区分计算机和人类的图灵测试</strong>（英语：Completely Automated Public Turing test to tell Computers and Humans Apart，简称<strong>CAPTCHA</strong>），俗称验证码。具体的可以百度了解。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>最近每天都用python写一个小的脚本，练习使用python语法。</p>
+<p>验证码的生成：</p>
+<p>这里使用了python的图像处理库PIL，安装PIL的过程中出了一个小麻烦，就使用Pillow-win32的一个文件，具体的我也忘了，可以百度下。</p>
+<p>]]>
+    </summary>
+    
+      <category term="python" scheme="http://silencewt.github.io/tags/python/"/>
+    
+      <category term="python" scheme="http://silencewt.github.io/categories/python/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[python学习笔记（三）]]></title>
@@ -1938,123 +2222,6 @@ http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span>
     </summary>
     
       <category term="图像融合" scheme="http://silencewt.github.io/tags/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/categories/lab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[车牌识别LPR系统系列文章汇总]]></title>
-    <link href="http://silencewt.github.io/2014/12/30/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%E7%B3%BB%E7%BB%9F%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0%E6%B1%87%E6%80%BB/"/>
-    <id>http://silencewt.github.io/2014/12/30/车牌识别LPR系统系列文章汇总/</id>
-    <published>2014-12-30T02:50:35.000Z</published>
-    <updated>2014-12-30T02:51:19.000Z</updated>
-    <content type="html"><![CDATA[<p>　　这里的LPR的的几篇文章是之前项目的一些相关资料的整理，涉及实验室内部的资料就没有放上来，希望能对想了解这方面的同学，有所帮助，那怕了解个大概也好。知道整体的思路就好。当初就是一个人瞎摸索，走了很多的弯路，也算给其他人一点建议吧。</p>
-<p>车牌识别LPR系统系列文章汇总：</p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E4%B8%80%EF%BC%89-%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF/" target="_blank" rel="external">车牌识别LPR（一）— 研究背景</a></p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E4%BA%8C%EF%BC%89-%E8%BD%A6%E7%89%8C%E7%89%B9%E5%BE%81%E5%8F%8A%E9%9A%BE%E7%82%B9/" target="_blank" rel="external">车牌识别LPR（二）— 车牌特征及难点</a></p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E4%B8%89%EF%BC%89-LPR%E7%B3%BB%E7%BB%9F%E6%95%B4%E4%BD%93%E7%BB%93%E6%9E%84/" target="_blank" rel="external">车牌识别LPR（三）— LPR系统整体结构</a></p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E5%9B%9B%EF%BC%89-%E8%BD%A6%E7%89%8C%E5%AE%9A%E4%BD%8D/" target="_blank" rel="external">车牌识别LPR（四）— 车牌定位</a> </p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E4%BA%94%EF%BC%89-%E4%B8%80%E7%A7%8D%E8%BD%A6%E7%89%8C%E5%AE%9A%E4%BD%8D%E6%B3%95/" target="_blank" rel="external">车牌识别LPR（五）— 一种车牌定位法</a> </p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E5%85%AD%EF%BC%89-%E5%AD%97%E7%AC%A6%E5%88%86%E5%89%B2/" target="_blank" rel="external">车牌识别LPR（六）— 字符分割</a></p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E4%B8%83%EF%BC%89-%E5%AD%97%E7%AC%A6%E7%89%B9%E5%BE%81/" target="_blank" rel="external">车牌识别LPR（七）— 字符特征</a></p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E5%85%AB%EF%BC%89-%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB/" target="_blank" rel="external">车牌识别LPR（八）— 字符识别</a> </p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　这里的LPR的的几篇文章是之前项目的一些相关资料的整理，涉及实验室内部的资料就没有放上来，希望能对想了解这方面的同学，有所帮助，那怕了解个大概也好。知道整体的思路就好。当初就是一个人瞎摸索，走了很多的弯路，也算给其他人一点建议吧。</p>
-<p>车牌识别LPR系统系列文]]>
-    </summary>
-    
-      <category term="LPR" scheme="http://silencewt.github.io/tags/LPR/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/categories/lab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[图像融合（一）-- 概述]]></title>
-    <link href="http://silencewt.github.io/2014/12/29/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%B8%80%EF%BC%89-%E6%A6%82%E8%BF%B0/"/>
-    <id>http://silencewt.github.io/2014/12/29/图像融合（一）-概述/</id>
-    <published>2014-12-29T12:28:00.000Z</published>
-    <updated>2014-12-29T12:33:59.000Z</updated>
-    <content type="html"><![CDATA[<p>　　这是2014年第二部分的内容。关于三光检测融合的一些资料整理，部分内容由于保密原因没有写出来，这里整理的内容都是网上或者文章里可以看到的。</p>
-<h3 id="一、概述">一、概述</h3>
-<p>　　图像融合是图像处理中重要部分，能够协同利用同一场景的多种传感器图像信息，输出一幅更适合于人类视觉感知或计算机进一步处理与分析的融合图像。它可明显的改善单一传感器的不足，提高结果图像的清晰度及信息包含量，有利于更为准确、更为可靠、更为全面地获取目标或场景的信息。</p>
-<p>　　图像融合主要应用于军事国防上、遥感方面、医学图像处理、机器人、安全和监控、生物监测等领域。用于较多也较成熟的是红外和可见光的融合，在一副图像上显示多种信息，突出目标。</p>
-<p>　　融合过程可以在不同的层次上进行，可分为：信号级、像素级、特征级，决策级。</p>
-<h4 id="1-1、信号级">1.1、信号级</h4>
-<p>　　在最低层对未经处理的传感器输出在信号域进行混合，产生一个融合后的信号。融合后的信号与源信号形式相同但品质更好，来自传感器的信号可建模为混有不同相关噪声的随机变量。此种情况下，融合可以考虑为一种估计过程，信号级图像融合在很大程度上是信号的最优集中或分布检测问题，对信号时间和空间上的配准要求最高。</p>
-<h4 id="1-2、像素级">1.2、像素级</h4>
-<p>　　像素级图像融合是三个层次中最基本的融合，经过像素级图像融合以后得到的图像具有更多的细节信息，如边缘、纹理的提取，有利于图像的进一步分析、处理与理解，还能够把潜在的目标暴露出来，利于判断识别潜在的目标像素点的操作，这种方法才可以尽可能多的保存源图像中的信息，使得融合后的图片不论是内容还是细节都有所增加，这个优点是独一无二的，仅存在于像素级融合中。但像素级图像融合的局限性也是不能忽视的，由于它是对像素点进行操作，所以计算机就要对大量的数据进行处理，处理时所消耗的时间会比较长，就不能够及时地将融合后图像显示出来，无法实现实时处理；另外在进行数据通信时，信息量较大，容易受到噪声的影响；还有如果没有将图片进行严格的配准就直接参加图像融合，会导致融合后的图像模糊，目标和细节不清楚、不精确。</p>
-<h4 id="1-3、特征级">1.3、特征级</h4>
-<p>　　特征级图像融合是从源图像中将特征信息提取出来，这些特征信息是观察者对源图像中目标或感兴趣的区域，如边缘、人物、建筑或车辆等信息，然后对这些特征信息进行分析、处理与整合从而得到融合后的图像特征。对融合后的特征进行目标识别的精确度明显的高于原始图像的精确度。特征级融合对图像信息进行了压缩，再用计算机分析与处理，所消耗的内存与时间与像素级相比都会减少，所需图像的实时性就会有所提高。特征级图像融合对图像匹配的精确度的要求没有第一层那么高，计算速度也比第一层快，可是它提取图像特征作为融合信息，所以会丢掉很多的细节性特征。</p>
-<h4 id="1-4、决策级">1.4、决策级</h4>
-<p>　　决策级图像融合是以认知为基础的方法，它不仅是最高层次的图像融合方法，抽象等级也是最高的。决策级图像融合是有针对性的，根据所提问题的具体要求，将来自特征级图像所得到的特征信息加以利用，然后根据一定的准则以及每个决策的可信度（目标存在的概率）直接作出最优决策。三个融合层级中，决策级图像融合的计算量是最小的，可是这种方法对前一个层级有很强的依赖性，得到的图像与前两种融合方法相比不是很清晰。将决策级图像融合实现起来比较困难，但图像传输时噪声对它的影响最小。</p>
-<p>　　综合以上，<strong>研究和应用最多的是像数级图像融合</strong>，目前提出的绝大多数的图像融合算法均属于该层次上的融合。图像融合狭义上指的就是像数级图像融合。本文研究的也正是像素级图像融合算法。</p>
-<p>　　<strong>红外和可见的融合很多文献都是从像素级入手，基于已有的融合算法，根据实际情况，来设立融合规则，得到适合实际应用场景的融合图像。</strong></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　这是2014年第二部分的内容。关于三光检测融合的一些资料整理，部分内容由于保密原因没有写出来，这里整理的内容都是网上或者文章里可以看到的。</p>
-<h3 id="一、概述">一、概述</h3>
-<p>　　图像融合是图像处理中重要部分，能够协同利用同一场景的多种传感器图]]>
-    </summary>
-    
-      <category term="图像融合" scheme="http://silencewt.github.io/tags/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/categories/lab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[车牌识别LPR（八）-- 字符识别]]></title>
-    <link href="http://silencewt.github.io/2014/12/29/%E8%BD%A6%E7%89%8C%E8%AF%86%E5%88%ABLPR%EF%BC%88%E5%85%AB%EF%BC%89-%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB/"/>
-    <id>http://silencewt.github.io/2014/12/29/车牌识别LPR（八）-字符识别/</id>
-    <published>2014-12-29T08:35:10.000Z</published>
-    <updated>2014-12-29T08:43:04.000Z</updated>
-    <content type="html"><![CDATA[<p>​第八篇：字符识别</p>
-<p>　　车牌定位、车牌倾斜校正、车牌字符分割都是为车牌字符识别做的前提工作，这些前提工作直接关系到车牌识别系统的性能。车牌字符识别是车牌识别系统的核心部分，车牌字符识别的准确率是衡量车牌识别系统的一个很重要的指标。</p>
-<p>　　一般字符识别的方法就是采用模式识别方法，简单的来说模式识别就是先通过提取输入模板的特征，然后通过模板的特征对样本进行分类，从而识别出样本。模式识别主要包括：数据采集、预处理、特征提取、特征匹配，其结构框架如图：</p>
-<p>　　字符识别是模式识别的一个重要应用，首先提取待识别字符的特征；然后对提取出来的特征跟字符模板的特征匹配；最后根据准则判定该字符所属的类别。不同的训练方法，不同的特征提取， 不同的匹配规则，就相应的有不同的字符识别方法，基本上很多就是在这些地方做改进，或者是采用新的规则。但是万变不离其宗。</p>
-<p><strong>（1）模板匹配字符识别算法</strong></p>
-<p>　　模板匹配字符识别算法是图像识别中的经典算法之一，该算法的核心思想是：通过比较待识别字符图像的字符特征和标准模板的字符特征，计算两者之间的相似性，相似性最大的标准模板的字符即为待识别的字符。该方法首先要建立标准模板库，其中标准模板库中的字符的大小是一样的；然后将待识别的字符规格化，其大小应该和模板库中的字符一样；最后将待识别的字符和标准模板库中的所有字符进行匹配，计算相似度。模板匹配字符识别算法适用于印刷字体、字体规范的字符等，但是对字符变形、弯曲、字符旋转等情况的抗干扰能力差。</p>
-<p><strong>（2）神经网络字符识别算法</strong></p>
-<p>　　主要思想是：通过神经网络学习大量字符样本，从而得到字符的样本特征。当对待识别的字符进行识别时，神经网络就会将待识别字符的特征和之前得到的样本特征匹配，从而识别出字符。该算法主要利用神经网络的学习和记忆功能。神经网络虽然有其优点，但是由于采用神经网络识别字符依赖于初始的样本的选择，并且容易陷入局部最优和收敛速度慢，因此采用神经网络识别字符的算法仍需要改进。</p>
-<p><strong>（3）支持向量机</strong></p>
-<p>　　主要思想：同上，都是先得到样本特征，进行训练，然后再分类。SVM应该算是用的的最多的分类方法，一般大多适合于二分类问题，在这里就需要使用多分类器来构造。</p>
-<h3 id="字符识别步骤："><strong>字符识别步骤：</strong></h3>
-<h4 id="1、归一化">1、归一化</h4>
-<p>　　主要包括位置归一化和大小归一化。由于本文处理的车牌字符都是标准的印刷体字符，且都进行过倾斜校正，所以不需要对其进行位置归一化。但由于摄像距离大小不一样，导致拍摄到的车辆图像中的车牌字符大小不一，为了达到更好的识别效果，就需要对分割出来的单个车牌字符进行大小归一化。常用的归一化方法有两种：一种是将字符图像的外边框按比例线性放大或缩小到规定尺寸；另一种是根据水平和垂直两个方向像素的分布进行大小归一化。一般用第一种。当映射到原图像的点的坐标不是整数，即位于几个像素之间，这就需要利用插值算法来决定该像素的值。使用常见的双线性插值法。将图像归一化为32*64的。</p>
-<h4 id="2、特征">2、特征</h4>
-<p>　　根据上一篇的介绍，采用LBP特征来识别汉字，均匀网格特征来识别字母和数字。</p>
-<h4 id="3、分类器">3、分类器</h4>
-<p>　　SVM作为分类器。支持向量机的原理，其所涉及到的数学知识比较复杂，自己编程实现的话有一定难度。采用现成的支持 SVM 的工具箱，公认做的比较好的是台湾大学林智仁(Chih-Jen Lin)教授开发的 LibSVM，支持 SVM 的各种算法，可以解决回归和分类识别问题。LibSVM 不但提供了 Windows 系统的可执行文件，还提供了 C 语言的源代码，方便科研工作者根据自己的需要进行改进，而且还提供了Java、Matlab、C#、Ruthon 等语言的接口。当然可以直接调用opencv中的SVM工具。 </p>
-<p>　　汉字的笔画很稠密，字符分辨率非常低:如果对车牌汉字字符进行二值化，将会丢失汉字的很多重要的结构信息，产生不必要的噪声，导致笔画断裂和笔画粘连等。</p>
-<h4 id="4、二次识别">4、二次识别</h4>
-<p>　　总的来说，单个字符的识别率比较高，容易识别错的主要是相近字符，解决这类问题的最佳办法就是二次识别。将相似字符中的一个识别出来后，便能确定其属于哪一类相近字符类别,利用区分相近字符的细节特征，将这个字符到专门识别这类相近字符的分类器中进行二次识别。车牌字符中相近字符主要有5类，分为为“0”、“D”、“Q”，“B”、“8”，“2”、”Z”，“5”、”S”和“A”、“4”。</p>
-<p>　　(1) “0”、“D、“Q”</p>
-<p>　　从字符图像中可以看出,它们的区分在左侧和右下角，其中“D”的左边为直线，黑色像素点较多，而“0”和“Q”的左边均为弧线,黑色像素点相对较少；字符“Q”的右下角的笔画丰富，黑色像素较多。具体局部特征如图：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.1.png" alt="0dq"></p>
-<p> 　　(2)“B、8“</p>
-<p>　　它们的区别在字符的左侧,“8”的左侧为弧线,而“B”的左侧为直线。具体局部<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.2.png" alt="b8"></p>
-<p>　　(3) “2、Z”</p>
-<p>　　它们的区别在字符的上方，“2”的上方为弧线，“Z”的上方为直线，具体局部特征。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.3.png" alt="2z"></p>
-<p>　　(4)“5、S”</p>
-<p>　　它们的区别在字符的上半部分，“5”的上半部分中，上方和左侧均为直线,而”S”的上半部分为弧线。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.4.png" alt="5s"></p>
-<p> 　　(5)“A、4”</p>
-<p>　　由于存在倾斜等情况,仅仅通过基本特征会出现误识别,它们的区别在左下角。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr8.5.png" alt="a4"></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>​第八篇：字符识别</p>
-<p>　　车牌定位、车牌倾斜校正、车牌字符分割都是为车牌字符识别做的前提工作，这些前提工作直接关系到车牌识别系统的性能。车牌字符识别是车牌识别系统的核心部分，车牌字符识别的准确率是衡量车牌识别系统的一个很重要的指标。</p>
-<p>　　一般字符识]]>
-    </summary>
-    
-      <category term="LPR" scheme="http://silencewt.github.io/tags/LPR/"/>
     
       <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
     

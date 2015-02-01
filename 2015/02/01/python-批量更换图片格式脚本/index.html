@@ -4,13 +4,20 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>selenium--大家庭介绍 | Silence 婷婷 Blog</title>
+    <title>python 批量更换图片格式脚本 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="安装好配置环境后，开始我的selenium之旅。简单的了解一下色，selenium大家庭的组成。
-Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Selenium使用JavaScript和Iframes在浏览器嵌入自动化测试引擎，可以在任何支持JavaScript的浏">
+    <meta name="description" content="问题：将某文件下的所有jpg的图片更换为png的图片
+简单的实现:
+# -*- coding:utf-8 -*-
+from os.path import splitext
+import glob
+from PIL import Image
+
+def get_all_file(filename):
+ ">
     
     
     
@@ -121,15 +128,15 @@ Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Seleni
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/25/selenium-大家庭介绍/" title="selenium--大家庭介绍" itemprop="url">selenium--大家庭介绍</a>
+      <a href="/2015/02/01/python-批量更换图片格式脚本/" title="python 批量更换图片格式脚本" itemprop="url">python 批量更换图片格式脚本</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-12-25T13:29:10.000Z" itemprop="datePublished">12月 25 2014</time>
-    更新日期:<time datetime="2015-01-10T05:52:14.000Z" itemprop="dateModified">1月 10 2015</time>
+    <time datetime="2015-02-01T13:52:23.000Z" itemprop="datePublished">2月 1 2015</time>
+    更新日期:<time datetime="2015-02-01T13:54:49.000Z" itemprop="dateModified">2月 1 2015</time>
     
   </p>
 </header>
@@ -138,62 +145,119 @@ Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Seleni
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebDriver"><span class="toc-number">1.</span> <span class="toc-text">WebDriver</span></a></li></ol>
+		
 		</div>
 		
-		<p>安装好配置环境后，开始我的selenium之旅。简单的了解一下色，selenium大家庭的组成。</p>
-<p>Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Selenium使用JavaScript和Iframes在浏览器嵌入自动化测试引擎，可以在任何支持JavaScript的浏览器中进行工作，模拟用户在浏览器中进行的操作。Selenium的强大之处就在于可以使用集成开发环境，让用户使用自己最熟悉的开发语言进行调试操作。</p>
-<p><strong>Selenium的优势</strong>：<br>1）它是开源的    </p>
-<p>2）简单，易于安装，易于工作    </p>
-<p>3）提供Selenium IDE ，一个FireFox plugin，能自动记录用户的操作，生成测试脚本。生成的测试脚本可以基于Selenium RC放入Java，C#，Ruby的单元测试用例中自动运行。selenium ide是selenium的唯一可以在浏览器窗口上记录用户行为的组件     </p>
-<p>4）除了火狐上的事件外不会记录你电脑上的任何其他事件    </p>
-<p>5）Selenium支持多种浏览器，能够运行与多种操作系统，因此更容易帮助测试人员发现应用程序在不同浏览器上的兼容性问题。通过在不同浏览器中运行测试，更容易发现浏览器的不兼容性. </p>
-<p>6）通过编写模仿用户操作的 Selenium 测试脚本，可以从终端用户的角度来测试应用程序；可以操作 Web 页面上的各种元素，诸如：点击按钮、输入文本框，以及断言 Web 页面上存在某些文本与 Web 元素等。<br><br>7）测试用例调用实际的浏览器(如IE、FireFox)来执行测试。和有些开源方案自行实现Web解释引擎相比，实际的浏览器能模拟更多用户交互和JS语法。    </p>
-<p> 8） SELENIUM录制的脚本比较灵活，因为它生成的是PERL的脚本程序。作为几乎最为强大和最广泛使用语言之一，PERL这种程序给予我最大的灵活性和控制度。</p>
-<p><strong>Selenium IDE</strong> 支持并且只支持 Firefox 浏览器，支持的浏览器太少，而依附于 Firefox 也不便于日后开展自动化测试，但是，它的录制快捷好用！并且有代码 转换功能，可以把 Selenium 语言测试案例转为 C#,Java 等语言的测试案例，使用 Selenium IDE + FireBug 进行测试案例的编写，然后转为其他语言的测试案例后，再调用 Selenium RC运行测试案例。</p>
-<p><strong>Selenium RC</strong> 它支持很多浏览器，可以使用 C#，Java 等语言编写测试案例，易于维护，同时提供了很好的扩展性，将使用Selenium RC 测试工具。</p>
-<p>selenium 和 WebDriver 合幵后创建了一个新的 Selenium 2 框架。 Selenium 是一个针对网页应用测试非常好的框架。他有着一些积极的影响。WebDriver 也不像 Selenium 1 一样需要一个代理。你可以直接和浏览器进行对话。这也非常受人们欢迎的，因为可以加快测试的执行速度，不需要一个“中间人”进行传递消息。</p>
-<p><strong>Selenium IDE</strong>：右Command、target、value组成的表格就是脚本，每个脚本都是一条条的action行为组成，action有CTV 三者组成，command就是api中的各种函数，target就是web中的某个目标对象，比如：输入框、按钮等，使用xpath选取对象。Value：根据实际内容填写。</p>
-<p>　　在这里可以手动的增加两种页面校验：verify和assert。他们都能对显示内容，输出内等做验证，区别在于：</p>
-<ul>
-<li>verify：验证失败了，会抛出期望结果不存在的错误，但是测试过程会继续执行下面的步骤，但会显示成淡红的。</li>
-<li>assert：验证失败，测试不会继续执行下去。</li>
-</ul>
-<p>Selenium 没有指明会等到需要交互的元素出现，所以你最好等到需要交互元素出现时再迕行交互，即利用wait指令。如带有下拉菜单，带有ajax的页面都要有所等待，等页面元素准备好了再进行下一步的操作。</p>
-<p>Selenium RC：有两部分组成</p>
-<ul>
-<li>Selenium Server：负责控制浏览器行为，包括三个部分：launcher、http proxy、Selenium core，其中Selenium core是Selenium server嵌入到浏览器页面中的，Selenium core是一堆JS函数的集合，从而实现对浏览器的操作。</li>
-<li>Selenium Clientlibrary：写测试案例时用来控制server的库。</li>
-</ul>
-<p>支持很多浏览器，可以使用C#，Java 等语言编写测试案例，易于维护，同时提供了很好的扩展性。</p>
-<p><strong>Selenium Grid</strong>允许创建很多个 Selenium RC实例，由一个中心来发送 Selenium RC命令。拥有一个中心点 Hub， 测试可以连接到此点，  测试命令会推送到连接在此集线器上的Remote RC 实例上。 这个中心有一个 web 界面（localhost：4444/console）， 告诉你连接在此集线器上的Selenium RC 实例，和返些实例是否正在使用的状态。</p>
-<blockquote>
-<p>启动Selenium Server<br>java –jar selenium-server-standalone-2.22.0.jar -port 4444<br>启动Selenium Grid的Hub<br>java –jar selenium-server-standalone-2.22.0.jar -port 4000 -role hub<br>启动Selenium Grid的Node，其中的-hub参数，是Selenium Grid的Hub的URL<br>java -jar selenium-server-standalone-2.22.0.jar -port 4001 -role node -hub <a href="http://127.0.0.1:4000/grid/register" target="_blank" rel="external">http://127.0.0.1:4000/grid/register</a></p>
-</blockquote>
-<p>显然，可以启动多个Node：<br>java -jar selenium-server-standalone-2.22.0.jar -port 4002 -role node -hub <a href="http://127.0.0.1:4000/grid/register" target="_blank" rel="external">http://127.0.0.1:4000/grid/register</a></p>
-<h4 id="WebDriver">WebDriver</h4>
-<p>　　WebDriver 提供一个先进技术来定位 web 页面元素。其实WebDriver就是基于Selenium的一个自动化测试类库，但它不再是运行在浏览器内的JS程序，而是自己可以控制浏览器。webdriver提供了很多方式来定位元素，对于不同平台的语言都有相关的api，如C#、java、python、ruby等等。</p>
-<p>　　前段时间利用空余的时间学习这方面的知识，现将其一点点的整理出来。</p>
+		<p>问题：将某文件下的所有jpg的图片更换为png的图片</p>
+<p>简单的实现:</p>
+<pre><code><span class="comment"># -*- coding:utf-8 -*-</span>
+<span class="keyword">from</span> os.path <span class="keyword">import</span> splitext
+<span class="keyword">import</span> glob
+<span class="keyword">from</span> PIL <span class="keyword">import</span> Image
+
+<span class="function"><span class="keyword">def</span> <span class="title">get_all_file</span><span class="params">(filename)</span>:</span>
+    files = glob.glob(filename)
+    <span class="keyword">return</span> files
+
+<span class="function"><span class="keyword">def</span> <span class="title">to_ather_file</span><span class="params">(files, type)</span>:</span>
+    <span class="keyword">for</span> jpg <span class="keyword">in</span> files:
+        im = Image.open(jpg)
+        png = splitext(jpg)[<span class="number">0</span>]+<span class="string">"."</span> + type
+        im.save(png)
+        <span class="keyword">print</span> png
+
+
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    filename = <span class="string">"./image/*.[Jj][Pp][Gg]"</span>
+    files = get_all_file(filename)
+    to_ather_file(files, <span class="string">"png"</span>)
+</code></pre><p>　　这是一种很简单的是实现方法，就是先用glob获得某路径下的所有文件，该文件下都是jpg图片（题目是给定的，也可以考虑存在其他图片的情况的处理方式，就是获得文件的后缀名，判断是否为jpg），然后依次读入图片，使用splitext获得文件名和后缀名，然后按照要求重组文件名并保存就好了。</p>
+<p>这里介绍两个部分：</p>
+<p><strong>glob模块：</strong></p>
+<p>在python中，glob模块是用来查找匹配的文件的    在查找的条件中，需要用到Unix shell中的匹配规则：     </p>
+<p>  *    :   匹配所所有       </p>
+<p>  ?    :   匹配一个字符       </p>
+<p>*.*  :   匹配如：[hello.txt,cat.xls,xxx234s.doc]     </p>
+<p>  ?.*  :   匹配如：[1.txt,h.py]     </p>
+<p>  ?.gif:   匹配如：[x.gif,2.gif]   </p>
+<p> 可以参考：fnmatch    如果没有匹配的，glob.glob(path)将返回一个空的list:[]</p>
+<p>也就说：glob是用来寻找文件的。某种命名规则的文件的。</p>
+<pre><code><span class="keyword">import</span> glob
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_all</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面所有的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.*'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_my_file</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面文件名为4个字符的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\????.txt'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">get_batch_file</span><span class="params">()</span>:</span>
+     <span class="string">'''获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件'''</span>
+     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.txt'</span>)
+
+ <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span>
+     print(<span class="string">'获取目录[c:\\tmp]下面所有的文件：'</span>)
+     tem_files = get_all()
+     print(tem_files)
+     print(<span class="string">'获取目录[c:\\tmp]下面文件名为4个字符的文件：'</span>)
+     tem_files = get_my_file()
+     print(tem_files)
+     print(<span class="string">'获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件：'</span>)
+     tem_files = get_batch_file()
+     print(tem_files)
+
+ <span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
+     main()
+</code></pre><p>　　</p>
+<p><strong>python文件操作：</strong><br>有关文件夹与文件的查找，删除等功能 在 os 模块中实现。使用时需先导入这个模块，</p>
+<p>导入的方法是:</p>
+<pre><code><span class="preprocessor"><span class="keyword">import</span> os</span>
+</code></pre><p>1、将一个路径名分解为目录名和文件名两部分</p>
+<pre><code>fpath , fname = os.path.<span class="built_in">split</span>( <span class="string">"你要分解的路径"</span>)
+</code></pre><p>例如：</p>
+<pre><code><span class="keyword">a</span>, <span class="keyword">b</span> = os.path.<span class="built_in">split</span>( <span class="string">"c:\\123\\456\\test.txt"</span> )
+
+<span class="keyword">print</span> <span class="keyword">a</span>
+
+<span class="keyword">print</span> <span class="keyword">b</span>
+</code></pre><p>显示：</p>
+<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>
+
+test.txt
+</code></pre><p>2、 分解文件名的扩展名</p>
+<pre><code>fpathandname , fext = <span class="built_in">os</span>.path.splitext( <span class="string">"你要分解的路径"</span>)
+</code></pre><p>例如：</p>
+<pre><code>a, b = os.path.splitext( <span class="string">"c:\\123\\456\\test.txt"</span> )
+
+print a
+
+print b
+</code></pre><p>显示：</p>
+<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>\test
+
+.txt
+</code></pre><p>文件操作还有很多有用的函数，可以通过查找手册来看。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/selenium/">selenium</a>
+  <span></span> <a href="/tags/python/">python</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/软件测试/">软件测试</a>
+  <a class="article-category-link" href="/categories/python/">python</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/12/25/selenium-大家庭介绍/" data-title="selenium--大家庭介绍 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2015/02/01/python-批量更换图片格式脚本/" data-title="python 批量更换图片格式脚本 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -202,19 +266,11 @@ Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Seleni
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/25/简单Xpath入门/" title="简单Xpath入门">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  简单Xpath入门</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/25/一个网页的测试用例/"  title="一个网页的测试用例">
+<a href="/2015/02/01/python类似微信未读信息图片脚本/"  title="python类似微信未读信息图片脚本">
  <strong>NEXT:</strong><br/> 
- <span>一个网页的测试用例
+ <span>python类似微信未读信息图片脚本
 </span>
 </a>
 </div>
@@ -231,7 +287,7 @@ Selenium是ThoughtWorks专门为Web应用而开发的功能测试工具。Seleni
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#WebDriver"><span class="toc-number">1.</span> <span class="toc-text">WebDriver</span></a></li></ol>
+  
   </div>
 
 <div id="asidepart">
