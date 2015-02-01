@@ -132,7 +132,7 @@ from P">
     </p>
   <p class="article-time">
     <time datetime="2015-02-01T13:32:18.000Z" itemprop="datePublished">2月 1 2015</time>
-    更新日期:<time datetime="2015-02-01T13:33:09.000Z" itemprop="dateModified">2月 1 2015</time>
+    更新日期:<time datetime="2015-02-01T14:04:24.000Z" itemprop="dateModified">2月 1 2015</time>
     
   </p>
 </header>
@@ -176,12 +176,12 @@ color = (<span class="number">255</span>,<span class="number">0</span>,<span cla
     draw_text_for_image(text,origin_image,color)    
 </code></pre><p>先得到需要的图片和保存的图片路径，利用随机数产生一个随机数字，ImageDraw实现在图片是添加文字。</p>
 <p>image.size获得图片的长宽，返回一个元祖。</p>
-<p>这里说说最后一个_<em>name<strong> ==\ “\</strong>main_</em>“:</p>
-<p>　　当打开一个.py文件时,经常会在代码的最下面看到if _<em>name<strong> == ‘\</strong>main_</em>‘:</p>
-<p>　　模块是对象，并且所有的模块都有一个内置属性 _<em>name<strong>。一个模块的 \</strong>name<strong> 的值取决于您如何应用模块。如果 import 一个模块，那么模块\</strong>name<strong> 的值通常为模块文件名，不带路径或者文件扩展名。但是您也可以像一个标准的程序样直接运行模块，在这 种情况下,，\</strong>name<strong> 的值将是一个特别缺省”\</strong>main_</em>“。</p>
-<p>在cmd 中直接运行.py文件，则_<em>name<strong>的值是’\</strong>main_</em>‘；</p>
-<p>而在import 一个.py文件后，_<em>name<strong>的值就不是’\</strong>main_</em>‘了；</p>
-<p>从而用if _<em>name<strong> == ‘\</strong>main_</em>‘来判断是否是在直接运行该.py文件</p>
+<p>这里说说最后一个__name__ ==\ “__main__“:</p>
+<p>　　当打开一个.py文件时,经常会在代码的最下面看到if __name<strong> == “__main</strong>“:</p>
+<p>　　模块是对象,并且所有的模块都有一个内置属性name。一个模块的 _<em>name<strong> 的值取决于您如何应用模块。如果 import 一个模块，那么模块\</strong>name<strong> 的值通常为模块文件名，不带路径或者文件扩展名。但是您也可以像一个标准的程序样直接运行模块，在这 种情况下,\</strong>name<strong> 的值将是一个特别缺省”\</strong>main_</em>“。</p>
+<p>在cmd 中直接运行.py文件，则__name__的值是’__main__‘；</p>
+<p>而在import 一个.py文件后，__name__的值就不是’__main__‘了；</p>
+<p>从而用if __name__ == ‘__main__‘来判断是否是在直接运行该.py文件</p>
 <p>如:</p>
 <pre><code><span class="comment">#Test.py</span>
 
