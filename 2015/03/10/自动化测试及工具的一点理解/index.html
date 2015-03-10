@@ -1,0 +1,489 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>自动化测试及工具的一点理解 | Silence 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="1、回归测试：
+　　由于回归测试的测试目标是已有的，稳定的功能，我们会下意识的以为是不会有问题的，并且往往只需要测试一次就行，在这中情况下，如果能有一个稳定的自动化测试脚本来代替手工的操作，将极大的提高工作效率，在关注新功能的同时不会忽略回归测试。而且随着产品版本不断的迭代，叠加的功能也会越来越多，">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Silence 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Silence 婷婷 Blog" title="Silence 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Silence 婷婷 Blog">Silence 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/03/10/自动化测试及工具的一点理解/" title="自动化测试及工具的一点理解" itemprop="url">自动化测试及工具的一点理解</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-03-10T03:01:39.000Z" itemprop="datePublished">3月 10 2015</time>
+    更新日期:<time datetime="2015-03-10T03:04:33.000Z" itemprop="dateModified">3月 10 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p><strong>1、回归测试：</strong></p>
+<p>　　由于回归测试的测试目标是已有的，稳定的功能，我们会下意识的以为是不会有问题的，并且往往只需要测试一次就行，在这中情况下，如果能有一个稳定的自动化测试脚本来代替手工的操作，将极大的提高工作效率，在关注新功能的同时不会忽略回归测试。而且随着产品版本不断的迭代，叠加的功能也会越来越多，我们会更关注新功能，没有更多的精力和意识去关注既有功能是否被破坏掉了，所以自动化是不二的选择。</p>
+<p><strong>2、手工测试和自动化的区别</strong>：</p>
+<p> 　　手工测试：测试人员能很好的把握测试用例之间执行的先后顺序，一个个有序的执行测试，后执行的测试可以利用前一个测试执行后所创建的数据记录</p>
+<p>　　自动化测试：需要在程序中将脚本的执行顺序显示的用代码表示出来，并且清晰的告诉计算机如何判断结果的正确与否，测试用例之间的依赖关系很难在脚本中清晰的表达出来，运行脚本的人员并不知道用例之间的依赖性。</p>
+<p><strong>3、测试环境</strong></p>
+<p> 　　我们知道，在测试之前对于测试环境的搭建是很重要的，保证测试环境的正确性、快速的搭建出测试环境，有利于之后测试的顺利进行。一般对于同一个需要测试的软件，系统的环境要求是一样的，要是在不同的机子上测试，每次都需要重新搭建一个环境，这样既耗时又耗费力气，如果能将环境的配置信息编写成脚本，每次只需要运行脚本就可以将环境搭建好，那么节省大量的人力物力。</p>
+<p><strong>4、不是所有都是自动化</strong></p>
+<p> 　　软件产品开发的特点就是紧急，时间紧，如何在短时间内实现自动化，是否需要自动化都是需要考虑的。如果产品周期短，脚本的开发执行成本远远大于手工执行脚本，在根据之后对于该脚本的执行次数来看，就可以简单的判断是否可以自动化。自动化测试虽然好，但不能一味的将所有的都自动化，自动化投入的时间成本会比较高。自动化框架和脚本的开发是一个投入量很大的项目，而一个可读性不高，健壮性不强的脚本，往往会让测试人员耗费大量的精力去维护，其结果往往得不偿失。所以在脚本开发时要特别注意脚本的了可读性、独立运行性和可重复性，降低后续的维护成本。</p>
+<hr>
+<p>对于自动化测试工具：</p>
+<p>1、<strong>界面自动化测试工具</strong>，我们往往入门的时候都是用的商业或者开源的工具，例如：QTP、RFT之类，这些都是界面级别的自动化测试，界面自动化测试的有一定开发难度，但是确有不少的开源库可以提供，完全可以基于以上库开发，或者有一些开源的工具很成熟了，你所做的就是基于以上进行一下更改。例如：测试java界面的工具就有aboot、swbot、mathron等开源工具，测试web界面的有selenium、watin等，测试移动端的有robotium、monkey等。要能二次开发这些工具，主要是需要理解抓取对象和回放的原理，然后是一些配置文件的处理，对象库里主要是XML的处理，一般录制功能我觉得可以忽略。</p>
+<p><strong>2、白盒测试工具</strong>，一些代码级别的测试工具，例如：对代码覆盖率的分析、对代码质量的分析等，这方面涉及较浅，就不随便造次了。</p>
+<p><strong>3、接口自动化测试工具</strong>，接口自动化测试工具在开发的时候，首先需要明确业务接口类型，然后掌握一定的接口工具的应用方式，一般的接口工具都是会解析某种接口定义文件，然后将接口文件以界面的形式展现出来，可以通过对界面接口的操作：对某个接口填写参数，然后发送到服务器端，查看响应，或者直接get接口返回值。例如：SoapUI工具是针对WebService系统的测试，主要是解析WSDL接口定义文件。Jmeter和LR也可以做接口测试工具，例如：java接口和HTTP接口等。之前，开发过的接口工具包括：SNMP接口和corba接口工具，其原理也是解析mib和IOR接口定义文件，然后可以对接口进行set与get操作。所以，开发这类的工具，一定要明确什么是软件接口、然后接口描述文件是什么，最后是如何去对接口进行操作，日志和结果的展现等，还有一些就是额外的功能了，例如：录制，将测试人员对接口的操作录制下来，成为工作流等。</p>
+<p><strong>4、性能自动化测试工具</strong>，看到性能测试工具，大家很容易想到LR、Jmeter之类，这方面的工具，我用的较少，但是会基于自己公司内部的产品一些特殊性能场景方面的测试，会专门开发一些这样的工具，例如：开发一个发送SNMP网络报文的工具，模拟告警最大接收和并发性能，开发一个网元模拟器，能够模拟大量不同IP的网元，可以在公司网元管理器上测试同时管理的最大网元等。所以，性能测试首先要与业务场景相结合，然后掌握一定的性能基础和指标，分析好相关的接口协议和需要模拟的业务，就可以快速开发相应的工具了。</p>
+<p><strong>5、系统应用级别的自动化测试工具</strong>，这种工具需要明确应用场景，即明确需求，例如：我之前开发一些部门内部工具集合，专门提供给测试人员进行脚本录制()、公司级别的有采集和巡检工具。(对外支持)，这部分工具带来的效益是很大的。所以说，千万不要将自动化测试局限在测试方面，其实提高测试与开发的人员的效率、以及对公司产品的质量保障方面的工具都是能给公司带来直接效益的。也许几行代码也是一个能提升效率的好的工具。</p>
+<hr>
+<p>　　<strong>测试工具虽好但不能迷恋，不能期望测试工具可以取代手工测试。测试工具在测试工作中起的是辅助作用，一般用来提高测试效率。</strong>自动化测试弥补了手工测试的不足，减轻一定的工作量。<strong>实际上测试工具是无法替代大多数手工测试的，而一些诸如性能测试等自动化测试也是手工所不能完成的。</strong></p>
+<p>　　对于自动测试技术，<strong>应当依据软件的不同情况来分别对待</strong>，一般自动技术会应用在引起大量重复性工作的地方、系统的压力点、以及任何适合使用程序解决大批量输入数据的地方。然后再<strong>寻找合适的自动测试工具，或者自己开发测试程序。一定不要为了使用测试工具而使用。</strong></p>
+<p>　　<strong>我个人认为自动化测试，就是用技术和自动化去服务测试，保证质量，提高产品生产率（不是测试生产力）。无论如何这个行业需求是关键，脱离需求和具体环境，一切都是玩笑。</strong></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/测试/">测试</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/测试/">测试</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/03/10/自动化测试及工具的一点理解/" data-title="自动化测试及工具的一点理解 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/03/10/Linux文件目录结构详解/"  title="Linux文件目录结构详解">
+ <strong>NEXT:</strong><br/> 
+ <span>Linux文件目录结构详解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>17</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>3</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>1</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>18</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello, I am a master at hust. <br/>
+			This is my blog,believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>
