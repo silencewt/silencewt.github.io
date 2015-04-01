@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-04-01T05:49:41.397Z</updated>
+  <updated>2015-04-01T13:14:03.706Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -15,13 +15,83 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[《赢在测试2》-- 推荐的阅读书籍]]></title>
+    <link href="http://silencewt.github.io/2015/04/01/%E3%80%8A%E8%B5%A2%E5%9C%A8%E6%B5%8B%E8%AF%952%E3%80%8B-%E6%8E%A8%E8%8D%90%E7%9A%84%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D/"/>
+    <id>http://silencewt.github.io/2015/04/01/《赢在测试2》-推荐的阅读书籍/</id>
+    <published>2015-04-01T13:06:42.000Z</published>
+    <updated>2015-04-01T13:12:23.000Z</updated>
+    <content type="html"><![CDATA[<p>　　这里推荐了很多书，有一些我看过，或者准备看的书，其中最受大家推荐的就是：<strong>《软件测试经验和教训》</strong></p>
+<p>1、<code>《软件测试艺术》</code></p>
+<p>理由：展示大师Glenford Myers多年软件测试思想和技术，是入门的一本好教材。</p>
+<p>2、<code>《软件测试经验和教训》</code>《lessons learned in software testing》</p>
+<p>理由：书中分享了3位作者多年的测试经验，知道成功的测试需要什么，书中汇总了293条测试经验建议，可以用于自己的测试工作中，避免一些容易放的错误。经典必读，《赢在测试》中采访的人中有很多个推荐。“红宝书”</p>
+<p>3、<code>《A Practitioners Guide  to software Test Design》</code></p>
+<p>理由：关注测试用例的一本著作，其中包括白盒、黑盒、与基于经验的测试技术，每个测试技术都结合了技术原理，案例分析和优缺点分析，是每个测试人员了解和应用测试用例设计的一本好书。</p>
+<p>4、<code>《思维导图--大脑使用说明书》</code></p>
+<p>理由：帮助你提高记忆力和理解力，激发想象力，更好的制定生活和工作计划。</p>
+<p>5、<code>《硝烟中的scrum》</code></p>
+<p>理由：敏捷入门书，启蒙书</p>
+<p>6、<code>《全程软件测试》</code></p>
+<p>理由：作者朱少民，测试入门的一本教材，读完后对测试会有一个全面的了解</p>
+<p>邰晓梅推荐：</p>
+<p>7、<code>《 secret of a buccaneer scholar》</code></p>
+<p>理由：中文版《学习要像加勒比海盗》作者：James bach。一本关于自我教育的书，虽然很薄，但是记录了James对自我教育、自我学习方面的认识和经验，这本书相信能让很多爱学习的人受启发。其中的学习态度和方法值得我们去思考。</p>
+<p>8、<code>《essential software test design》</code></p>
+<p>理由：作者：Torbjorn Ryber 一本关于测试设计的书，书中以测试分析4步法的方式讲述了常用的十几种测试设计技术的应用，并辅以实例。</p>
+<p>9、<code>《XUnit test patterns :refactoring test code》</code></p>
+<p>理由：作者：Gerard Meszaros 中文版《XUnit测试模式，测试代码重构》，书中对于单元测试的人来说有帮助，书中谈到很多测试代码的坏味道，以及大量被证明的好的测试模式，是的测试代码更易编写和维护。</p>
+<p>肖丽琼推荐：</p>
+<p>10：<code>《微软梦工厂》</code></p>
+<p>理由：励志类，了解软件帝国的精英们是怎么工作和生活的，同是IT人会有很多的共鸣。</p>
+<p><code>《学习要像加勒比海盗》</code></p>
+<p>高翔推荐：</p>
+<p><code>《软件测试经验和教训》</code></p>
+<p>11：<code>《探索式软件测试》</code></p>
+<p>理由：作者james a whittaker,以“漫游”为核心，提出一套有助于探索式测试的方法。</p>
+<p>12：<code>《你的灯还亮着吗？》</code></p>
+<p>理由：一本轻快的书，有效的探讨人们如何思考，问题如何定义，如何解决等深刻的主题。</p>
+<p>步琼推荐：</p>
+<p>13：<code>《beautiful testing》</code></p>
+<p>理由：里面有很多项目实例和很好的经验分享，也包括一些测试趣事。</p>
+<p>薛继国推荐：</p>
+<p>14：<code>《质量免费》</code></p>
+<p>理由：详细阐述质量的定义，扩宽思路，提高对产品质量的认识，对于从事测试的人来说有很大的帮助。</p>
+<p>王冬推荐：</p>
+<p>《全程软件测试》</p>
+<p>《软件测试经验和教训》</p>
+<hr>
+<p>我自己看过觉得不错的测试书籍：</p>
+<p>1、<code>《软件测试》</code></p>
+<p>理由：Patton的那个版本，第三版，这个很基础，讲解了测试的各方面基础的内容，易懂，可以入门。</p>
+<p>2、<code>《从菜鸟到测试架构师》</code></p>
+<p>理由：讲述一个菜鸟测试工程师在IBM里是怎么一步步的走到架构师的，书中以故事的形式呈现测试的各个方面，可以当成小说看，也挺有意思的，读完后对整个测试的职业规划会有一定的了解，清楚整个测试行业的职业目标。</p>
+<p>3、<code>《性能测试全程详解和案例分析》</code></p>
+<p>理由：详细的讲述了性能测试的各个概念，简单易懂，比较全面，是性能测试的入门书，书中还介绍了如何使用测试工具Jmeter进行性能测试。</p>
+<p>4、<code>《赢在测试2》</code></p>
+<p>理由：看别人的故事总能激励自己，作者采访了十个人，每个人的故事都能给自己一点启发，且他们作为成功人士，对于测试，对于这个行业的了解，他们的经历都有一些共同点。很推荐，可以从他们身上学到很多。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　这里推荐了很多书，有一些我看过，或者准备看的书，其中最受大家推荐的就是：<strong>《软件测试经验和教训》</strong></p>
+<p>1、<code>《软件测试艺术》</code></p>
+<p>理由：展示大师Glenford Myers多年软件测试思想和技术]]>
+    </summary>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="测试" scheme="http://silencewt.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[三月，关于团队管理的重要性]]></title>
     <link href="http://silencewt.github.io/2015/04/01/%E4%B8%89%E6%9C%88%EF%BC%8C%E5%85%B3%E4%BA%8E%E5%9B%A2%E9%98%9F%E7%AE%A1%E7%90%86%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7/"/>
     <id>http://silencewt.github.io/2015/04/01/三月，关于团队管理的重要性/</id>
     <published>2015-04-01T05:30:59.000Z</published>
-    <updated>2015-04-01T05:48:22.000Z</updated>
+    <updated>2015-04-01T13:07:41.000Z</updated>
     <content type="html"><![CDATA[<p>实验室有个项目进行到现在还在改需求，还在处于不确定的状态，这让我整个三月份在技术上都没有一点进步，也让我切切实实的感受到<code>项目需求</code>和<code>团队的重要性</code>。</p>
-<p>　　三月份是一个很郁闷的月份，但同样也是一个有所收获的月份，除了拿到自己心仪的实习offer之外，最重要的是对于团队管理有了更深一步的认识，自己在这方面还有待加强。对于项目上的需求管理，项目的开发流程都有了更深的理解。这里所谓更深的理解都是针对自己，都是和自己之前的经历相比，可能这些感触对于另一些人来说是微不足道的。但是个人觉得有必要做一次总结和梳理，以便以后学习。</p>
+<p>　　三月份是一个很郁闷的月份，但同样也是一个有所收获的月份，最重要的是对于团队管理有了更深一步的认识，自己在这方面还有待加强。对于项目上的需求管理，项目的开发流程都有了更深的理解。这里所谓更深的理解都是针对自己，都是和自己之前的经历相比，可能这些感触对于另一些人来说是微不足道的。但是个人觉得有必要做一次总结和梳理，以便以后学习。</p>
 <h3 id="项目需求管理上：">项目需求管理上：</h3>
 <ul>
 <li>一个项目不管大的还是小的，项目需求明确才是最重要的。在需求没有明确的情况下，就去开发，之后需求改了，变动过大，之前做的开发就是无用功，那么就是在浪费人力物力，浪费时间。</li>
@@ -56,7 +126,7 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<p>实验室有个项目进行到现在还在改需求，还在处于不确定的状态，这让我整个三月份在技术上都没有一点进步，也让我切切实实的感受到<code>项目需求</code>和<code>团队的重要性</code>。</p>
-<p>　　三月份是一个很郁闷的月份，但同样也是一个有所收获的月份，除]]>
+<p>　　三月份是一个很郁闷的月份，但同样也是一个有所收获的月份，最]]>
     </summary>
     
       <category term="心路历程" scheme="http://silencewt.github.io/tags/%E5%BF%83%E8%B7%AF%E5%8E%86%E7%A8%8B/"/>
@@ -2262,45 +2332,6 @@ http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span>
     <summary type="html">
     <![CDATA[<h3 id="基于小波的融合（wavelet）">基于小波的融合（wavelet）</h3>
 <p>　　小波变换的固有特性使其在图像处理中有如下优点：完善的重构能力，保证信号在分解过程中没有信息损失和冗余信息；把图像分解成平均图像和细节图像的组合，分别代表了图像的不同结构，因此]]>
-    </summary>
-    
-      <category term="图像融合" scheme="http://silencewt.github.io/tags/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/categories/lab/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[图像融合（五）-- 梯度金字塔]]></title>
-    <link href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%BA%94%EF%BC%89-%E6%A2%AF%E5%BA%A6%E9%87%91%E5%AD%97%E5%A1%94/"/>
-    <id>http://silencewt.github.io/2014/12/30/图像融合（五）-梯度金字塔/</id>
-    <published>2014-12-30T05:14:35.000Z</published>
-    <updated>2014-12-30T05:34:53.000Z</updated>
-    <content type="html"><![CDATA[<p>　　基于梯度金字塔(Gradient Pyramid,GP)分解的图像融合算法。GP 也是一种基于高斯金字塔的多尺度分解算法。通过对高斯金字塔每层图像进行梯度算子运算，便可获得图像的 GP表示。GP 每层分解图像都包含水平、垂直和两个对角线四个方向的细节信息，能更好地提取出图像的边缘信息，提高了稳定性和抗噪性。具有方向性的梯度塔形分解能够很好地提供图像的方向边缘和细节信息。</p>
-<p>1、<strong>原理阐述</strong><br>（1）得到高斯金字塔（如上）</p>
-<p>（2）对图像高斯金字塔的各分解层（最高层除外）分别进行梯度方向滤波，便可得到梯度塔形分解：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.1.png" alt="Gradius1"></p>
-<p>　　这里•为卷积运算，DL K表示第L层第k方向梯度塔形图像，GL 为图像的高斯金字塔的第L层图像，dK表示第k方向梯度滤波算子，定义为：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.2.png" alt="gradius2"></p>
-<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.3.png" alt="gradius3"></p>
-<p>　　经过 d1、d2、d3、d4对高斯金字塔各层进行方向梯度滤波，在每一分解层上（最高层除外）均可得到包含水平、垂直以及两个对角线方向细节信息的4个分解图像。可见图像的梯度塔形分解不仅是多尺度、多分辨率分解，而且每一分解层（最高层除外）又由分别包含 4个方向细节信息的图像组成。</p>
-<p>　　这里跟上面不同的就是每一层是独立的，不需要涉及到上一层的上采样结果。对应层的Gl与3*3的核做卷积，在加上Gl的值之后取相应方向的值，就可以生成对应方向的系数了。</p>
-<p>   （3）重构</p>
-<p>　　对金字塔图像每一层各方向分别融合后，就需要由梯度金字塔重构原图像，须引入FSD 拉普拉斯金字塔作为中间结果，即将梯度金字塔转换为拉普拉斯金字塔，再由拉普拉斯金字塔重构原图像，其构建过程如下：</p>
-<p>　　1、将方向梯度金字塔转换为方向拉普拉斯金字塔（FSD型）filter-subtract-decimate。设 FSD型金字塔的第L层图像为LL，<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.4.png" alt="gradius4"></p>
-<p>　　2、将FSD 拉普拉斯金字塔图像变换为拉普拉斯金字塔图像。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.5.png" alt="gradiu5"></p>
-<p>　　注意I不是单位矩阵，只是中间一个元素为1。（不懂）</p>
-<p>　　3、由拉普拉斯金字塔重构原图像将GL内插值进行放大，使放大后的图像尺寸与GL - 1的尺寸相同。这里就和前面的一样（pyrup）。</p>
-<p>2、融合应用</p>
-<p>　　采用基于区域的融合规则，基于区域的融合方法的基本思想是：在对某一分解层图像进行融合处理时，为了确定融合后图像的像素，不仅要考虑参加融合的源图像中对应的各像素，而且要考虑参加融合的像素的局部领域。即比较源图像的某方面特征，从而动态地选这方面特征突出的源图像组成融合结果。</p>
-<p>　　梯度是一个矢量，指向边缘法线方向上取得局部的最大值的方向，和图像的边缘方向总 是正交（垂直）的。所以基于梯度的滤波器，又称边缘算子。图像经梯度滤波器滤波后，突出了相邻点间灰度级的变化，达到增强边缘的目的。以区域各点灰度值之和为特征量，进行源图像分解层的融合时，来自哪个区域的特征的值大，就将该区域中心像素点的灰度值作为融合后图像分解层上该位置的像素灰度值。这样就能很好的提取图像的边缘信息。<br>　　<img src="http://7te8s4.com1.z0.glb.clouddn.com/merge-gp1.6.png" alt="gradius6"></p>
-<p>2、<strong>融合的基本步骤</strong></p>
-<p>2.1、对每一源图像分别进行梯度塔形分建立图像的梯度金字塔。</p>
-<p>2.2、对图像梯度金字塔的各分解层分别进行融合处理；不同的分解层、不同方向细节图像采用不同的融合算子进行融合处理，最终得到融合后图像的梯度金字塔。</p>
-<p>2.3、对融合后所得梯度金字塔进行逆塔形变换（即进行图像重构），所得到的重构图像即融合图像对于融合规则可以选用基于区域信息的，也可以简单的取最大值的方法。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　基于梯度金字塔(Gradient Pyramid,GP)分解的图像融合算法。GP 也是一种基于高斯金字塔的多尺度分解算法。通过对高斯金字塔每层图像进行梯度算子运算，便可获得图像的 GP表示。GP 每层分解图像都包含水平、垂直和两个对角线四个方向的细节信息，能更好地提取出]]>
     </summary>
     
       <category term="图像融合" scheme="http://silencewt.github.io/tags/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88/"/>
