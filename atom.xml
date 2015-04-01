@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-04-01T13:14:03.706Z</updated>
+  <updated>2015-04-01T13:16:51.948Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://silencewt.github.io/2015/04/01/%E3%80%8A%E8%B5%A2%E5%9C%A8%E6%B5%8B%E8%AF%952%E3%80%8B-%E6%8E%A8%E8%8D%90%E7%9A%84%E9%98%85%E8%AF%BB%E4%B9%A6%E7%B1%8D/"/>
     <id>http://silencewt.github.io/2015/04/01/《赢在测试2》-推荐的阅读书籍/</id>
     <published>2015-04-01T13:06:42.000Z</published>
-    <updated>2015-04-01T13:12:23.000Z</updated>
+    <updated>2015-04-01T13:16:18.000Z</updated>
     <content type="html"><![CDATA[<p>　　这里推荐了很多书，有一些我看过，或者准备看的书，其中最受大家推荐的就是：<strong>《软件测试经验和教训》</strong></p>
 <p>1、<code>《软件测试艺术》</code></p>
 <p>理由：展示大师Glenford Myers多年软件测试思想和技术，是入门的一本好教材。</p>
@@ -77,8 +77,6 @@
     </summary>
     
       <category term="读书笔记" scheme="http://silencewt.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
-    
-      <category term="测试" scheme="http://silencewt.github.io/tags/%E6%B5%8B%E8%AF%95/"/>
     
       <category term="读书笔记" scheme="http://silencewt.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
