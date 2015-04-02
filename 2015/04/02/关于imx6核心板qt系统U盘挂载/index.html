@@ -4,20 +4,13 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>python 批量更换图片格式脚本 | Silence 婷婷 Blog</title>
+    <title>关于imx6核心板qt系统U盘挂载 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="问题：将某文件下的所有jpg的图片更换为png的图片
-简单的实现:
-# -*- coding:utf-8 -*-
-from os.path import splitext
-import glob
-from PIL import Image
-
-def get_all_file(filename):
- ">
+    <meta name="description" content="在使用imx6核心板开发的时候，程序写到U盘，想通过U盘在板子上运行程序，U盘插到板子上后在minicom中有信息显示，但是无法找到挂载文件，/dev和/mnt下都没有找到相应的文件。后来百度后发现U盘在arm的Linux下需要手动挂载。方法如下：
+1、U盘插入后会有信息显示在minicom中，如图">
     
     
     
@@ -128,15 +121,15 @@ def get_all_file(filename):
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/02/01/python-批量更换图片格式脚本/" title="python 批量更换图片格式脚本" itemprop="url">python 批量更换图片格式脚本</a>
+      <a href="/2015/04/02/关于imx6核心板qt系统U盘挂载/" title="关于imx6核心板qt系统U盘挂载" itemprop="url">关于imx6核心板qt系统U盘挂载</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2015-02-01T13:52:23.000Z" itemprop="datePublished">2月 1 2015</time>
-    更新日期:<time datetime="2015-02-01T13:54:49.000Z" itemprop="dateModified">2月 1 2015</time>
+    <time datetime="2015-04-02T13:44:19.000Z" itemprop="datePublished">4月 2 2015</time>
+    更新日期:<time datetime="2015-04-02T13:51:00.000Z" itemprop="dateModified">4月 2 2015</time>
     
   </p>
 </header>
@@ -148,116 +141,38 @@ def get_all_file(filename):
 		
 		</div>
 		
-		<p>问题：将某文件下的所有jpg的图片更换为png的图片</p>
-<p>简单的实现:</p>
-<pre><code><span class="comment"># -*- coding:utf-8 -*-</span>
-<span class="keyword">from</span> os.path <span class="keyword">import</span> splitext
-<span class="keyword">import</span> glob
-<span class="keyword">from</span> PIL <span class="keyword">import</span> Image
-
-<span class="function"><span class="keyword">def</span> <span class="title">get_all_file</span><span class="params">(filename)</span>:</span>
-    files = glob.glob(filename)
-    <span class="keyword">return</span> files
-
-<span class="function"><span class="keyword">def</span> <span class="title">to_ather_file</span><span class="params">(files, type)</span>:</span>
-    <span class="keyword">for</span> jpg <span class="keyword">in</span> files:
-        im = Image.open(jpg)
-        png = splitext(jpg)[<span class="number">0</span>]+<span class="string">"."</span> + type
-        im.save(png)
-        <span class="keyword">print</span> png
-
-
-<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
-    filename = <span class="string">"./image/*.[Jj][Pp][Gg]"</span>
-    files = get_all_file(filename)
-    to_ather_file(files, <span class="string">"png"</span>)
-</code></pre><p>　　这是一种很简单的是实现方法，就是先用glob获得某路径下的所有文件，该文件下都是jpg图片（题目是给定的，也可以考虑存在其他图片的情况的处理方式，就是获得文件的后缀名，判断是否为jpg），然后依次读入图片，使用splitext获得文件名和后缀名，然后按照要求重组文件名并保存就好了。</p>
-<p>这里介绍两个部分：</p>
-<p><strong>glob模块：</strong></p>
-<p>在python中，glob模块是用来查找匹配的文件的    在查找的条件中，需要用到Unix shell中的匹配规则：     </p>
-<p>  *    :   匹配所所有       </p>
-<p>  ?    :   匹配一个字符       </p>
-<p>*.*  :   匹配如：[hello.txt,cat.xls,xxx234s.doc]     </p>
-<p>  ?.*  :   匹配如：[1.txt,h.py]     </p>
-<p>  ?.gif:   匹配如：[x.gif,2.gif]   </p>
-<p> 可以参考：fnmatch    如果没有匹配的，glob.glob(path)将返回一个空的list:[]</p>
-<p>也就说：glob是用来寻找文件的。某种命名规则的文件的。</p>
-<pre><code><span class="keyword">import</span> glob
-
- <span class="function"><span class="keyword">def</span> <span class="title">get_all</span><span class="params">()</span>:</span>
-     <span class="string">'''获取目录[c:\\tmp]下面所有的文件'''</span>
-     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.*'</span>)
-
- <span class="function"><span class="keyword">def</span> <span class="title">get_my_file</span><span class="params">()</span>:</span>
-     <span class="string">'''获取目录[c:\\tmp]下面文件名为4个字符的文件'''</span>
-     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\????.txt'</span>)
-
- <span class="function"><span class="keyword">def</span> <span class="title">get_batch_file</span><span class="params">()</span>:</span>
-     <span class="string">'''获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件'''</span>
-     <span class="keyword">return</span> glob.glob(<span class="string">'c:\\tmp\\*.txt'</span>)
-
- <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span>
-     print(<span class="string">'获取目录[c:\\tmp]下面所有的文件：'</span>)
-     tem_files = get_all()
-     print(tem_files)
-     print(<span class="string">'获取目录[c:\\tmp]下面文件名为4个字符的文件：'</span>)
-     tem_files = get_my_file()
-     print(tem_files)
-     print(<span class="string">'获取目录[c:\\tmp]下面扩展名为\'.txt\'的文件：'</span>)
-     tem_files = get_batch_file()
-     print(tem_files)
-
- <span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:
-     main()
-</code></pre><p>　　</p>
-<p><strong>python文件操作：</strong><br>有关文件夹与文件的查找，删除等功能 在 os 模块中实现。使用时需先导入这个模块，</p>
-<p>导入的方法是:</p>
-<pre><code><span class="preprocessor"><span class="keyword">import</span> os</span>
-</code></pre><p>1、将一个路径名分解为目录名和文件名两部分</p>
-<pre><code>fpath , fname = os.path.<span class="built_in">split</span>( <span class="string">"你要分解的路径"</span>)
-</code></pre><p>例如：</p>
-<pre><code><span class="keyword">a</span>, <span class="keyword">b</span> = os.path.<span class="built_in">split</span>( <span class="string">"c:\\123\\456\\test.txt"</span> )
-
-<span class="keyword">print</span> <span class="keyword">a</span>
-
-<span class="keyword">print</span> <span class="keyword">b</span>
-</code></pre><p>显示：</p>
-<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>
-
-test.txt
-</code></pre><p>2、 分解文件名的扩展名</p>
-<pre><code>fpathandname , fext = <span class="built_in">os</span>.path.splitext( <span class="string">"你要分解的路径"</span>)
-</code></pre><p>例如：</p>
-<pre><code>a, b = os.path.splitext( <span class="string">"c:\\123\\456\\test.txt"</span> )
-
-print a
-
-print b
-</code></pre><p>显示：</p>
-<pre><code><span class="built_in">c</span>:\<span class="number">123</span>\<span class="number">456</span>\test
-
-.txt
-</code></pre><p>文件操作还有很多有用的函数，可以通过查找手册来看。</p>
+		<p>　　在使用imx6核心板开发的时候，程序写到U盘，想通过U盘在板子上运行程序，U盘插到板子上后在minicom中有信息显示，但是无法找到挂载文件，/dev和/mnt下都没有找到相应的文件。后来百度后发现U盘在arm的Linux下需要手动挂载。方法如下：</p>
+<p>1、U盘插入后会有信息显示在minicom中，如图：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%281%29.jpg" alt="linux-usb1"></p>
+<p>2、使用下列命令查看U盘设备名称（系统分配的）：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%282%29.jpg" alt="linux-usb2"></p>
+<p>然后会显示如下：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%283%29.jpg" alt="linux-usb3"></p>
+<p>看到中间Device那行，则表示U盘设备名为sda4，在/dev/目录下，直接进去/dev/sda4中是看不到文件的，会提示没有这个文件夹，这是需要我们挂载。</p>
+<p>3、可以新建一个挂载目录：/mnt/udisk/<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%284%29.jpg" alt="linux-usb4"></p>
+<p>这里我是之前就建好了的，所以提示存在。<br>/mnt/udisk/这个目录就是U盘的挂载目录，该目录里的文件将会是U盘中的文件名。</p>
+<p>4、挂载U盘。执行以下命令：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%285%29.jpg" alt="linux-usb5"></p>
+<p>表示将/dev/sda4/下的内容挂载到/mnt/udisk下，这样便挂载成功。</p>
+<p>5、进入U盘目录/mnt/udisk，查看U盘中的数据。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb1%20%286%29.jpg" alt="Linux-USB6"></p>
+<p> 这里显示U盘目录中的数据。</p>
+<p>　　最后就可以对U盘里的程序进行操作了，发现这样比在虚拟机里用镜像快多了。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/python/">python</a>
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/lab/">lab</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/python/">python</a>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2015/02/01/python-批量更换图片格式脚本/" data-title="python 批量更换图片格式脚本 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2015/04/02/关于imx6核心板qt系统U盘挂载/" data-title="关于imx6核心板qt系统U盘挂载 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -266,19 +181,11 @@ print b
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/03/10/Linux文件目录结构详解/" title="Linux文件目录结构详解">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  Linux文件目录结构详解</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/01/python类似微信未读信息图片脚本/"  title="python类似微信未读信息图片脚本">
+<a href="/2015/04/01/《赢在测试2》-推荐的阅读书籍/"  title="《赢在测试2》-- 推荐的阅读书籍">
  <strong>NEXT:</strong><br/> 
- <span>python类似微信未读信息图片脚本
+ <span>《赢在测试2》-- 推荐的阅读书籍
 </span>
 </a>
 </div>
