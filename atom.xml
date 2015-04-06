@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-04-02T14:13:58.275Z</updated>
+  <updated>2015-04-06T05:58:59.994Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -13,6 +13,50 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[读《淘宝技术这十年》--笔记]]></title>
+    <link href="http://silencewt.github.io/2015/04/06/%E8%AF%BB%E3%80%8A%E6%B7%98%E5%AE%9D%E6%8A%80%E6%9C%AF%E8%BF%99%E5%8D%81%E5%B9%B4%E3%80%8B-%E7%AC%94%E8%AE%B0/"/>
+    <id>http://silencewt.github.io/2015/04/06/读《淘宝技术这十年》-笔记/</id>
+    <published>2015-04-06T05:52:36.000Z</published>
+    <updated>2015-04-06T05:58:40.000Z</updated>
+    <content type="html"><![CDATA[<p>　　清明假期，武汉雨下得不停，将原有外出的计划打乱，于是这两天就在实验室呆着了，借着这个假期看了一些书，放松自己，也利用这个时间将之前一直没有完成的事情完成。《淘宝技术这十年》是无意中看到的，这本书大致介绍了作者子柳在淘宝8年间的所看所想，带着故事性的讲述了淘宝网的演化过程，如何从一个小型的内容网站到如今大规模的世界电商平台，主要是从技术的角度出发，讲述这个超大规模互联网系统的成长历程，及其所有主动和被动的技术变革的前因后果。也让我看到了一个网站的成长过程是怎样的复杂，如今我们便利的网上购物，疯狂的秒杀，后面是多少顶级工程师的技术和汗水。</p>
+<p>　　这本书个人将其分为三部分：</p>
+<p>　　第一部分：故事性的叙述淘宝发展，看着比较有意思，一点点的将整个网站的发展呈现出来，各个阶段会遇到什么问题，采用的解决方式，这里没有纤细介绍技术，只是给了一个大体的框架，两个故事（<a href="http://www.cnblogs.com/willsonchan/archive/2012/01/21/2328427.html" target="_blank" rel="external">你刚才在淘宝上买了一件毛衣</a>、超市收银）的平白叙述让人一看就懂，这部分比较吸引人看下去。</p>
+<p>　　第二部分：主要重点介绍了淘宝技术体系，包括消息中间件、TDDL、分布式系统、session等，这里适合技术人员看，也只是大题给了一个框架，整体上了解了淘宝的大部分技术架构，没有涉及具体实现。</p>
+<p>　　第三部分：自传，除了写作者自己在淘宝八年的发展，还有对一些牛人的采访：包括阳振坤，放翁等。在这部分从这些牛人身上可以学到一些东西。</p>
+<p>　　以下是思维导图的笔记：<br>　　<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb%E6%B7%98%E5%AE%9D%E6%8A%80%E6%9C%AF%E8%BF%99%E5%8D%81%E5%B9%B4%20%282%29.jpeg" alt="ybjszsn"></p>
+<p>　　其实，一个网站规模从小做到大，技术与业务相互支撑并非一蹴而就，遇到的问题大体就是淘宝发展中所遇到的问题。</p>
+<hr>
+<p>　　以下对文中对我影响深的话摘录下来：</p>
+<blockquote>
+<p>想赚钱，想提升自己的职称，这些都是十分正常的。在这点上，我特别喜欢马总的理念——做公司要赚钱，但阿里从不把赚钱作为第一目标，我们服务好了客户，客户赚了钱，我们一定会得到自己应得的一份。在个人成长问题上也是类似的道理，这就是，一个人如果把做事、做成事作为主要目标，该他得到的东西，一定会顺理成章的、水到渠成地得到，但是，如果把上升作为主要目标，做同样的事，结果就会完全不一样。一句话，你的心态会最终决定你的成就。</p>
+</blockquote>
+<p>　　
+　　</p>
+<blockquote>
+<p>如果你是向技术方向发展的人员，我们要看技术方面的专业性；然后看你的技术对公司的业务发展有多少贡献。还有一点，我比较看重的是，也许你不在其位，但能够跳出自己的范围，想到公司未来到底会面临什么问题，用什么方法来解决。当然，仅想是不够的，如果你能够落实就最好了，我们不管你落实的技术含量有多高，关键是你解决了什么样的问题。如果你能够做到这些，你这个人对公司就非常重要。</p>
+</blockquote>
+<p>　　
+　　</p>
+<blockquote>
+<p>第一个是做事要自己思考后再去问别人，而不是一遇到问题就找人求助。第二个是不断地打破自己的一些想法，你不要担心自己今天已经做了50%的工作，要是推倒重来，前面的事情都白干了。我现在带的两个新人成长很快，但是都有类似的经历，就是一个东西被我反复推翻重做，在这个过程中就是不断地成长，要思考我为什么让你推倒重做，若想不清楚，下次重做的概率会更大，这样慢慢地就会学会了思考。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>给技术刚起步的人员一些技术成长的建议吧。兴趣是最好的老师，坚持是达到梦想的唯一途径，当然，在个人发展的不同阶段寻找到合适的导师很重要，看准方向会事半功倍。在刚刚参加工作还没有形成自己的判断时，方向有两个来源，一个是个人的兴趣，一个是找一个你非常佩服且能掌握未来方向的人，当然，如果这两者正好重合，那么剩下的就是脚踏实地坚持。</p>
+</blockquote>
+<p>　　作为新人，需要更多的向前辈们学习。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　清明假期，武汉雨下得不停，将原有外出的计划打乱，于是这两天就在实验室呆着了，借着这个假期看了一些书，放松自己，也利用这个时间将之前一直没有完成的事情完成。《淘宝技术这十年》是无意中看到的，这本书大致介绍了作者子柳在淘宝8年间的所看所想，带着故事性的讲述了淘宝网的演化过程]]>
+    </summary>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[关于imx6核心板qt系统U盘挂载]]></title>
@@ -2268,35 +2312,6 @@ http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span>
       <category term="maven" scheme="http://silencewt.github.io/tags/maven/"/>
     
       <category term="软件测试" scheme="http://silencewt.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[图像融合文章系列汇总]]></title>
-    <link href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%E6%96%87%E7%AB%A0%E7%B3%BB%E5%88%97%E6%B1%87%E6%80%BB/"/>
-    <id>http://silencewt.github.io/2014/12/30/图像融合文章系列汇总/</id>
-    <published>2014-12-30T06:41:27.000Z</published>
-    <updated>2014-12-30T06:51:58.000Z</updated>
-    <content type="html"><![CDATA[<p>　　这是实验室项目的资料汇总，一方面便于自己整理，理清思路，另一方面让大家对图像融合有个大概的了解。以后项目还没有完结，以后还会有所补充。</p>
-<p>图像融合文章系列汇总：</p>
-<p><a href="http://silencewt.github.io/2014/12/29/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%B8%80%EF%BC%89-%E6%A6%82%E8%BF%B0/" target="_blank" rel="external">图像融合（一）— 概述</a></p>
-<p><a href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%B8%80%EF%BC%89-%E7%AE%80%E5%8D%95%E5%8A%A0%E6%9D%83%E8%9E%8D%E5%90%88/" target="_blank" rel="external">图像融合（二）— 简单加权融合</a></p>
-<p><a href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%B8%89%EF%BC%89-%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E9%87%91%E5%AD%97%E5%A1%94/" target="_blank" rel="external">图像融合（三）— 拉普拉斯金字塔</a></p>
-<p><a href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E5%9B%9B%EF%BC%89-%E5%AF%B9%E6%AF%94%E5%BA%A6%E9%87%91%E5%AD%97%E5%A1%94/" target="_blank" rel="external">图像融合（四）— 对比度金字塔</a></p>
-<p><a href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E4%BA%94%EF%BC%89-%E6%A2%AF%E5%BA%A6%E9%87%91%E5%AD%97%E5%A1%94/" target="_blank" rel="external">图像融合（五）— 梯度金字塔</a></p>
-<p><a href="http://silencewt.github.io/2014/12/30/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88%EF%BC%88%E5%85%AD%EF%BC%89-%E5%B0%8F%E6%B3%A2%E8%9E%8D%E5%90%88/" target="_blank" rel="external">图像融合（六）— 小波融合</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　这是实验室项目的资料汇总，一方面便于自己整理，理清思路，另一方面让大家对图像融合有个大概的了解。以后项目还没有完结，以后还会有所补充。</p>
-<p>图像融合文章系列汇总：</p>
-<p><a href="http://silencewt.github.io/2014/]]>
-    </summary>
-    
-      <category term="图像融合" scheme="http://silencewt.github.io/tags/%E5%9B%BE%E5%83%8F%E8%9E%8D%E5%90%88/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/tags/lab/"/>
-    
-      <category term="lab" scheme="http://silencewt.github.io/categories/lab/"/>
     
   </entry>
   

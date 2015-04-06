@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>Silence 婷婷 Blog</title>
+    <title>读《淘宝技术这十年》--笔记 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="hexo blog">
+    <meta name="description" content="清明假期，武汉雨下得不停，将原有外出的计划打乱，于是这两天就在实验室呆着了，借着这个假期看了一些书，放松自己，也利用这个时间将之前一直没有完成的事情完成。《淘宝技术这十年》是无意中看到的，这本书大致介绍了作者子柳在淘宝8年间的所看所想，带着故事性的讲述了淘宝网的演化过程，如何从一个小型的内容网站到如">
     
     
     
@@ -115,123 +115,109 @@
 
     </header>
     <div id="container">
-      <div id="main">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/06/读《淘宝技术这十年》-笔记/" title="读《淘宝技术这十年》--笔记" itemprop="url">读《淘宝技术这十年》--笔记</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-06T05:52:36.000Z" itemprop="datePublished">4月 6 2015</time>
+    更新日期:<time datetime="2015-04-06T05:58:40.000Z" itemprop="dateModified">4月 6 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>　　清明假期，武汉雨下得不停，将原有外出的计划打乱，于是这两天就在实验室呆着了，借着这个假期看了一些书，放松自己，也利用这个时间将之前一直没有完成的事情完成。《淘宝技术这十年》是无意中看到的，这本书大致介绍了作者子柳在淘宝8年间的所看所想，带着故事性的讲述了淘宝网的演化过程，如何从一个小型的内容网站到如今大规模的世界电商平台，主要是从技术的角度出发，讲述这个超大规模互联网系统的成长历程，及其所有主动和被动的技术变革的前因后果。也让我看到了一个网站的成长过程是怎样的复杂，如今我们便利的网上购物，疯狂的秒杀，后面是多少顶级工程师的技术和汗水。</p>
+<p>　　这本书个人将其分为三部分：</p>
+<p>　　第一部分：故事性的叙述淘宝发展，看着比较有意思，一点点的将整个网站的发展呈现出来，各个阶段会遇到什么问题，采用的解决方式，这里没有纤细介绍技术，只是给了一个大体的框架，两个故事（<a href="http://www.cnblogs.com/willsonchan/archive/2012/01/21/2328427.html" target="_blank" rel="external">你刚才在淘宝上买了一件毛衣</a>、超市收银）的平白叙述让人一看就懂，这部分比较吸引人看下去。</p>
+<p>　　第二部分：主要重点介绍了淘宝技术体系，包括消息中间件、TDDL、分布式系统、session等，这里适合技术人员看，也只是大题给了一个框架，整体上了解了淘宝的大部分技术架构，没有涉及具体实现。</p>
+<p>　　第三部分：自传，除了写作者自己在淘宝八年的发展，还有对一些牛人的采访：包括阳振坤，放翁等。在这部分从这些牛人身上可以学到一些东西。</p>
+<p>　　以下是思维导图的笔记：<br>　　<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/linux-usb%E6%B7%98%E5%AE%9D%E6%8A%80%E6%9C%AF%E8%BF%99%E5%8D%81%E5%B9%B4%20%282%29.jpeg" alt="ybjszsn"></p>
+<p>　　其实，一个网站规模从小做到大，技术与业务相互支撑并非一蹴而就，遇到的问题大体就是淘宝发展中所遇到的问题。</p>
+<hr>
+<p>　　以下对文中对我影响深的话摘录下来：</p>
+<blockquote>
+<p>想赚钱，想提升自己的职称，这些都是十分正常的。在这点上，我特别喜欢马总的理念——做公司要赚钱，但阿里从不把赚钱作为第一目标，我们服务好了客户，客户赚了钱，我们一定会得到自己应得的一份。在个人成长问题上也是类似的道理，这就是，一个人如果把做事、做成事作为主要目标，该他得到的东西，一定会顺理成章的、水到渠成地得到，但是，如果把上升作为主要目标，做同样的事，结果就会完全不一样。一句话，你的心态会最终决定你的成就。</p>
+</blockquote>
+<p>　　
+　　</p>
+<blockquote>
+<p>如果你是向技术方向发展的人员，我们要看技术方面的专业性；然后看你的技术对公司的业务发展有多少贡献。还有一点，我比较看重的是，也许你不在其位，但能够跳出自己的范围，想到公司未来到底会面临什么问题，用什么方法来解决。当然，仅想是不够的，如果你能够落实就最好了，我们不管你落实的技术含量有多高，关键是你解决了什么样的问题。如果你能够做到这些，你这个人对公司就非常重要。</p>
+</blockquote>
+<p>　　
+　　</p>
+<blockquote>
+<p>第一个是做事要自己思考后再去问别人，而不是一遇到问题就找人求助。第二个是不断地打破自己的一些想法，你不要担心自己今天已经做了50%的工作，要是推倒重来，前面的事情都白干了。我现在带的两个新人成长很快，但是都有类似的经历，就是一个东西被我反复推翻重做，在这个过程中就是不断地成长，要思考我为什么让你推倒重做，若想不清楚，下次重做的概率会更大，这样慢慢地就会学会了思考。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>给技术刚起步的人员一些技术成长的建议吧。兴趣是最好的老师，坚持是达到梦想的唯一途径，当然，在个人发展的不同阶段寻找到合适的导师很重要，看准方向会事半功倍。在刚刚参加工作还没有形成自己的判断时，方向有两个来源，一个是个人的兴趣，一个是找一个你非常佩服且能掌握未来方向的人，当然，如果这两者正好重合，那么剩下的就是脚踏实地坚持。</p>
+</blockquote>
+<p>　　作为新人，需要更多的向前辈们学习。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
 
-  <section class="post" itemscope itemprop="blogPost">
+  <div class="article-tags">
   
-    <a href="/2015/01/12/maven小项目注册服务-三-web模块/" title="maven小项目注册服务(三)--web模块" itemprop="url">
-  
-    <h1 itemprop="name">maven小项目注册服务(三)--web模块</h1>
-    
-     
-           <p itemprop="description" >java的web应用打包方式一般为war它和jar的区别就是包含了更多的资源和文件，如JSP文件，静态资源文件，servlet等等。war包的核心就WEB-INF文件夹下必须有一个web.xml 的配置文件，子目录classes包含所有该项目的类，子目录lib包含所有的依赖，这两</p>
-        
-    
-    <time datetime="2015-01-12T02:29:10.000Z" itemprop="datePublished">1月 12 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/01/12/用maven进行测试/" title="用maven进行测试" itemprop="url">
-  
-    <h1 itemprop="name">用maven进行测试</h1>
-    
-     
-           <p itemprop="description" >maven的重要职责之一就是自动运行单元测试，它通过maven-surefire-plugin与主流的单元测试框架junit和testng集成，并且能够自动生成丰富的结果报表。
-　　maven并不是一个单元测试框架，他只是在构建执行打特定的生命周期阶段的时候，通过插件来执行JUn</p>
-        
-    
-    <time datetime="2015-01-12T02:26:31.000Z" itemprop="datePublished">1月 12 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/01/12/maven小项目注册服务-二-captcha模块/" title="maven小项目注册服务(二)--captcha模块" itemprop="url">
-  
-    <h1 itemprop="name">maven小项目注册服务(二)--captcha模块</h1>
-    
-     
-           <p itemprop="description" >验证码生成模块，配置信息基本和前面的模块一样。account-captcha需要提供的服务是生成随机的验证码主键，然后用户可以使用这个主键要求服务生成一个验证码图片，这个图片对应的值应该是随机的，最后用户用肉眼读取图片的值，并将验证码的主键与这个值交给服务进行验证。这一服务对应的</p>
-        
-    
-    <time datetime="2015-01-12T02:12:05.000Z" itemprop="datePublished">1月 12 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/01/11/maven小项目注册服务-一-email和persist模块/" title="maven小项目注册服务(一)--email和persist模块" itemprop="url">
-  
-    <h1 itemprop="name">maven小项目注册服务(一)--email和persist模块</h1>
-    
-     
-           <p itemprop="description" >跟着书里的讲解，跟着做了一遍该项目：
-首先明白注册账户的需求：
-　　账号的lD和Email地址都可以用来唯一地标识某个用户，而显示名称则用来显示在页面下，方便浏览。注册的时候用户还需要输入两次密码，以确保没有输错，系统则需要负责检查ID和email的唯一性，验证两次输入的密码是否</p>
-        
-    
-    <time datetime="2015-01-11T01:32:06.000Z" itemprop="datePublished">1月 11 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/01/09/2014图灵技术图书最受欢迎TOP15/" title="2014图灵技术图书最受欢迎TOP15" itemprop="url">
-  
-    <h1 itemprop="name">2014图灵技术图书最受欢迎TOP15</h1>
-    
-     
-           <p itemprop="description" >来自：图灵社区昨晚给我发的邮件，感觉不错，和大家分享，mark下。
-【小编语】 回首2014，感谢小伙伴们一路相随。让我们2015一起更快乐地玩耍。今天小编为大家盘点一下过去2014年表现最给力的技术图书，它们受到了小伙伴们的一致认可。大家一起阅读下吧~
-1、Python基础教程</p>
-        
-    
-    <time datetime="2015-01-09T01:12:34.000Z" itemprop="datePublished">1月 9 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2015/01/09/maven小试牛刀/" title="maven小试牛刀" itemprop="url">
-  
-    <h1 itemprop="name">maven小试牛刀</h1>
-    
-     
-           <p itemprop="description" >Maven是一个采用纯Java编写的开源项目管理工具。Maven采用了一种被称之为project object model (POM)概念来管理项目，所有的项目配置信息都被定义在一个叫做POM.xml的文件中，通过该文件，Maven可以管理项目的整个声明周期，包括编译，构建，测试</p>
-        
-    
-    <time datetime="2015-01-09T01:07:34.000Z" itemprop="datePublished">1月 9 2015</time>
-  </a>
-</section>
-
-  <section class="post" itemscope itemprop="blogPost">
-  
-    <a href="/2014/12/30/图像融合文章系列汇总/" title="图像融合文章系列汇总" itemprop="url">
-  
-    <h1 itemprop="name">图像融合文章系列汇总</h1>
-    
-     
-           <p itemprop="description" >这是实验室项目的资料汇总，一方面便于自己整理，理清思路，另一方面让大家对图像融合有个大概的了解。以后项目还没有完结，以后还会有所补充。
-图像融合文章系列汇总：
-图像融合（一）— 概述
-图像融合（二）— 简单加权融合
-图像融合（三）— 拉普拉斯金字塔
-图像融合（四）— 对比度金字塔</p>
-        
-    
-    <time datetime="2014-12-30T06:41:27.000Z" itemprop="datePublished">12月 30 2014</time>
-  </a>
-</section>
+  <span></span> <a href="/tags/读书笔记/">读书笔记</a>
+  </div>
 
 
-  <nav id="page-nav" class="clearfix">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
-  </nav>
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/04/06/读《淘宝技术这十年》-笔记/" data-title="读《淘宝技术这十年》--笔记 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
 
 </div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/04/02/关于imx6核心板qt系统U盘挂载/"  title="关于imx6核心板qt系统U盘挂载">
+ <strong>NEXT:</strong><br/> 
+ <span>关于imx6核心板qt系统U盘挂载
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -403,6 +389,8 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
@@ -422,7 +410,79 @@ $(document).ready(function(){
 });
 </script>
 
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
 
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
 
 
@@ -434,4 +494,4 @@ $(document).ready(function(){
 
 <script src="/js/totop.js"></script>
   </body>
- </html>
+</html>
