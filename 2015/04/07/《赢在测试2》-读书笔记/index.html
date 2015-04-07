@@ -4,15 +4,14 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>车牌识别LPR（二）-- 车牌特征及难点 | Silence 婷婷 Blog</title>
+    <title>《赢在测试2》--读书笔记 | Silence 婷婷 Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
     
     <meta name="author" content="Wangt">
     
-    <meta name="description" content="第二篇：车牌的特征及难点分析
-2.1  对我国车牌的认识
-　　我国目前使用的汽车牌号标准是 2007 年开始实施的《中华人民共和国机动车号牌》GA36-2007（2010 年修订）。根据 GA36-2007 对机动车牌号编排规则规定，我国汽车的车牌构造特点如下：
-　　汽车车牌号的编排规则：我国的标准">
+    <meta name="description" content="从优秀的人身上总能学到很多的东西，《赢在测试2》这本书给我最多的就是激励自己，希望自己能向他们一样，在自己的事业上好好的奋斗。这些牛人给了我很多启发。
+　　这十个牛人之间也有很多想法是一致的，有一定的相同，成功的人总有一些共同特点。
+　　下面是我的思维导图笔记，在这个阶段我只列出了我关注的点，当然书">
     
     
     
@@ -123,15 +122,15 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/29/车牌识别LPR（二）-车牌特征及难点/" title="车牌识别LPR（二）-- 车牌特征及难点" itemprop="url">车牌识别LPR（二）-- 车牌特征及难点</a>
+      <a href="/2015/04/07/《赢在测试2》-读书笔记/" title="《赢在测试2》--读书笔记" itemprop="url">《赢在测试2》--读书笔记</a>
   </h1>
   <p class="article-author">By
     
       <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
     </p>
   <p class="article-time">
-    <time datetime="2014-12-29T07:01:47.000Z" itemprop="datePublished">12月 29 2014</time>
-    更新日期:<time datetime="2014-12-29T07:12:37.000Z" itemprop="dateModified">12月 29 2014</time>
+    <time datetime="2015-04-07T01:01:42.000Z" itemprop="datePublished">4月 7 2015</time>
+    更新日期:<time datetime="2015-04-07T01:05:22.000Z" itemprop="dateModified">4月 7 2015</time>
     
   </p>
 </header>
@@ -140,65 +139,57 @@
 		
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
-		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_对我国车牌的认识"><span class="toc-number">1.</span> <span class="toc-text">2.1  对我国车牌的认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_技术难点"><span class="toc-number">2.</span> <span class="toc-text">2.2 技术难点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1、车牌定位中的难点"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.1、车牌定位中的难点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2、字符分割中的难点"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.2、字符分割中的难点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3、字符识别中的难点"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.3、字符识别中的难点</span></a></li></ol></li></ol>
+		
 		</div>
 		
-		<p>第二篇：车牌的特征及难点分析</p>
-<h3 id="2-1_对我国车牌的认识">2.1  对我国车牌的认识</h3>
-<p>　　我国目前使用的汽车牌号标准是 2007 年开始实施的《中华人民共和国机动车号牌》GA36-2007（2010 年修订）。根据 GA36-2007 对机动车牌号编排规则规定，我国汽车的车牌构造特点如下：</p>
-<p>　　汽车车牌号的编排规则：我国的标准车辆车牌是由一个省份汉字（军警车牌为其他汉字）后跟字母或阿拉伯数字组成的 7 个字序列。标准车牌的的具体排列格式是：X1X2·X3X4X5X6X7，X1是各省、直辖市的简称或军警，X2是英文字母，代表该汽车所在地的地市代码，比如 A 代表省会，B 代表该省的第二大城市，C 代表该省的第三大城市，X3X4X5X6X7为英文字母或阿拉伯数字，2010年以前车牌号码的分布规律是，前面是字母，后面是数字。但是，随着车辆保有量的增加，每个字母所属号段越来越不够用。按照新《中华人民共和国机动车号牌》（2010 年修订）标准，将允许字母在后五位编码中任意一位出现，但不能超过两个。除了第一个汉字外，字母和数字的笔画在竖直方向都是联通的。</p>
-<p>牌照类型如下图：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr1.jpg" alt="拍照类型"></p>
-<p>　　绝大部分的汽车牌照的宽度为1100px，高度为350px，牌照上一共有7个或8个字符，其中，每个字符的宽度为45mm，高度为90mm，间隔符的宽度为10mm，除了第二个和第三个字符之间的间距为 34mm 外，字符之间的间隔宽度12mm。民用的汽车牌照上有所属省、自治区或直辖市的简称(军用、警察牌为其他汉字)，监督机关及发证照的代号(大写的英文字母)后跟阿拉伯数字或英文字母组成的7个字符序列。<br>　　<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/lpr2.jpg" alt="车牌"><br>　　<br>　　可以简单的归纳为以下特征：</p>
-<p>　　1、颜色特征：即前面的六种类型，采用了对比度较为强烈的两种颜色的组合使车牌能明显区分于其它物体，而且车牌边框为白色或黑色两种颜色。使领馆车牌中的“使”和“领”字为红色，港澳出入境车牌中的“港”和“澳“两字为白色。警用汽车摩托车为白底黑字组合，其中”警“字为红色。</p>
-<p>　　2、车牌具有统一的标准尺寸，这便于字符的分割和车牌的定位。</p>
-<p>　　3、边缘特征：汽车的车牌边框是有规则的边缘，由于汽车车牌的字符排列规则，汽车车牌的垂直边缘比水平边缘更为丰富，而汽车的车身却有丰富的水平边缘，垂直边缘不明显。</p>
-<p>　　4、黑白跳变特征：车牌区域二值化后，字符和背景为一黑一白，存在明显的黑白跳变，且跳变的次数在一定范围内。</p>
-<p>　　5、投影特征：汽车车牌图像进行垂直投影后的图像是由波峰、波谷交替组成的连续分布图，垂直投影后的图像会有约七个波峰或波谷区；汽车车牌图像进行水平投影后的图像中灰度跳变的像素点数累加值很大。</p>
-<p>　　了解我国车牌的特征，有利于后续对车牌进行的各种操作，在项目步骤中，这属于对需求目标的全面了解。对车牌的了解不能跳过，因清楚的知道我们所要处理的的目标的各个特性，这样才有利于我们利用这些特性来操作车票图像。</p>
-<h3 id="2-2_技术难点">2.2 技术难点</h3>
-<h4 id="2-2-1、车牌定位中的难点">2.2.1、车牌定位中的难点</h4>
-<p>　　从环境等客观因素上来说，汽车的类型有很多且构造不同，使得不同汽车上的悬挂车牌的位置就会不同。这样，汽车车身与车牌区域出现相似的颜色、纹理，就很可能会造成车牌定位出错或需更长的时间才能定位出车牌。</p>
-<p>　　车牌定位是指从拍摄的含有车牌的图像中定位出车牌的淮确位置，然后进一步的提取出车牌图像。其主要的难点有：</p>
-<ul>
-<li>周围环境因素，比如随机噪声，天气气候(雪天，雨天，雾天等)，光线(白天强光，晚上漆黑等)等。</li>
-<li>车牌自身因素，比如车牌倾斜，字迹模糊，车牌乱挂装饰物，车牌周围广告标语覆盖或干扰等。</li>
-</ul>
-<h4 id="2-2-2、字符分割中的难点">2.2.2、字符分割中的难点</h4>
-<p>　　字符分割是指从含有字符的车牌图像中将字符分割出来，字符分割的好坏会直接影响到下一步的字符识别。其主要的难点有：</p>
-<ul>
-<li>光照影响，不的照射光源(车灯，太阳光或辅助光源)，不同的气候条件(雨雪阴晴)，不同的光照角度。</li>
-<li>汽车由于长途奔袭，再加上风吹日晒等各种原因，车牌上的字符可能会粘连，缺损或断裂，这会给字符分割带来一定的麻烦。</li>
-<li>缺乏统一的车牌标准，车牌主要包括普通车牌，外事车牌和军用车牌等，这些车牌的规格，适用范围和颜色各有不同。</li>
-</ul>
-<p>实际应用中，摄像设备所放的方位和角度有可能造成拍摄出来的车牌图像倾斜、畸变或部分被遮挡；当汽车处于高速行驶时，所拍摄的车辆图像清晰度不高；背景复杂的车辆图像，定位会有一定的困难，对后续的字符分割和字符识别带来严重的困难。</p>
-<h4 id="2-2-3、字符识别中的难点">2.2.3、字符识别中的难点</h4>
-<p>　　字符识别是指将分割好的字符图像送到分类器中，对图像中的字符进行识别。字符识别是整个车牌识别系统中的最后一步，也是最为关键的一步。主要的难点有：</p>
-<ul>
-<li>车牌汉字中繁多的字符笔画，汉字较字母和数字的识别难度较大。</li>
-<li>字符图像的分辨率较低时使得字符笔画结构特征不明显，特征难以提取。 </li>
-<li>相似字符的识别(B和8，D和0等)。</li>
-</ul>
-<p>从算法上来说，由于采集到的车辆图像质量不高，存在噪声、图像模糊失真、车牌污损、其它字符区域干扰等情况，车牌识别技术中定位、分割、识别实现起来都有很多困难。算法的简捷、实用、快速往往和算法的速度形成冲突。怎样提高现有算法的识别率和速度，如何利用车牌的彩色信息进行车牌识别，一幅图像中多个车牌的情况怎样识别，怎样满足系统实时性要求等，这些都是车牌识别有待研究和解决的问题。</p>
+		<p>　　从优秀的人身上总能学到很多的东西，《赢在测试2》这本书给我最多的就是激励自己，希望自己能向他们一样，在自己的事业上好好的奋斗。这些牛人给了我很多启发。</p>
+<p>　　这十个牛人之间也有很多想法是一致的，有一定的相同，成功的人总有一些共同特点。</p>
+<p>　　下面是我的思维导图笔记，在这个阶段我只列出了我关注的点，当然书里关于管理也有一些好的想法，像以人为核心的团队，一个团队的管理者不仅仅要带领团队做好测试，还要有能保持和调动员工的工作积极性，把团队的潜力和能力发挥出来。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/%E8%B5%A2%E5%9C%A8%E6%B5%8B%E8%AF%952%20%282%29.jpeg" alt="yzce2"><br>​</p>
+<p>对于将后行业发展认识：</p>
+<p>1、探索式测试和脚本化测试：探索式测试强调测试人员的思维自由度和主观能动性，</p>
+<p>2、敏捷开发模式下的敏捷测试</p>
+<p>3、自动化测试</p>
+<hr>
+<p>以下是书中的一些摘录，挺值得思考的：</p>
+<blockquote>
+<p>去做自己喜欢的，还是去做别人喜欢的？最终我选择了前者。这就像我之前选择测试还是开发一样，是做自己喜欢的测试还是做大家期望的研发，经过深思熟虑之后，才知道自己的真正想要的，最终我选择了前者。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>测试人员懂得思考和分析，很多人觉得测试就是点点鼠标，看看界面，但其实不这样的，测试是有技术含量的，就拿点鼠标来说，测试人员为什么要点鼠标，鼠标点在哪里？要点几次？产生结果是怎么样的？为什么会有这样的结果？怎么解决？这些都是测试人员要思考的，这也体现了他们是如何思考的，如何分析的，这才是人和人最大的区别，也是测试人员真正的价值所在。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>不需要把开发和测试在角色上鲜明的分开，说开发人员和测试人员这不是问题的关键，而死可以把他们从工作上分开，有开发类的工作，也有测试类的工作，从这个角度看，测试类的工作会存在，至于是谁去做，就要看实际情况和能力了。不管谁做测试都要保证测试上的独立性，毕竟测试有其特有的思维方式，这里的独立性是指精神上的杜丽丽，而不是物理上的独立。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>第一：要用运营的思维来考虑产品质量。例如，软件发布后怎么办？有什么办法实现持续的改进？快速的迭代中，如何做好质量保证？第二：软件研发中修复所有的问题是不可能的，有的问题从测试的角度来看是不可接受的，但是可能用户并不关心。不是说故意去对客户隐瞒，而是有的问题客户遇到的概率很低，那优先级就要下降。如何满足客户需求？做好客户经常使用的功能，优先解决客户经常遇到的问题，这才是真正的以用户为核心。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>在淘宝，在对测试工程师的绩效要求上，并不在于bug的number，更重要的是，在业务上是否有创新，有没有帮助开发解决什么问题，是如何提高自己的？</p>
+</blockquote>
   
 	</div>
 		<footer class="article-footer clearfix">
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/LPR/">LPR</a><a href="/tags/lab/">lab</a>
+  <span></span> <a href="/tags/读书笔记/">读书笔记</a>
   </div>
 
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/lab/">lab</a>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
 </div>
 
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://silencewt.github.io/2014/12/29/车牌识别LPR（二）-车牌特征及难点/" data-title="车牌识别LPR（二）-- 车牌特征及难点 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://silencewt.github.io/2015/04/07/《赢在测试2》-读书笔记/" data-title="《赢在测试2》--读书笔记 | Silence 婷婷 Blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -207,19 +198,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/29/车牌识别LPR（三）-LPR系统整体结构/" title="车牌识别LPR（三）-- LPR系统整体结构">
-  <strong>PREVIOUS:</strong><br/>
-  <span>
-  车牌识别LPR（三）-- LPR系统整体结构</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/29/车牌识别LPR（一）-研究背景/"  title="车牌识别LPR（一）-- 研究背景">
+<a href="/2015/04/06/读《淘宝技术这十年》-笔记/"  title="读《淘宝技术这十年》--笔记">
  <strong>NEXT:</strong><br/> 
- <span>车牌识别LPR（一）-- 研究背景
+ <span>读《淘宝技术这十年》--笔记
 </span>
 </a>
 </div>
@@ -236,7 +219,7 @@
 
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
-  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1_对我国车牌的认识"><span class="toc-number">1.</span> <span class="toc-text">2.1  对我国车牌的认识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2_技术难点"><span class="toc-number">2.</span> <span class="toc-text">2.2 技术难点</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-1、车牌定位中的难点"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.1、车牌定位中的难点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-2、字符分割中的难点"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.2、字符分割中的难点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-3、字符识别中的难点"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.3、字符识别中的难点</span></a></li></ol></li></ol>
+  
   </div>
 
 <div id="asidepart">

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-04-06T05:58:59.994Z</updated>
+  <updated>2015-04-07T01:06:07.899Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -13,6 +13,53 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[《赢在测试2》--读书笔记]]></title>
+    <link href="http://silencewt.github.io/2015/04/07/%E3%80%8A%E8%B5%A2%E5%9C%A8%E6%B5%8B%E8%AF%952%E3%80%8B-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    <id>http://silencewt.github.io/2015/04/07/《赢在测试2》-读书笔记/</id>
+    <published>2015-04-07T01:01:42.000Z</published>
+    <updated>2015-04-07T01:05:22.000Z</updated>
+    <content type="html"><![CDATA[<p>　　从优秀的人身上总能学到很多的东西，《赢在测试2》这本书给我最多的就是激励自己，希望自己能向他们一样，在自己的事业上好好的奋斗。这些牛人给了我很多启发。</p>
+<p>　　这十个牛人之间也有很多想法是一致的，有一定的相同，成功的人总有一些共同特点。</p>
+<p>　　下面是我的思维导图笔记，在这个阶段我只列出了我关注的点，当然书里关于管理也有一些好的想法，像以人为核心的团队，一个团队的管理者不仅仅要带领团队做好测试，还要有能保持和调动员工的工作积极性，把团队的潜力和能力发挥出来。<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/%E8%B5%A2%E5%9C%A8%E6%B5%8B%E8%AF%952%20%282%29.jpeg" alt="yzce2"><br>​</p>
+<p>对于将后行业发展认识：</p>
+<p>1、探索式测试和脚本化测试：探索式测试强调测试人员的思维自由度和主观能动性，</p>
+<p>2、敏捷开发模式下的敏捷测试</p>
+<p>3、自动化测试</p>
+<hr>
+<p>以下是书中的一些摘录，挺值得思考的：</p>
+<blockquote>
+<p>去做自己喜欢的，还是去做别人喜欢的？最终我选择了前者。这就像我之前选择测试还是开发一样，是做自己喜欢的测试还是做大家期望的研发，经过深思熟虑之后，才知道自己的真正想要的，最终我选择了前者。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>测试人员懂得思考和分析，很多人觉得测试就是点点鼠标，看看界面，但其实不这样的，测试是有技术含量的，就拿点鼠标来说，测试人员为什么要点鼠标，鼠标点在哪里？要点几次？产生结果是怎么样的？为什么会有这样的结果？怎么解决？这些都是测试人员要思考的，这也体现了他们是如何思考的，如何分析的，这才是人和人最大的区别，也是测试人员真正的价值所在。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>不需要把开发和测试在角色上鲜明的分开，说开发人员和测试人员这不是问题的关键，而死可以把他们从工作上分开，有开发类的工作，也有测试类的工作，从这个角度看，测试类的工作会存在，至于是谁去做，就要看实际情况和能力了。不管谁做测试都要保证测试上的独立性，毕竟测试有其特有的思维方式，这里的独立性是指精神上的杜丽丽，而不是物理上的独立。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>第一：要用运营的思维来考虑产品质量。例如，软件发布后怎么办？有什么办法实现持续的改进？快速的迭代中，如何做好质量保证？第二：软件研发中修复所有的问题是不可能的，有的问题从测试的角度来看是不可接受的，但是可能用户并不关心。不是说故意去对客户隐瞒，而是有的问题客户遇到的概率很低，那优先级就要下降。如何满足客户需求？做好客户经常使用的功能，优先解决客户经常遇到的问题，这才是真正的以用户为核心。</p>
+</blockquote>
+<p>　　</p>
+<blockquote>
+<p>在淘宝，在对测试工程师的绩效要求上，并不在于bug的number，更重要的是，在业务上是否有创新，有没有帮助开发解决什么问题，是如何提高自己的？</p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p>　　从优秀的人身上总能学到很多的东西，《赢在测试2》这本书给我最多的就是激励自己，希望自己能向他们一样，在自己的事业上好好的奋斗。这些牛人给了我很多启发。</p>
+<p>　　这十个牛人之间也有很多想法是一致的，有一定的相同，成功的人总有一些共同特点。</p>
+<p>　　下面]]>
+    </summary>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+      <category term="读书笔记" scheme="http://silencewt.github.io/categories/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[读《淘宝技术这十年》--笔记]]></title>
@@ -2177,141 +2224,6 @@ Account updateAccount(Account account) <span class="keyword">throws</span> Accou
       <category term="读书笔记" scheme="http://silencewt.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
       <category term="笔记" scheme="http://silencewt.github.io/categories/%E7%AC%94%E8%AE%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[maven小试牛刀]]></title>
-    <link href="http://silencewt.github.io/2015/01/09/maven%E5%B0%8F%E8%AF%95%E7%89%9B%E5%88%80/"/>
-    <id>http://silencewt.github.io/2015/01/09/maven小试牛刀/</id>
-    <published>2015-01-09T01:07:34.000Z</published>
-    <updated>2015-01-09T01:27:43.000Z</updated>
-    <content type="html"><![CDATA[<p>　　Maven是一个采用纯Java编写的开源项目管理工具。Maven采用了一种被称之为project object model (POM)概念来管理项目，所有的项目配置信息都被定义在一个叫做POM.xml的文件中，通过该文件，Maven可以管理项目的整个声明周期，包括编译，构建，测试，发布，报告等等。目前Apache下绝大多数项目都已经采用Maven进行管理。而Maven本身还支持多种插件，可以方便更灵活的控制项目。
-　　</p>
-<hr>
-<h3 id="构建">构建</h3>
-<p>　　理解maven的第一步我们需要知道构建是什么？《maven实战》这本书里写的很清楚，早上我们会从代码库里签出最新的代码，然后进行单元测试，如果发现bug就会找同事一起解决，之后回到自己的工作上，编写单元测试或者产品代码，然后测试，午饭后可能会需要开个会，汇报工作进度，查看测试报告那么就需要用IDE使用相关的工具集成，生成报告给经理查看，也可能QA发来了几个bug,于是熟练地用IDE生成了一个WAR包，部署到Web容器下，启动容器。看到熟悉的界面了，遵循bug报告，一步步重现了bug。。。修改好bug，提交代码，通知QA，下班。就会发现，在一天的工作中，我们出了编写代码就是在编译，运行生成文档，打包和部署等烦琐且不起眼的工作上，这就是构建。如果手工这样做，那成本也太高了，于是有人用软件的方法让这一系列工作完全自动化，使得软件的构建可以像全自动流水线一样，只需要一条简单的命令，所有烦琐的步骤都能够自动完成，很快就能得到最终结果。</p>
-<p>　　Maven的用途之一是服务于构建，它是一个异常强大的构建工具，能够帮我们自动化构建过程，从清理、编译、测试到生成报告，再到打包和部署。我们要做的是使用Maven配置好项目，然后输入简单的命令(如mvn clean install)，Maven会帮我们处理那些烦琐的任务。Maven是跨平台的，无论是在Windows上，还是在Linux或者Mac上，都可以使用同样的命令。maven 能最大化的消除重复的构建，我们不需要去定义繁琐的构建过程，只要在maven里配置好相关的信息就好。最简单的例子是测试，我们没必要告诉Maven去测试，更不需要告诉Maven如何运行测试，只需要遵循Maven的约定编写好测试用例，当我们运行构建的时候，这些测试便会自动运行。maven可以帮助标准化构建过程，有了Maven之后，所有项目的构建命令都是简单一致的，这极大地避免了不必要的学习成本，而且有利于促进项目团队的标准化。Maven作为一个构建工具，不仅能帮我们自动化构建，还能够抽象构建过程，提供构建任务实现；它跨平台，对外提供了一致的操作接口，这一切足以使它成为优秀的、流行的构建工具。</p>
-<p>　　maven不仅仅是一个构建工具，他还是一个依赖管理工具和项目信息管理工具，它提供了中央仓库，可以帮我们自动的下载构件。比如在使用javaweb开发是，会用到各种的第三方的库或者框架，这些类库都可以通过依赖的方式注入到项目中，随着依赖的增多，版本的不一致，版本的兼容性，臃肿的问题就会出现。每次手工的解决这些问题会很烦躁，maven就提供了一个优秀的解决方案，它通过一个坐标系统准确地定位每一个构件（artifact），也就是通过一组坐标Maven能够找到任何一个Java类库（如jar文件）。Maven给这个类库世界引入了经纬，让它们变得有秩序，于是我们可以借助它来有序地管理依赖，轻松地解决那些繁杂的依赖问题。</p>
-<p>　　Maven还能帮助我们管理原本分散在项目中各个角落的项目信息，包括项目描述、开发者列表、版本控制系统地址、许可证、缺陷管理系统地址等。这些微小的变化看起来很琐碎，并不起眼，但却在不知不觉中为我们节省了大量寻找信息的时间。除了直接的项目信息，通过Maven自动生成的站点，以及一些已有的插件，我们还能够轻松获得项目文档、测试报告、静态分析报告、源码版本日志报告等非常具有价值的项目信息。</p>
-<h4 id="maven与IDE的比较：">maven与IDE的比较：</h4>
-<p>　　IDE虽然提高了编码的效率，但IDE依赖大量的手工操作。编译、测试、代码生成等工作都是相互独立的，很难一键完成所有工作。手工劳动往往意味着低效，意味着容易出错。</p>
-<p>　　很难在项目中统一所有的IDE配置，每个人都有自己的喜好。也正是由于这个原因，一个在机器A上可以成功运行的任务，到了机器B的IDE中可能就会失败。</p>
-<p>　　我们应该合理利用IDE，而不是过多地依赖它。对于构建这样的任务，在IDE中一次次地点击鼠标是愚蠢的行为。Maven是这方面的专家，而且主流IDE都集成了Maven，我们可以在IDE中方便地运行Maven执行构建。</p>
-<h4 id="maven于ant的区别：">maven于ant的区别：</h4>
-<p>　　ant意指“另一个整洁的工具”（Another Neat Tool），它最早用来构建著名的Tomcat。可以将Ant看成是一个Java版本的Make，也正因为使用了Java，Ant是跨平台的。此外，Ant使用XML定义构建脚本build.xml。Ant是没有依赖管理的，所以很长一段时间Ant用户都不得不手工管理依赖，现在可以借助Ivy管理依赖。而Maven内置了依赖管理。
-　　</p>
-<hr>
-<h4 id="使用maven的情况：">使用maven的情况：</h4>
-<p>　　比如你是一个小软件公司的程序员，他所在的公司要开发一个新的Web项目。经过协商，决定使用Spring、iBatis和Tapstry。jar包去哪里找呢？公司里估计没有人能把Spring、iBatis和Tapstry所使用的jar包一个不少地找出来。大家的做法是，先到Spring的站点上去找一个spring.with.dependencies，然后去iBatis的网站上把所有列出来的jar包下载下来，对Tapstry、Apache commons等执行同样的操作。项目还没有开始，WEB.INF/lib下已经有近百个jar包了，带版本号的、不带版本号的、有用的、没用的、相冲突的，怎一个“乱”字了得！  在项目开发过程中，不时地会发现版本错误和版本冲突问题，这时只能硬着头皮逐一解决。项目开发到一半，经理发现最终部署的应用的体积实在太大了，要求去掉一些没用的jar包，于是只能加班加点地一个个删…… 这时就会想，要是能有一个系统或者框架来管理这些依赖就好了， 这时maven就发挥到作用了。</p>
-<p>　　<em>书籍看到这里，让我想起大四的时候进来实验室时的一个项目，就是基于SSH框架的某公司管理系统，当时，在搭建环境的时候就需要一天的时候（网络卡），到不同的网站去下不同的jar包，和安装不同的框架，期间出错了几次，为了避免在次出错自己就手动的备份了所有资料，单独列了一个清单，记录各个依赖的版本。现在回过头来看，如果当时师兄师姐使用这个来构建项目的话，会有多轻松啊。实验室所学到的东西确实是有限的，很多新技术没有跟不上社会的变化。</em></p>
-<hr>
-<h3 id="maven与极限编程">maven与极限编程</h3>
-<p>　　maven能很好的使用极限编程XP的一些实践当中去测试驱动开发（TDD）。TDD强调测试先行，所有产品都应该由测试用例覆盖。而测试是Maven生命周期的最重要的组成部分之一，并且Maven有现成的成熟插件支持业界流行的测试框架，如JUnit和TestNG。</p>
-<p>　　<strong>十分钟构建</strong>。十分钟构建强调我们能够随时快速地从源码构建出最终的产品。这正是Maven所擅长的，只需要一些配置，之后用一条简单的命令就能让Maven帮你清理、编译、测试、打包、部署，然后得到最终的产品。</p>
-<p>　　<strong>持续集成（CI）</strong>。CI强调项目以很短的周期（如15分钟）集成最新的代码。实际上,CI的前提是源码管理系统和构建系统。</p>
-<p>　　在传统的瀑布模型开发中，项目依次要经历需求开发、分析、设计、编码、测试和集成发布阶段。从设计和编码阶段开始，就可以使用Maven来建立项目的构建系统。在设计阶段，也完全可以针对设计开发测试用例，然后再编写代码来满足这些测试用例。然而，有了自动化构建系统，我们可以节省很多手动的测试时间。此外，尽早地使用构建系统集成团队的代码，对项目也是百利而无一害。最后，Maven还能帮助我们快速地发布项目。</p>
-<hr>
-<h3 id="maven安装：">maven安装：</h3>
-<p>　　最新的eclipse中集成的是3.2.1的maven，为了和命令行一起使用，我在插件里面使用3.2.5的，本机上安装的也是3.2.5，这个只要在eclipse里面设置一下就好了。当然也可以设置回去的。
-　　</p>
-<hr>
-<h3 id="maven使用">maven使用</h3>
-<h4 id="（一）_生成pom">（一） 生成pom</h4>
-<p> 　　pom.xml文件是maven对一个项目的核心配置，这个文件将包含你希望如何构建项目的大多数配置信息，用于描述项目如何构建，声明项目依赖，等等。虽然很难列出一张非常全面的表，但在此可先列出最普通的默认的生命周期阶段：</p>
-<p>　　<strong>validate</strong>：验证工程是否正确，所有需要的资源是否可用。<br>　　<strong>compile</strong>：编译项目的源代码。<br>　　<strong>test</strong>：使用合适的单元测试框架来测试已编译的源代码。这些测试不需要已打包和布署。<br>　　<strong>Package</strong>：把已编译的代码打包成可发布的格式，比如jar。<br>　　<strong>integration-test</strong>：如有需要，将包处理和发布到一个能够进行集成测试的环境。<br>　　<strong>verify</strong>：运行所有检查，验证包是否有效且达到质量标准。<br>　　<strong>install</strong>：把包安装在本地的repository中，可以被其他工程作为依赖来使用。<br>　　<strong>Deploy</strong>：在集成或者发布环境下执行，将最终版本的包拷贝到远程的repository，使得其他的开发者或者工程可以共享。<br>　　<strong>clean</strong>：清除先前构建的artifacts（在maven中，把由项目生成的包都叫作artifact）。<br>　　<strong>site</strong>：为项目生成文档站点。</p>
-<p>　　首先创建一个空文件夹，在改文件夹里新建一个文佳pom.xml，配置文件，具体内容为：</p>
-<pre><code><span class="pi">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span> 
-<span class="tag">&lt;<span class="title">project</span> <span class="attribute">xmlns</span>=<span class="value">"http://maven.apache.org/POM/4.0.0"</span>
-     <span class="attribute">xmlns:xsi</span>=<span class="value">"http://www.w3.org/2001/XMLSchema-instance"</span>
-           <span class="attribute">xsi:schemaLocation</span>=<span class="value">"http://maven.apache.org/POM/4.0.0 
-http://maven.apache.org/maven-v4_0_0.xsd"</span>&gt;</span> 
-  <span class="tag">&lt;<span class="title">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="title">modelVersion</span>&gt;</span> 
-  <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>com.silence<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span> 
-  <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>hello-world<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span> 
-  <span class="tag">&lt;<span class="title">version</span>&gt;</span>1.0-SNAPSHOT<span class="tag">&lt;/<span class="title">version</span>&gt;</span> 
-  <span class="tag">&lt;<span class="title">name</span>&gt;</span>Maven Hello World Project<span class="tag">&lt;/<span class="title">name</span>&gt;</span> 
-<span class="tag">&lt;/<span class="title">project</span>&gt;</span>  
-</code></pre><p>　　第二行：project元素，这是pom.xml的根元素，声明pom相关的命名空间，这里面的属性可以让我们的IDE跟快速的编辑pom第一行：制定了该xml文档的版本和编码方式。<br>　　第六行：根元素下的第一个子元素modelVersion指定了当前POM模型的版本，对于Maven2及Maven 3来说，它只能是4.0.0。<br>　　第7行到9行是最重要的代码段，groupId，artifactId和version这三个元素定义了一个项目基本的坐标，在Maven的世界，任何的jar、pom或者war都是以基于这些基本的坐标进行区分的。<br>　　<br>　　<strong>groupId</strong>定义了项目属于哪个组，这个组往往和项目所在的组织或公司存在关联，譬如你在googlecode上建立了一个名为myapp的项目，那么groupId就应该是com.googlecode.myapp，如果你的公司是mycom，有一个项目为myapp，那么groupId就应该是com.mycom.myapp。<br>　　<br>　　<strong>artifactId</strong>定义了当前Maven项目在组中唯一的ID，我们为这个Hello World项目定义artifactId为hello-world，本书其他章节代码会被分配其他的artifactId。而在前面的groupId为com.googlecode.myapp的例子中，你可能会为不同的子项目（模块）分配artifactId，如：myapp-util、myapp-domain、myapp-web等等。</p>
-<p>　　<strong>version</strong>指定了Hello World项目当前的版本——1.0-SNAPSHOT。SNAPSHOT意为快照，说明该项目还处于开发中，是不稳定的版本。随着项目的发展，version会不断更新，如升级为1.0、1.1-SNAPSHOT、1.1、2.0等等。</p>
-<p>　　第十行：name元素声明了一个对于用户更为友好的项目名称，虽然这不是必须的，但我还是推荐为每个POM声明name，以方便信息交流。</p>
-<h4 id="（二）编写主代码">（二）编写主代码</h4>
-<p> 　　项目主代码和测试代码不同，项目的主代码会被打包到最终的构件中（比如jar），而测试代码只在运行测试时用到，不会被打包。默认情况下，Maven假设项目主代码位于src/main/java目录，我们遵循Maven的约定，创建该目录，然后在该目录下创建文件com/juvenxu/mvnbook/helloworld/HelloWorld.java，<br> 　　写好这个之后，可以回到项目根目录下，运行mvn clean compile就可以生成编译java文件，生成对应的class文件</p>
-<h4 id="（三）测试代码">（三）测试代码</h4>
-<p>　　Maven项目中默认的测试代码目录是src/test/java。com/juvenxu/mvnbook/helloworld/testHelloWorld.java要有测试代码得为Hello World项目添加一个JUnit依赖，即在pom.xml中添加<dependencies>元素；</dependencies></p>
-<pre><code><span class="tag">&lt;<span class="title">dependencies</span>&gt;</span> 
-<span class="tag">&lt;<span class="title">dependency</span>&gt;</span> 
-   <span class="tag">&lt;<span class="title">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">groupId</span>&gt;</span> 
-   <span class="tag">&lt;<span class="title">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="title">artifactId</span>&gt;</span> 
-   <span class="tag">&lt;<span class="title">version</span>&gt;</span>4.7<span class="tag">&lt;/<span class="title">version</span>&gt;</span> 
-   <span class="tag">&lt;<span class="title">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="title">scope</span>&gt;</span> 
-<span class="tag">&lt;/<span class="title">dependency</span>&gt;</span> 
-<span class="tag">&lt;/<span class="title">dependencies</span>&gt;</span>
-</code></pre><p>　　</p>
-<p>　　第6行：scope为依赖范围，若依赖范围为test则表示该依赖只对测试有效，换句话说，测试代码中的import JUnit代码是没有问题的，但是如果我们在主代码中用import JUnit代码，就会造成编译错误。如果不声明依赖范围，那么默认值就是compile，表示该依赖对主代码和测试代码都有效。有了这段声明，Maven就能够自动从中央仓库（<a href="http://repo1.maven.org/maven2/）里下载junit-4.7.jar。" target="_blank" rel="external">http://repo1.maven.org/maven2/）里下载junit-4.7.jar。</a></p>
-<h4 id="（四）执行">（四）执行</h4>
-<p>　　mvn clean compile、mvn clean test（测试）、mvn clean package（打包）、mvn clean install（安装）。执行test之前是会先执行compile的，执行package之前是会先执行test的，而类似地，install之前会执行package。</p>
-<p> 　　命令行输入的是mvn clean test，而maven实际执行的可不止这两个任务，还有clean:clean、resources:resources、compiler:compile、resources:testResources以及compiler:testCompile。暂时我们需要了解的是，在Maven执行测试（test）之前，它会先自动执行项目主资源处理，主代码编译，测试资源处理，测试代码编译等工作，这是Maven生命周期的一个特性。</p>
-<h4 id="（五）简单的原型Archetype">（五）简单的原型Archetype</h4>
-<p>　　可以快速的生成项目骨架，避免每次都一个个的创建文件夹，可以执行mvn archetype:generate，也可以在eclipse中选择。当然也可以根据自己的需要开发使用自定义的archetype来快速生成项目骨架。</p>
-<hr>
-<h3 id="maven坐标">maven坐标</h3>
-<p>　　为了能自动的解析任何一个java构件，maven就将他们用坐标唯一标识，坐标元素包括:groupId,artifactId,version,packaging,classifier，只要设置这几个元素就可以很轻松地从中央仓库那儿获得对应的构件。前三天上面有介绍过，这里说说packaging：定义maven的打包方式，一般为jar（默认），当然也可以是war行的，最终会生成war的文件。classifier：帮助定义构建输出的一些附属构件。如某项目的主构件是nexus-index-2.0.0.jar，可能还会有nexus-index-2.0.0-Javadoc.jar和nexus-index-2.0.0-sources.jar这样一些附属构件（java文档和源代码），这里javadoc和sources就是这两个附属构件的classifier,这样附属的构件也会有自己唯一的坐标。</p>
-<hr>
-<h3 id="maven依赖">maven依赖</h3>
-<p>　　每个依赖包含的元素有：groupId、artifactId、version还有type：<br>　　<strong>scope</strong>：依赖范围。用来控制依赖与这三种classpath的关系（编译classpath、运行classpath、测试classpath），如果没有指定依赖范围则默认使用compile，在编译、运行和测试的时候都需要用到该依赖。test则只对测试classpath有效，在编译主代码和运行项目的时候不会包含进去。runtime运行时的依赖，对测试运行有效，在编译主代码时无效。其实，还有provided和system两种。</p>
-<p>　　<strong>optional</strong>：标记依赖是否可选，比如项目A依赖于项目B，B依赖于X和Y（XY可选的），根基依赖传递性，ＸＹ会是A的传递性依赖，但是由于XY是可选的，那么依赖不会传递，XY对A不会有影响。也就是说XY只对B起作用，不会被传递，如果A中需要XY则需要显示的声明。这个并不推荐，最好的方式就是排除依赖。可以使用maven命令分析依赖关系：mvn dependency:analyze</p>
-<p>　　<strong>exclusions</strong>：用来排除传递性依赖maven引人的传递性依赖机制。一方面大大简化和方便了依赖声明。另一方面，大部分情况下我们只需要关心项目的直接依赖是什么，而不用考虑这些直接依赖会引人什么传递性依赖。但有时候，当传递性依赖造成问题的时候，我们就需要清楚地知道该传递性依赖是从哪条依赖路径引人的。这个可以以后遇到了在了解。</p>
-<hr>
-<h4 id="依赖范围">依赖范围</h4>
-<p>　　就是用来控制依赖与这三种classpath(编译classpath、测试classpath、运行classpath)的关系，Maven有以下几种依赖范围：</p>
-<p>　　<strong>compile</strong>: 编译依赖范围。如果没有指定，就会默认使用该依赖范围。使用此依赖范围的Maven依赖，对于编译、测试、运行三种classpath都有效。</p>
-<p>　　<strong>test</strong>:测试依赖范围。使用此依赖范围的Maven依赖，只对于测试classpath有效，在编译主代码或者运行项目的使用时将无法使用此类依赖。典型的例子就是JUnit，它只有在编译测试代码及运行测试的时候才需要。</p>
-<p>　　<strong>provided:</strong> 已提供依赖范围。使用此依赖范围的Maven依赖，对于编译和测试classpath有效，但在运行时无效。典型的例子是servlet-api，编译和测试项目的时候需要该依赖，但在运行项目的时候，由于容器已经提供，就不需要Maven重复地引入一遍。</p>
-<p>　　<strong>runtime:</strong> 运行时依赖范围。使用此依赖范围的Maven依赖，对于测试和运行classpath有效，但在编译主代码时无效。典型的例子是JDBC驱动实现，项目主代码的编译只需要JDK提供的JDBC接口，只有在执行测试或者运行项目的时候才需要实现上述接口的具体JDBC驱动。</p>
-<p>　　<strong>system:</strong> 系统依赖范围。该依赖与三种classpath的关系，和provided依赖范围完全一致。但是，使用system范围依赖时必须通过systemPath元素显式地指定依赖文件的路径。由于此类依赖不是通过Maven仓库解析的，而且往往与本机系统绑定，可能造成构建的不可移植，因此应该谨慎使用。systemPath元素可以引用环境变量</p>
-<hr>
-<h3 id="maven仓库">maven仓库</h3>
-<p>　　简单来说就是，maven依赖构件存放的地方，所有的依赖构件都从仓库里下载，除了本地的项目依赖。maven有提供一个中央仓库，里面有各种开源的构件，可很方便的从上面获得。当然，这个仓库是远程的，也可以在本地设置一个私服，Nexus就是一个流行的开源maven仓库管理软件。现在我只需要使用仓库里的就可以了，没必要去建立私服。此处略过。</p>
-<hr>
-<h3 id="maven生命周期和插件：">maven生命周期和插件：</h3>
-<p> 　　maven的生命周期就是为了对所有的构建过程进行抽象和统一，从大量项目和构建工具中学习和反思，然后总结了一套高度完善的、易扩展的生命周期。这个生命周期包含了项目的清理、初始化、编译、测试、打包、集成测试、验证、部署和站点生成等几乎所有构建步骤。也就是说，几乎所有项目的构建，都能映射到这样一个生命周期上。</p>
-<p> 　　在maven的设计中，实际的任务(如编译源代码)都交由插件来完成。这种思想与设计模式中的模板方法非常相似。模板方法模式在父类中定义算法的整体结构，子类可以通过实现或者重写父类的方法来控制实际的行为，这样既保证了算法有足够的可扩展性，又能够严格控制算法的整体结构。</p>
-<p>　　这本书里写的很清楚：</p>
-<pre><code><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> AbstractBuild{
-<span class="keyword">public</span> <span class="keyword">void</span> Build（）{
-    initialize（）；
-    compile（）；
-    test（）；
-    packagee（）；
-    integrate（）；
-    deploy（）；
-}
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> initialize（）；
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> compile（）；
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> test（）；
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> packagee（）；
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> integrate（）；
-<span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">void</span> deploy（）；
-}
-</code></pre><p>　　生命周期抽象了构建的各个步骤，定义它们的次序，但没有提供具体实现，那么谁来实现这些步骤呢？不能有用户为了编译而写一堆代码。为测试又写一堆代码，那么就在重复发明轮子了?maven考虑了，因此设计插件机制。每个构建步骤都可以绑定一个或者多个插件行为，而maven为大多数构建步骤编写并绑定了默认插件。插件完成具体的任务，是实现着。maven有自动绑定的插件，当然也可以自定义绑定，在pom中设置build plugins plugin属性。 </p>
-<p>　　maven有三套独立的生命周期：clean（清理项目）、default（构建项目）、site（建立项目站点）。每个生命周期都有几个阶段，这些阶段是有顺序的，调用后面的阶段时，必须先调用前面的阶段。我们从命令行执行maven命令就是在调用其生命周期阶段，比如：mvn clean：就是执行pre-clean和clean阶段。mvn test：执行default周期的validate、initialize……直到test阶段。mvn clean install：就是clean阶段加上default周期的直到install阶段。</p>
-<hr>
-<h3 id="maven聚合和继承">maven聚合和继承</h3>
-<p>　　我们通常会将不一个项目分成不同的模块向，注册服务会分成persist，service等模块，maven的聚合特性能够把项日的各个模块聚合在一起构建，而maven继承特性则能帮助抽取各模块相同的依赖和插件等配置。在众多模块中，不可能对每个项目都进行构建，执行maven命令，会想用一个命令就运行几个模块的内容，为了能够一条命令就构建两个模块，需要在额外的创建一个account-aggregato模块，然后通过该模块构建整个项目的所有模块。对于聚合模块来说，pom.xml中的打包方式必须为pom,否则就无法构建。各个模块可以放在聚合模块目录下，即和pom同一个目录，聚合模块是项目目录的最顶层，其他莫快则作为其子目录存在。这个并不是唯一的，子模块也可以和聚合模块平行。</p>
-<p>　　多模块项目中，各模块中会有很多相同的groupID和version，相同的spring依赖，和plugin配置。这就是重复，重复往往以为着更</p>
-<p>　　更多的劳动和更多的潜在的问题。在面向对象世界中，程序员可以使用类继承在一定程度上消除重复，在maven的世界中，也有类似的机制能让我们抽取出重复的配置，这就是POM的继承。需要创建POM的斧子结构，然后在父POM中声明一些配置供子POM继承。以实现一处声明，多处使用的目的。</p>
-<p>　　<strong>聚合的目的：快速构建项目</strong><br>　　<strong>继承的目的：消除重复配置</strong></p>
-<hr>
-<p>参考书籍：《maven实战》 <a href="http://hzbook.group.iteye.com/group/wiki/2872-Maven-in-action" target="_blank" rel="external">http://hzbook.group.iteye.com/group/wiki/2872-Maven-in-action</a></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>　　Maven是一个采用纯Java编写的开源项目管理工具。Maven采用了一种被称之为project object model (POM)概念来管理项目，所有的项目配置信息都被定义在一个叫做POM.xml的文件中，通过该文件，Maven可以管理项目的整个声明周期，包括编译，]]>
-    </summary>
-    
-      <category term="maven" scheme="http://silencewt.github.io/tags/maven/"/>
-    
-      <category term="软件测试" scheme="http://silencewt.github.io/categories/%E8%BD%AF%E4%BB%B6%E6%B5%8B%E8%AF%95/"/>
     
   </entry>
   
