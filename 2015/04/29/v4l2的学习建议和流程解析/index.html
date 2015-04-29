@@ -1,0 +1,746 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>v4l2的学习建议和流程解析 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="v4l2，一开始听到这个名词的时候，以为又是一个很难很难的模块，涉及到视频的处理，后来在网上各种找资料后，才发现其实v4l2已经分装好了驱动程序，只要我们根据需要调用相应的接口和函数，从而实现视频的获取和处理。只要认真的看几篇文章就对v4l2有一定的了解了，由于是第一次接触，网上的资料良莠不齐，难得">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/29/v4l2的学习建议和流程解析/" title="v4l2的学习建议和流程解析" itemprop="url">v4l2的学习建议和流程解析</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-29T12:11:52.000Z" itemprop="datePublished">4月 29 2015</time>
+    更新日期:<time datetime="2015-04-29T12:14:10.000Z" itemprop="dateModified">4月 29 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、Video_for_Linux_two"><span class="toc-number">1.</span> <span class="toc-text">一、Video for Linux two</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、v4l2结构体介绍"><span class="toc-number">2.</span> <span class="toc-text">二、v4l2结构体介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、调用v4l2的工作流程"><span class="toc-number">3.</span> <span class="toc-text">三、调用v4l2的工作流程</span></a></li></ol>
+		</div>
+		
+		<p>　　v4l2，一开始听到这个名词的时候，以为又是一个很难很难的模块，涉及到视频的处理，后来在网上各种找资料后，才发现其实v4l2已经分装好了驱动程序，只要我们根据需要调用相应的接口和函数，从而实现视频的获取和处理。只要认真的看几篇文章就对v4l2有一定的了解了，由于是第一次接触，网上的资料良莠不齐，难得可以找到几篇自己感觉很不错的。记录下来：（没必要看太多，很多都是一样的意思）<br>这里的格式可能有点乱，可以到博客园去看：<br><a href="http://www.cnblogs.com/silence-hust/p/4464291.html" target="_blank" rel="external">http://www.cnblogs.com/silence-hust/p/4464291.html</a>   本人博客整理的</p>
+<p><a href="http://www.embedu.org/Column/Column320.htm" target="_blank" rel="external">http://www.embedu.org/Column/Column320.htm</a>   这篇是不错的介绍，很讨厌有弹窗<br><a href="http://www.cnblogs.com/emouse/archive/2013/03/04/2943243.html" target="_blank" rel="external">http://www.cnblogs.com/emouse/archive/2013/03/04/2943243.html</a>  这个可以作为第一篇来看，博主整理的不错<br><a href="http://blog.chinaunix.net/uid-11765716-id-2855735.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-11765716-id-2855735.html</a>    这篇也比较详细<br><a href="http://blog.csdn.net/ddddwant/article/details/8475211" target="_blank" rel="external">http://blog.csdn.net/ddddwant/article/details/8475211</a>   这篇提到的问题和我遇到的一样，花屏了，内存没有读取好<br><a href="http://my.oschina.net/u/1024767/blog/210801#OSC_h2_14" target="_blank" rel="external">http://my.oschina.net/u/1024767/blog/210801#OSC_h2_14</a>    对capture.c文件的解读<br><a href="http://blog.csdn.net/g_salamander/article/details/8107692" target="_blank" rel="external">http://blog.csdn.net/g_salamander/article/details/8107692</a>    对各个结构体有比较好的说明</p>
+<h4 id="一、Video_for_Linux_two">一、Video for Linux two</h4>
+<p>　　v4l2为linux下视频设备程序提供了一套接口规范。包括一套数据结构和底层V4L2驱动接口。只能在linux下使用。它使程序有发现设备和操作设备的能力。它主要是用一系列的回调函数来实现这些功能。像设置摄像头的频率、帧频、视频压缩格式和图像参数等等。当然也可以用于其他多媒体的开发，如音频等。</p>
+<p>　　在Linux下，所有外设都被看成一种特殊的文件，成为“设备文件”，可以象访问普通文件一样对其进行读写。一般来说，采用V4L2驱动的摄像头设备文是/dev/v4l/video0。为了通用，可以建立一个到/dev/video0的链接。V4L2支持两种方式来采集图像：内存映射方式(mmap)和直接读取方式(read)。V4L2在include/linux/videodev.h文件中定义了一些重要的数据结构，在采集图像的过程中，就是通过对这些数据的操作来获得最终的图像数据。Linux系统V4L2的能力可在Linux内核编译阶段配置，默认情况下都有此开发接口。V4L2从Linux 2.5.x版本的内核中开始出现。</p>
+<p>　　V4L2规范中不仅定义了通用API元素(Common API Elements)，图像的格式(Image Formats)，输入/输出方法(Input/Output)，还定义了Linux内核驱动处理视频信息的一系列接口(Interfaces)，这些接口主要有：</p>
+<p>　　视频采集接口——Video Capture Interface;</p>
+<p>　　视频输出接口—— Video Output Interface;</p>
+<p>　　视频覆盖/预览接口——Video Overlay Interface;</p>
+<p>　　视频输出覆盖接口——Video Output Overlay Interface;</p>
+<p>　　编解码接口——Codec Interface。</p>
+<h4 id="二、v4l2结构体介绍">二、v4l2结构体介绍</h4>
+<p>1、常用的结构体在内核目录include/linux/videodev2.h中定义</p>
+<p>  struct v4l2_requestbuffers        //申请帧缓冲，对应命令VIDIOC_REQBUFS<br>        struct v4l2_capability        //视频设备的功能，对应命令VIDIOC_QUERYCAP<br>        struct v4l2_input        //视频输入信息，对应命令VIDIOC_ENUMINPUT<br>        struct v4l2_standard        //视频的制式，比如PAL，NTSC，对应命令VIDIOC_ENUMSTD<br>        struct v4l2_format        //帧的格式，对应命令VIDIOC_G_FMT、VIDIOC_S_FMT等<br>        struct v4l2_buffer        //驱动中的一帧图像缓存，对应命令VIDIOC_QUERYBUF<br>        struct v4l2_crop        //视频信号矩形边框<br>        v4l2_std_id        //视频制式</p>
+<p>常用结构体的内容：</p>
+<pre><code><span class="keyword">struct</span> v4l2_capability{
+    <span class="keyword">u8</span> driver[<span class="number">16</span>]; <span class="comment">// 驱动名字</span>
+    <span class="keyword">u8</span> card[<span class="number">32</span>]; <span class="comment">// 设备名字</span>
+    <span class="keyword">u8</span> bus_info[<span class="number">32</span>]; <span class="comment">// 设备在系统中的位置</span>
+    <span class="keyword">u32</span> version; <span class="comment">// 驱动版本号</span>
+    <span class="keyword">u32</span> capabilities; <span class="comment">// 设备支持的操作</span>
+    <span class="keyword">u32</span> reserved[<span class="number">4</span>]; <span class="comment">// 保留字段</span>
+};
+</code></pre><p>　其中域 capabilities 代表设备支持的操作模式，常见的值有V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING 表示是一个视频捕捉设备并且具有数据流控制模式；另外 driver 域需要和 struct video_device 中的 name 匹配。</p>
+<pre><code><span class="keyword">struct</span> v4l2_format { 
+<span class="keyword">enum</span> v4l2_buf_type type; 
+<span class="keyword">union</span> { 
+    <span class="keyword">struct</span> v4l2_pix_format pix;     <span class="comment">/*V4L2_BUF_TYPE_VIDEO_CAPTURE */</span> 
+    <span class="keyword">struct</span> v4l2_window             win;     <span class="comment">/* V4L2_BUF_TYPE_VIDEO_OVERLAY */</span> 
+    <span class="keyword">struct</span> v4l2_vbi_format         vbi;     <span class="comment">/* V4L2_BUF_TYPE_VBI_CAPTURE */</span> 
+    <span class="keyword">struct</span> v4l2_sliced_vbi_format  sliced;  <span class="comment">/* V4L2_BUF_TYPE_SLICED_VBI_CAPTURE */</span> 
+    __u8   raw_data[<span class="number">200</span>];                   <span class="comment">/* user-defined */</span> 
+} fmt; 
+}; 
+<span class="keyword">enum</span> v4l2_buf_type { 
+V4L2_BUF_TYPE_VIDEO_CAPTURE        = <span class="number">1</span>, 
+V4L2_BUF_TYPE_VIDEO_OUTPUT         = <span class="number">2</span>, 
+V4L2_BUF_TYPE_VIDEO_OVERLAY        = <span class="number">3</span>, 
+... 
+V4L2_BUF_TYPE_PRIVATE              = <span class="number">0</span>x80, 
+}; 
+<span class="keyword">struct</span> v4l2_pix_format { 
+__u32                   width; 
+__u32                   height; 
+__u32                   pixelformat; 
+<span class="keyword">enum</span> v4l2_field         field; 
+__u32                   bytesperline;   <span class="comment">/* for padding, zero if unused */</span> 
+__u32                   sizeimage; 
+<span class="keyword">enum</span> v4l2_colorspace    colorspace; 
+__u32                   priv;           <span class="comment">/* private data, depends on pixelformat */</span> 
+</code></pre><p>};</p>
+<p>　　常见的捕获模式为 V4L2_BUF_TYPE_VIDEO_CAPTURE 即视频捕捉模式，在此模式下 fmt 联合体采用域 v4l2_pix_format：其中 width 为视频的宽、height 为视频的高、pixelformat 为视频数据格式（常见的值有 V4L2_PIX_FMT_YUV422P | V4L2_PIX_FMT_RGB565）、bytesperline 为一行图像占用的字节数、sizeimage 则为图像占用的总字节数、colorspace 指定设备的颜色空间.</p>
+<p>struct v4l2_requestbuffers 与 VIDIOC_REQBUFS ，VIDIOC_REQBUFS 命令通过结构 v4l2_requestbuffers 请求驱动申请一片连续的内存用于缓存视频信息：</p>
+<pre><code><span class="title">struct</span> v4l2_requestbuffers {
+<span class="title">__u32</span>                   count;
+<span class="title">enum</span> v4l2_buf_type      type;
+<span class="title">enum</span> v4l2_memory        memory;
+<span class="title">__u32</span>                   reserved[<span class="number">2</span>]
+};
+<span class="title">enum</span> v4l2_memory {
+<span class="title">V4L2_MEMORY_MMAP</span>             = <span class="number">1</span>,
+V4L2_MEMORY_USERPTR          = <span class="number">2</span>,
+V4L2_MEMORY_OVERLAY          = <span class="number">3</span>,
+};
+</code></pre><p>count 指定根据图像占用空间大小申请的缓存区个数，type 为视频捕获模式，memory 为内存区的使用方式。</p>
+<pre><code><span class="keyword">struct</span> v4l2_buffer {
+__u32   index;
+<span class="keyword">enum</span> v4l2_buf_type    type;
+__u32    bytesused;
+__u32    flags;
+<span class="keyword">enum</span> v4l2_field  field;
+<span class="keyword">struct</span> timeval    timestamp;
+<span class="keyword">struct</span> v4l2_timecode   timecode;
+__u32     sequence;
+
+<span class="comment">/* memory location */</span>
+<span class="keyword">enum</span> v4l2_memory    memory;
+<span class="keyword">union</span> {
+        __u32   offset;
+        <span class="keyword">unsigned</span> <span class="keyword">long</span>   userptr;
+} m;
+__u32    length;
+__u32    input;
+__u32    reserved;
+};
+</code></pre><p>　　index 为缓存编号<br>　　type 为视频捕获模式<br>　　bytesused 为缓存已使用空间大小<br>　　flags 为缓存当前状态（常见值有 V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_QUEUED | V4L2_BUF_FLAG_DONE，分别代表当前缓存已经映射、缓存可以采集数据、缓存可以提取数据）<br>　　timestamp 为时间戳<br>　　sequence为缓存序号<br>　　memory 为缓存使用方式<br>　　offset 为当前缓存与内存区起始地址的偏移<br>　　length 为缓存大小<br>　　reserved 一般用于传递物理地址值。<br>　　另外 VIDIOC_QBUF 和 VIDIOC_DQBUF 命令都采用结构 v4l2_buffer 与驱动通信：VIDIOC_QBUF 命令向驱动传递应用程序已经处理完的缓存，即将缓存加入空闲可捕获视频的队列，传递的主要参数为 index；VIDIOC_DQBUF 命令向驱动获取已经存放有视频数据的缓存，v4l2_buffer 的各个域几乎都会被更新，但主要的参数也是 index，应用程序会根据 index 确定可用数据的起始地址和范围。</p>
+<p>2、常用的IOCTL接口命令也在include/linux/videodev2.h中定义</p>
+<p>VIDIOC_REQBUFS //分配内存<br>       VIDIOC_QUERYBUF         //把VIDIOC_REQBUFS中分配的数据缓存转换成物理地址<br>        VIDIOC_QUERYCAP        //查询驱动功能<br>        VIDIOC_ENUM_FMT        //获取当前驱动支持的视频格式<br>        VIDIOC_S_FMT        //设置当前驱动的频捕获格式<br>        VIDIOC_G_FMT        //读取当前驱动的频捕获格式<br>        VIDIOC_TRY_FMT        //验证当前驱动的显示格式<br>        VIDIOC_CROPCAP        //查询驱动的修剪能力<br>        VIDIOC_S_CROP        //设置视频信号的矩形边框<br>        VIDIOC_G_CROP        //读取视频信号的矩形边框<br>        VIDIOC_QBUF        //把数据从缓存中读取出来<br>        VIDIOC_DQBUF        //把数据放回缓存队列<br>        VIDIOC_STREAMON        //开始视频显示函数<br>        VIDIOC_STREAMOFF        //结束视频显示函数<br>        VIDIOC_QUERYSTD         //检查当前视频设备支持的标准，例如PAL或NTSC。</p>
+<h4 id="三、调用v4l2的工作流程">三、调用v4l2的工作流程</h4>
+<p>　　打开设备－&gt; 检查和设置设备属性－&gt; 设置帧格式－&gt; 设置一种输入输出方法（缓冲 区管理）－&gt; 循环获取数据－&gt; 关闭设备。</p>
+<p><strong>（1）打开设备文件</strong></p>
+<p>　　打开视频设备非常简单，在V4L2中，视频设备被看做一个文件。使用open函数打开这个设备：</p>
+<p>　　1. 用非阻塞模式打开摄像头设备<br>　　int cameraFd;<br>　　cameraFd = open(“/dev/video0”, O_RDWR | O_NONBLOCK);<br>　　2. 如果用阻塞模式打开摄像头设备，上述代码变为：<br>　　cameraFd = open(“/dev/video0”, O_RDWR);<br>　　关于阻塞模式和非阻塞模式<br>　　应用程序能够使用阻塞模式或非阻塞模式打开视频设备，如果使用非阻塞模式调用视频设备，即使尚未捕获到信息，驱动依旧会把缓存（DQBUFF）里的东西返回给应用程序。</p>
+<p><strong>（2）取得设备的capability</strong></p>
+<pre><code>      <span class="keyword">struct</span> v4l2_capability capability；
+      <span class="keyword">int</span> ret = ioctl(fd, VIDIOC_QUERYCAP, &amp;capability);
+</code></pre><p>　　看看设备具有什么功能，比如是否具有视频输入特性。
+　　</p>
+<pre><code><span class="keyword">struct</span> v4l2_capability cap;
+memset(&amp;cap, <span class="number">0</span>, <span class="keyword">sizeof</span>(cap));<span class="comment">/* 获取设备支持的操作 */</span>
+<span class="keyword">if</span>(ioctl(dev-&gt;fd, VIDIOC_QUERYCAP, &amp;cap) &lt; <span class="number">0</span>){
+<span class="keyword">if</span>(EINVAL == errno){   <span class="comment">/*EINVAL为返回的错误值*/</span>
+    printf(stderr,<span class="string">"%s is no V4L2 device\n"</span>, dev-&gt;dev);
+    <span class="keyword">return</span> TFAIL;
+}
+<span class="keyword">else</span>
+{
+    printf(stderr,<span class="string">"%s is not V4L2 device,unknow error\n"</span>, dev-&gt;dev);
+    <span class="keyword">return</span> TFAIL;
+}
+}
+<span class="comment">//获取成功，检查是否有视频捕获功能</span>
+<span class="keyword">if</span>(!(cap.capabilities &amp; V4L2_CAP_VIDEO_CAPTURE)){
+printf(stderr, <span class="string">"%s is no video capture device\n"</span>,dev-&gt;dev);
+<span class="keyword">return</span> TFAIL;
+}
+<span class="comment">/* streaming I/O ioctls */</span>
+<span class="keyword">if</span>(!(cap.capabilities &amp; V4L2_CAP_STREAMING)){
+printf(stderr, <span class="string">"%s does not support streaming i/o\n"</span>,dev-&gt;dev);
+<span class="keyword">return</span> TFAIL;
+}
+</code></pre><p><strong>（3）选择视频输入</strong></p>
+<pre><code>      struct v4l2_input <span class="built_in">input</span>；
+              ……初始化<span class="built_in">input</span>
+              <span class="keyword">int</span> <span class="keyword">ret</span> = ioctl(fd, VIDIOC_QUERYCAP, &amp;<span class="built_in">input</span>);
+</code></pre><p>　　一个视频设备可以有多个视频输入。如果只有一路输入，这个功能可以没有。</p>
+<p>　　VIDIOC_G_INPUT 和 VIDIOC_S_INPUT 用来查询和选则当前的 input，一个 video 设备节点可能对应多个视频源，比如 saf7113 可以最多支持四路 cvbs 输入，如果上层想在四个cvbs视频输入间切换，那么就要调用 ioctl(fd, VIDIOC_S_INPUT, &amp;input) 来切换。VIDIOC_G_INPUT and VIDIOC_G_OUTPUT 返回当前的 video input和output的index.<br>struct v4l2_input {<br><strong>u32 index; /<em> Which input </em><br>/</strong>u8 name[32]; /<em> Label </em>/<br><strong>u32 type; /<em> Type of input </em>/
+</strong>u32 audioset; /<em> Associated audios (bitfield) </em>/<br><strong>u32 tuner; /<em> Associated tuner </em>/<br>v4l2_std_id std;
+</strong>u32 status;<br>__u32 reserved[4];<br>};<br><strong>（4）检测视频支持的制式</strong></p>
+<pre><code>      v4l2_std_id <span class="built_in">std</span>;
+              <span class="keyword">do</span> {
+                      ret = ioctl(fd, VIDIOC_QUERYSTD, &amp;<span class="built_in">std</span>);
+               } <span class="keyword">while</span> (ret == -<span class="number">1</span> &amp;&amp; errno == EAGAIN);
+            <span class="keyword">switch</span> (<span class="built_in">std</span>) {
+            <span class="keyword">case</span> V4L2_STD_NTSC: 
+                            <span class="comment">//……</span>
+            <span class="keyword">case</span> V4L2_STD_PAL:
+                            <span class="comment">//……</span>
+            }
+</code></pre><p><strong>（5）设置视频捕获格式</strong></p>
+<p>　　v4l2_format 结构体用来设置摄像头的视频制式、帧格式等，在设置这个参数时应先填 好 v4l2_format 的各个域，如 type（传输流类型），fmt.pix.width(宽)，fmt.pix.heigth(高)，fmt.pix.field(采样区域，如隔行采样)，fmt.pix.pixelformat(采样类型，如 YUV4:2:2)，然后通过 VIDIO_S_FMT 操作命令设置视频捕捉格式。</p>
+<pre><code><span class="keyword">struct</span> v4l2_format fmt;
+memset(&amp;fmt, <span class="number">0</span>, <span class="keyword">sizeof</span>(fmt));
+fmt.<span class="keyword">type</span>                = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+fmt.fmt.pix.width       = g_display_width;
+fmt.fmt.pix.height      = g_display_height;
+fmt.fmt.pix.pixelformat = g_fmt;
+fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
+<span class="comment">/* 设置设备捕获视频的格式 */</span>
+<span class="keyword">if</span>(ioctl(dev-&gt;fd, VIDIOC_S_FMT, &amp;fmt) &lt; <span class="number">0</span>)
+{
+    printf(stderr, <span class="string">"%s iformat not supported \n"</span>,dev-&gt;dev);
+    close(dev-&gt;fd);
+    <span class="keyword">return</span> TFAIL;
+}
+</code></pre><p>　　注意：如果该视频设备驱动不支持你所设定的图像格式，视频驱动会重新修改struct v4l2_format结构体变量的值为该视频设备所支持的图像格式，所以在程序设计中，设定完所有的视频格式后，要获取实际的视频格式，要重新读取struct v4l2_format结构体变量。　</p>
+<p><strong>（6）向驱动申请帧缓存</strong></p>
+<p>　　一般不超过5个，CAP_BUF_NUM = 4
+　　</p>
+<pre><code><span class="keyword">struct</span> v4l2_requestbuffers req;<span class="comment">/* 申请设备的缓存区 */</span>
+memset(&amp;req, <span class="number">0</span>, <span class="keyword">sizeof</span>(req));
+req.count = CAP_BUF_NUM;  <span class="comment">//申请一个拥有四个缓冲帧的缓冲区</span>
+req.<span class="keyword">type</span> = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+req.memory = V4L2_MEMORY_MMAP;
+
+<span class="keyword">if</span> (ioctl(dev-&gt;fd, VIDIOC_REQBUFS, &amp;req) &lt; <span class="number">0</span>)
+{
+    <span class="keyword">if</span> (EINVAL == errno)
+    {
+        printf(stderr, <span class="string">"%s does not support "</span>
+                 <span class="string">"memory mapping\n"</span>, dev-&gt;dev);
+        <span class="keyword">return</span> TFAIL;
+    }
+    <span class="keyword">else</span>
+    {
+        printf(stderr, <span class="string">"%s does not support "</span>
+                 <span class="string">"memory mapping, unknow error\n"</span>, dev-&gt;dev);
+        <span class="keyword">return</span> TFAIL;
+    }
+}
+<span class="keyword">if</span> (req.count &lt; <span class="number">2</span>)
+{
+    printf(stderr, <span class="string">"Insufficient buffer memory on %s\n"</span>,
+             dev-&gt;dev);
+    <span class="keyword">return</span> TFAIL;
+}
+</code></pre><p>　　v4l2_requestbuffers结构中定义了缓存的数量，驱动会据此申请对应数量的视频缓存。多个缓存可以用于建立FIFO，来提高视频采集的效率。控制命令VIDIOC_REQBUFS       </p>
+<p>功能： 请求V4L2驱动分配视频缓冲区（申请V4L2视频驱动分配内存），V4L2是视频设备的驱动层，位于内核空间，所以通过VIDIOC_REQBUFS控制命令字申请的内存位于内核空间，应用程序不能直接访问，需要通过调用mmap内存映射函数把内核空间内存映射到用户空间后，应用程序通过访问用户空间地址来访问内核空间。</p>
+<p>参数说明：参数类型为V4L2的申请缓冲区数据结构体类型struct v4l2_requestbuffers  ；</p>
+<p>返回值说明： 执行成功时，函数返回值为 0；V4L2驱动层分配好了视频缓冲区；</p>
+<p><strong>（7）获取每个缓存的信息，并mmap到用户空间</strong></p>
+<p>应用程序和设备有三种交换数据的方法，直接 read/write、内存映射(memory mapping)和用户指针。这里只讨论内存映射(memory mapping)。</p>
+<pre><code><span class="keyword">typedef</span> <span class="keyword">struct</span> VideoBuffer {   <span class="comment">//定义一个结构体来映射每个缓冲帧</span>
+                      <span class="keyword">void</span> *start;
+                      size_t length;
+              } VideoBuffer;
+      VideoBuffer* buffers = <span class="built_in">calloc</span>( req.count, <span class="keyword">sizeof</span>(*buffers) );
+      <span class="keyword">struct</span> v4l2_buffer buf;
+      <span class="keyword">for</span> (numBufs = <span class="number">0</span>; numBufs &lt; req.count; numBufs++) {<span class="comment">//映射所有的缓存</span>
+                      <span class="built_in">memset</span>( &amp;buf, <span class="number">0</span>, <span class="keyword">sizeof</span>(buf) );
+                      buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+                      buf.memory = V4L2_MEMORY_MMAP;
+                      buf.index = numBufs;
+                      <span class="keyword">if</span> (ioctl(fd, VIDIOC_QUERYBUF, &amp;buf) == -<span class="number">1</span>) {<span class="comment">//获取到对应index的缓存信息，此处主要利用length信息及offset信息来完成后面的mmap操作。</span>
+                              <span class="keyword">return</span> -<span class="number">1</span>;
+                      }
+              buffers[numBufs].length = buf.length;
+                      <span class="comment">// 转换成相对地址</span>
+                      buffers[numBufs].start = mmap(NULL, buf.length,
+                              PROT_READ | PROT_WRITE,
+                              MAP_SHARED,
+                              fd, buf.m.offset);
+              <span class="keyword">if</span> (buffers[numBufs].start == MAP_FAILED) {
+                              <span class="keyword">return</span> -<span class="number">1</span>;
+                      }
+</code></pre><p>//addr 映射起始地址，一般为NULL ，让内核自动选择<br>//length 被映射内存块的长度<br>//prot 标志映射后能否被读写，其值为PROT_EXEC,PROT_READ,PROT_WRITE, PROT_NONE<br>//flags 确定此内存映射能否被其他进程共享，MAP_SHARED,MAP_PRIVATE<br>//fd,offset, 确定被映射的内存地址 返回成功映射后的地址，不成功返回MAP_FAILED ((void<em>)-1)<br>int munmap(void </em>addr, size_t length);// 断开映射<br>//addr 为映射后的地址，length 为映射后的内存长度</p>
+<p><strong>（8）开始采集视频 (在缓冲区处理好之后就可以获得视频了 )</strong><br>在开始之前，还应当把缓冲帧放入缓冲队列，应用程序和设备有三种交换数据的方法，直接 read/write、内存映射(memory mapping)和用户指针。这里只讨论内存映射(memory mapping)。</p>
+<p>//把四个缓冲帧放入队列<br>   for (i = 0; i &lt; CAP<em>BUF<em>NUM; i++)<br>   {<br>       memset(&amp;buf, 0, sizeof(buf));<br>       buf.type = V4L2<em>BUF<em>TYPE_VIDEO_CAPTURE;<br>       buf.memory = V4L2_MEMORY_MMAP;<br>       buf.index = i;<br>       buf.m.offset = dev-&gt;buffer[i].offset;<br>       /<em> 将空闲的内存加入可捕获视频的队列 </em>/<br>       if(ioctl(dev-&gt;fd, VIDIOC_QBUF, &amp;buf) &lt; 0)<br>       {<br>           printf(“ERROR: VIDIOC_QBUF[%s], FUNC[%s], LINE[%d]\n”, dev-&gt;dev, __FUNCTION</em></em>, __LINE</em></em>);<br>           return TFAIL;<br>       }<br>   }</p>
+<p>   type = V4L2<em>BUF<em>TYPE<em>VIDEO<em>CAPTURE;<br>   /<em> 打开设备视频流 </em>/<br>   if(ioctl(dev-&gt;fd, VIDIOC_STREAMON, &amp;type) &lt; 0)<br>   {<br>       printf(“ERROR: VIDIOC_STREAMON[%s], FUNC[%s], LINE[%d]\n”, dev-&gt;dev, __FUNCTION</em></em>, __LINE</em></em>);<br>       return TFAIL;<br>   }<br>　　前期初始化完成后，只是解决了一帧视频数据的格式和大小问题，而连续视频帧数据的采集需要用帧缓冲区队列的方式来解决，即要通过驱动程序在内存中申请几个帧缓冲区来存放视频数据。</p>
+<p>　　应用程序通过API接口提供的方法(VIDIOC_REQBUFS)申请若干个视频数据的帧缓冲区，申请帧缓冲区数量一般不低于3个，每个帧缓冲区存放一帧视频数据，这些帧缓冲区在内核空间。</p>
+<p>　　应用程序通过API接口提供的查询方法(VIDIOC_QUERYBUF)查询到帧缓冲区在内核空间的长度和偏移量地址。</p>
+<p>　　应用程序再通过内存映射方法(mmap)，将申请到的内核空间帧缓冲区的地址映射到用户空间地址，这样就可以直接处理帧缓冲区的数据。</p>
+<p>　　(1)将帧缓冲区在视频输入队列排队，并启动视频采集</p>
+<p>　　在驱动程序处理视频的过程中，定义了两个队列：视频采集输入队列(incoming queues)和视频采集输出队列(outgoing queues)，前者是等待驱动存放视频数据的队列，后者是驱动程序已经放入了视频数据的队列。如图2所示。</p>
+<p>　　应用程序需要将上述帧缓冲区在视频采集输入队列排队(VIDIOC_QBUF)，然后可启动视频采集。</p>
+<p>　　(2)循环往复，采集连续的视频数据</p>
+<p>　　启动视频采集后，驱动程序开始采集一帧数据，把采集的数据放入视频采集输入队列的第一个帧缓冲区，一帧数据采集完成，也就是第一个帧缓冲区存满一帧数据后，驱动程序将该帧缓冲区移至视频采集输出队列，等待应用程序从输出队列取出。驱动程序接下来采集下一帧数据，放入第二个帧缓冲区，同样帧缓冲区存满下一帧数据后，被放入视频采集输出队列。</p>
+<p>　　应用程序从视频采集输出队列中取出含有视频数据的帧缓冲区，处理帧缓冲区中的视频数据，如存储或压缩。</p>
+<p><strong>（9）取出FIFO缓存中已经采样的帧缓存</strong></p>
+<pre><code>struct v4l2_buffer capture_buf；
+memset(&amp;capture_buf, <span class="number">0</span>, sizeof(capture_buf));
+capture_buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+capture_buf.memory = V4L2_MEMORY_MMAP;
+<span class="regexp">/* 将已经捕获好视频的内存拉出已捕获视频的队列 */</span>
+<span class="keyword">if</span> (ioctl(dev.fd, VIDIOC_DQBUF, &amp;capture_buf) &lt; <span class="number">0</span>)
+ {
+   <span class="keyword">printf</span>(<span class="string">"ERROR: VIDIOC_DQBUF[<span class="variable">%s</span>], FUNC[<span class="variable">%s</span>], LINE[<span class="variable">%d</span>]\n"</span>, dev, __FUNCTION_<span class="number">_</span>, __LINE_<span class="number">_</span>);
+   <span class="keyword">return</span> TFAIL;
+   }
+ }
+ image_data_handle(buffer[capture_buf.<span class="keyword">index</span>].start, capture_buf.bytesused);
+</code></pre><p><strong>（10）将刚刚处理完的缓冲重新入队列尾，这样可以循环采集</strong></p>
+<pre><code>      <span class="keyword">if</span> (ioctl(fd, VIDIOC_QBUF, &amp;buf) == -<span class="number">1</span>) {
+                      <span class="keyword">return</span> -<span class="number">1</span>;
+              }
+</code></pre><p><strong>（11）停止视频的采集，解除映射</strong></p>
+<pre><code>      <span class="keyword">int</span> <span class="keyword">ret</span> = ioctl(fd, VIDIOC_STREAMOFF, &amp;buf_type);
+      munmap(<span class="keyword">buffer</span>[<span class="keyword">j</span>].start, <span class="keyword">buffer</span>[<span class="keyword">j</span>].length);
+</code></pre><p><strong>（12）关闭视频设备</strong></p>
+<pre><code>      <span class="keyword">close</span>(fd);
+</code></pre><p>　　最后这个是一般mmap形式的使用流程，还有使用read/write方式的内存读写流程，具体的可以参考官方的capture.c这个文档，程序的流程很清楚，也有相关的博文有写到。</p>
+<p><strong>文字描述版流程：</strong></p>
+<p>　   (1)打开视频设备文件。int fd=open(“/dev/video0”,O_RDWR);</p>
+<p>　　(2)查询视频设备的能力，比如是否具有视频输入,或者音频输入输出等。ioctl(fd_v4l, VIDIOC_QUERYCAP, &amp;cap)</p>
+<p>　　(3)设置视频采集的参数<br>　　设置视频的制式，制式包括PAL/NTSC，使用ioctl(fd_v4l, VIDIOC_S_STD, &amp;std_id)<br>　　设置视频图像的采集窗口的大小，使用ioctl(fd_v4l, VIDIOC_S_CROP, &amp;crop)<br>　　设置视频帧格式，包括帧的点阵格式，宽度和高度等，使用ioctl(fd_v4l, VIDIOC_S_FMT, &amp;fmt)<br>　　设置视频的帧率，使用ioctl(fd_v4l, VIDIOC_S_PARM, &amp;parm)<br>　　设置视频的旋转方式，使用ioctl(fd_v4l, VIDIOC_S_CTRL, &amp;ctrl)</p>
+<p>　　(4)向驱动申请视频流数据的帧缓冲区</p>
+<p>　　请求/申请若干个帧缓冲区，一般为不少于3个,使用ioctl(fd_v4l, VIDIOC_REQBUFS, &amp;req)<br>　　查询帧缓冲区在内核空间中的长度和偏移量 ioctl(fd_v4l, VIDIOC_QUERYBUF, &amp;buf)</p>
+<p>　　(5)应用程序通过内存映射，将帧缓冲区的地址映射到用户空间，这样就可以直接操作采集到的帧了，而不必去复制。<br>　　buffers[i].start = mmap (NULL, buffers[i].length, PROT_READ | PROT_WRITE, MAP_SHARED, fd_v4l, buffers[i].offset);</p>
+<p>　　(6)将申请到的帧缓冲全部放入视频采集输出队列，以便存放采集的数据。ioctl (fd_v4l, VIDIOC_QBUF, &amp;buf)</p>
+<p>　　(7)开始视频流数据的采集。 ioctl (fd_v4l, VIDIOC_STREAMON, &amp;type)</p>
+<p>　　(8) 驱动将采集到的一帧视频数据存入输入队列第一个帧缓冲区，存完后将该帧缓冲区移至视频采集输出队列。</p>
+<p>　　(9)应用程序从视频采集输出队列中取出已含有采集数据的帧缓冲区。ioctl (fd_v4l, VIDIOC_DQBUF, &amp;buf) ，应用程序处理该帧缓冲区的原始视频数据。</p>
+<p>　　(10)处理完后，应用程序的将该帧缓冲区重新排入输入队列,这样便可以循环采集数据。ioctl (fd_v4l, VIDIOC_QBUF, &amp;buf)<br>　　重复上述步骤8到10，直到停止采集数据。</p>
+<p>　　(11)停止视频的采集。ioctl (fd_v4l, VIDIOC_STREAMOFF, &amp;type)</p>
+<p>　　(12)释放申请的视频帧缓冲区unmap，关闭视频设备文件close(fd_v4l)。</p>
+<p>　　以上的程序流程，包含了视频设备采集连续的视频数据的逻辑关系。而在实际运用中，往往还要加入对视频数据进行处理(如压缩编码)的工作，否则，视频流数据量相当大，需要很大的存储空间和传输带宽。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/视频处理/">视频处理</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/04/29/v4l2的学习建议和流程解析/" data-title="v4l2的学习建议和流程解析 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/29/YUV和RGB格式分析/" title="YUV和RGB格式分析">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  YUV和RGB格式分析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/29/在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结/"  title="在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结">
+ <strong>NEXT:</strong><br/> 
+ <span>在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、Video_for_Linux_two"><span class="toc-number">1.</span> <span class="toc-text">一、Video for Linux two</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、v4l2结构体介绍"><span class="toc-number">2.</span> <span class="toc-text">二、v4l2结构体介绍</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、调用v4l2的工作流程"><span class="toc-number">3.</span> <span class="toc-text">三、调用v4l2的工作流程</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>23</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>

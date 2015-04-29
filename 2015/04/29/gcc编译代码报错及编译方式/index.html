@@ -1,0 +1,533 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>gcc编译代码报错及编译方式 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="一、error: ‘for’ loop initial declarations are only allowed in C99 mode
+前段时间写了一个小C程序，放在linux下用gcc编译出错，弹
+出以下错误：
+
+百度后才知道，是gcc的模式问题。
+我在for循环里习惯直接定义并
+初始化变量来">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/29/gcc编译代码报错及编译方式/" title="gcc编译代码报错及编译方式" itemprop="url">gcc编译代码报错及编译方式</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-29T12:16:02.000Z" itemprop="datePublished">4月 29 2015</time>
+    更新日期:<time datetime="2015-04-29T12:18:04.000Z" itemprop="dateModified">4月 29 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二、gcc编译C文件"><span class="toc-number">1.</span> <span class="toc-text">二、gcc编译C文件</span></a></li></ol>
+		</div>
+		
+		<p>一、error: ‘for’ loop initial declarations are only allowed in C99 mode</p>
+<p>前段时间写了一个小C程序，放在linux下用gcc编译出错，弹</p>
+<p>出以下错误：</p>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/c99.jpg" alt="c99"></p>
+<p>百度后才知道，是gcc的模式问题。</p>
+<p>我在for循环里习惯直接定义并</p>
+<p>初始化变量来使用：</p>
+<pre><code><span class="keyword">for</span>（int <span class="built_in">i</span>=<span class="number">0</span>；<span class="built_in">i</span>&lt;<span class="built_in">length</span>； <span class="built_in">i</span>++）
+</code></pre><p>而在gcc编译时是错误的，应该在循环外定义变量：</p>
+<pre><code>int <span class="built_in">i</span>;
+<span class="keyword">for</span>（<span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span>&lt;<span class="built_in">length</span>; <span class="built_in">i</span>++）
+</code></pre><p>这样才编译通过。</p>
+<p>这是因为gcc基于c89标准，换成C99标准就可以在for循环内定义i变量了。</p>
+<p>如果一定要在for循环语句里定</p>
+<p>义并初始化，可以将文件按照下面的方式编译就会通过了：</p>
+<pre><code><span class="attribute">gcc src.c -std</span>=<span class="string">c99 -o src</span>
+</code></pre><h2 id="二、gcc编译C文件">二、gcc编译C文件</h2>
+<p>常用编译命令选项<br>假设源程序文件名为test.c。</p>
+<p><strong>1. 无选项编译链接</strong><br>用法：#gcc test.c<br>作用：将test.c预处理、汇编、编译并链接形成可执行文件。这里未</p>
+<p>指定输出文件，默认输出为a.out。</p>
+<p><strong>2. 选项 -o</strong><br>用法：#gcc test.c -o test<br>作用：将test.c预处理、汇编、编译并链接形成可执行文件</p>
+<p>test。-o选项用来指定输出文件的文件名。</p>
+<p><strong>3. 选项 -E</strong><br>用法：#gcc -E test.c -o test.i<br>作用：将test.c预处理输出test.i文件。</p>
+<p><strong>4. 选项 -S</strong><br>用法：#gcc -S test.i<br>作用：将预处理输出文件test.i汇编成test.s文件。</p>
+<p><strong>5. 选项 -c</strong><br>用法：#gcc -c test.s<br>作用：将汇编输</p>
+<p>出文件test.s编译输出test.o文件。</p>
+<p><strong>6. 无选项链接</strong><br>用法：#gcc test.o -o test<br>作用：将编译输出文件test.o链接成最终可执行文件test</p>
+<p>。</p>
+<p><strong>7. 选项-O</strong><br>用法：#gcc -O1 test.c -o test<br>作用：使用编译优化级别1编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长</p>
+<p>。</p>
+<p><strong>多源文件的编译方法</strong></p>
+<p>如果有多个源文件，基本上有两种编译方法：<br>假设有两个源文件为a.c和b.c，b.h，在a.c文件里调用b.c的函数</p>
+<p><strong>1. 多个文件一起编译</strong><br>用法：#gcc b.c a.c -o a<br>作用：将testfun.c和test.c分别编译后链接成test可执行文件。</p>
+<p>**2. 分别编译各个源文</p>
+<p>件，之后对编译后输出的目标文件链接。**<br>用法：</p>
+<pre><code>#gcc -<span class="built_in">c</span> b.<span class="built_in">c</span> <span class="comment">//将b.c编译成b.o</span>
+#gcc -<span class="built_in">c</span> a.<span class="built_in">c</span> <span class="comment">//将a.c编译成a.o</span>
+#gcc -o b.o 
+</code></pre><p>a.o -o a //将b.o和a.o链接成a</p>
+<p>以上两种方法相比较，第一中方法编译时需要所有文件重新编译，而第二种方法可以只重新编译修改的文件，</p>
+<p>未修改的文件不用重新编译。</p>
+<ol>
+<li>如果要编译的文件都在同一个目录下，可以用通配符gcc *.c -o 来进行编译。</li>
+</ol>
+<p>如果是有成千上万的项目文件</p>
+<p>，可以把上述的编译过程写进以下一个文本文件中：<br>Linux下称之为makefile</p>
+<p>感谢各位网友的分享，仅作总结学习。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/04/29/gcc编译代码报错及编译方式/" data-title="gcc编译代码报错及编译方式 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/29/纪念汪国真-那些曾经伴我度过岁月的诗/" title="纪念汪国真--那些曾经伴我度过岁月的诗">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  纪念汪国真--那些曾经伴我度过岁月的诗</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/29/YUV到RGB的转换/"  title="YUV到RGB的转换">
+ <strong>NEXT:</strong><br/> 
+ <span>YUV到RGB的转换
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二、gcc编译C文件"><span class="toc-number">1.</span> <span class="toc-text">二、gcc编译C文件</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>23</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>

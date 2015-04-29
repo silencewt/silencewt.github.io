@@ -1,0 +1,574 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>YUV到RGB的转换 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="以下内容来源于网络，下面三个链接里的内容是比较好的，感谢博主的分享。
+http://blog.csdn.net/housisong/article/details/1859084http://blog.csdn.net/tommy_wxie/article/details/37909643http:">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/29/YUV到RGB的转换/" title="YUV到RGB的转换" itemprop="url">YUV到RGB的转换</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-29T12:12:31.000Z" itemprop="datePublished">4月 29 2015</time>
+    更新日期:<time datetime="2015-04-29T12:15:01.000Z" itemprop="dateModified">4月 29 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>以下内容来源于网络，下面三个链接里的内容是比较好的，感谢博主的分享。</p>
+<p><a href="http://blog.csdn.net/housisong/article/details/1859084" target="_blank" rel="external">http://blog.csdn.net/housisong/article/details/1859084</a><br><a href="http://blog.csdn.net/tommy_wxie/article/details/37909643" target="_blank" rel="external">http://blog.csdn.net/tommy_wxie/article/details/37909643</a><br><a href="http://www.cnblogs.com/qinjunni/archive/2012/04/06/2434393.html" target="_blank" rel="external">http://www.cnblogs.com/qinjunni/archive/2012/04/06/2434393.html</a>   这里有介绍YUV转RGB的优化 位运算和查表法</p>
+<hr>
+<hr>
+<p>YUV到RGB的转换公式：网上收集到的各种公式</p>
+<p>  RGB颜色空间到YUV颜色空间的转换公式:</p>
+<pre><code>Y= 0.256788<span class="keyword">*</span>R + 0.504129<span class="keyword">*</span>G + 0.097906<span class="keyword">*</span>B +  16;
+U=-0.148223<span class="keyword">*</span>R - 0.290993<span class="keyword">*</span>G + 0.439216<span class="keyword">*</span>B + 128;
+V= 0.439216<span class="keyword">*</span>R - 0.367788<span class="keyword">*</span>G - 0.071427<span class="keyword">*</span>B + 128;
+</code></pre><p>（以下装换关系来自网络，本质都是一样的）</p>
+<p>   YUV颜色空间到RGB颜色空间的转换公式:  （给的示例中用的是这个）</p>
+<pre><code>B= 1.164383 <span class="keyword">*</span> (Y - 16) + 2.017232<span class="keyword">*</span>(U - 128);
+G= 1.164383 <span class="keyword">*</span> (Y - 16) - 0.391762<span class="keyword">*</span>(U - 128) - 0.812968<span class="keyword">*</span>(V - 128);
+R= 1.164383 <span class="keyword">*</span> (Y - 16) + 1.596027<span class="keyword">*</span>(V - 128);
+</code></pre><p>另一种转换关系：// 转换公式(浮点方式) </p>
+<pre><code>R = Y + 1.4075<span class="keyword">*</span>(V-128) 
+G = Y - 0.3455<span class="keyword">*</span>(U-128) - 0.7169<span class="keyword">*</span>(V-128) 
+B = Y + 1.779<span class="keyword">*</span>(U-128) 
+</code></pre><p>( 补充: 在视频格式中基本上都用的上面的转换公式；但在其他一些地方可能会使用下面的转换公式(不同的使用场合可能有不同的转换系数):</p>
+<pre><code>Y =  0.299<span class="keyword">*</span>R + 0.587<span class="keyword">*</span>G + 0.114<span class="keyword">*</span>B;
+U = -0.147<span class="keyword">*</span>R - 0.289<span class="keyword">*</span>G + 0.436<span class="keyword">*</span>B;
+V =  0.615<span class="keyword">*</span>R - 0.515<span class="keyword">*</span>G - 0.100<span class="keyword">*</span>B;
+
+R = Y + 1.14<span class="keyword">*</span>V;
+G = Y - 0.39<span class="keyword">*</span>U - 0.58<span class="keyword">*</span>V;
+B = Y + 2.03<span class="keyword">*</span>U;
+</code></pre><p>RGB to YUV Conversion</p>
+<pre><code>Y  =   (0.257 <span class="keyword">*</span> R) + (0.504 <span class="keyword">*</span> G) + (0.098 <span class="keyword">*</span> B) + 16
+Cr = V =  (0.439 <span class="keyword">*</span> R) - (0.368 <span class="keyword">*</span> G) - (0.071 <span class="keyword">*</span> B) + 128
+Cb = U = -(0.148 <span class="keyword">*</span> R) - (0.291 <span class="keyword">*</span> G) + (0.439 <span class="keyword">*</span> B) + 128
+</code></pre><p>YUV to RGB Conversion</p>
+<pre><code><span class="constant">B</span> = <span class="number">1.164</span>(Y - <span class="number">16</span>) + <span class="number">2.018</span>(U - <span class="number">128</span>)
+<span class="constant">G</span> = <span class="number">1.164</span>(Y - <span class="number">16</span>) - <span class="number">0.813</span>(V - <span class="number">128</span>) - <span class="number">0.391</span>(U - <span class="number">128</span>)
+<span class="constant">R</span> = <span class="number">1.164</span>(Y - <span class="number">16</span>) + <span class="number">1.596</span>(V - <span class="number">128</span>)
+</code></pre><p>　　无论是YUV444、YUV422、还是YUV420格式，根据对应的方法提取完YUV并转换为RGB数据后，其文件大小应该是： 图像的高 <em> 图像的宽 </em> 3 。由于不同的YUV码流转换为RGB数据的提取方式均不相同<br>我们知道YUYV视频格式的内存数据布局图示:</p>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/yuv.jpg" alt="ＹＵＶ"></p>
+<p>　　图中可以看出Y的数据量是U或者V的两倍，这是因为人的眼睛一般对亮度比对颜色更敏感一些，所以将连续的两个像素的U(或V)值只保存一个U(或V)值,那么每个<br>像素平均占用16bit储存空间。</p>
+<p>项目中使用到的YUV转RGB格式代码：</p>
+<pre><code><span class="keyword">static</span> <span class="keyword">void</span> YUV2RGB(<span class="keyword">unsigned</span> <span class="keyword">char</span> Y, <span class="keyword">unsigned</span> <span class="keyword">char</span> U, <span class="keyword">unsigned</span> <span class="keyword">char</span> V,<span class="keyword">unsigned</span> <span class="keyword">char</span> *R, <span class="keyword">unsigned</span> <span class="keyword">char</span> *G, <span class="keyword">unsigned</span> <span class="keyword">char</span> *B)
+{
+*R = Y + (V - <span class="number">128</span>) + ((V - <span class="number">128</span>) * <span class="number">103</span> &gt;&gt; <span class="number">8</span>);
+*G = Y - ((U - <span class="number">128</span>) * <span class="number">88</span> &gt;&gt; <span class="number">8</span>) - ((V - <span class="number">128</span>) * <span class="number">183</span> &gt;&gt; <span class="number">8</span>);
+*B = Y + (U - <span class="number">128</span>) + ((U - <span class="number">128</span>) * <span class="number">198</span> &gt;&gt; <span class="number">8</span>);
+<span class="keyword">if</span> (*R &gt; <span class="number">255</span>)
+    *R = <span class="number">255</span>;
+<span class="keyword">if</span> (*G &gt; <span class="number">255</span>)
+    *G = <span class="number">255</span>;
+<span class="keyword">if</span> (*B &gt; <span class="number">255</span>)
+    *B= <span class="number">255</span>;
+<span class="keyword">if</span> (*R &lt; <span class="number">0</span>)
+    *R = <span class="number">0</span>;
+<span class="keyword">if</span> (*G &lt; <span class="number">0</span>)
+    *G = <span class="number">0</span>;
+<span class="keyword">if</span> (*B &lt; <span class="number">0</span>)
+    *B = <span class="number">0</span>;
+ }
+ <span class="keyword">void</span> image_data_handle(<span class="keyword">unsigned</span> <span class="keyword">char</span> *dist, <span class="keyword">unsigned</span> <span class="keyword">int</span> size)
+ {<span class="comment">//fb_buffer,将数据写入这个内存就相当于在屏幕输出，</span>
+ <span class="comment">//这里就是framebuffer和v4l2的连接处</span>
+ <span class="keyword">unsigned</span> <span class="keyword">long</span> *to = (<span class="keyword">unsigned</span> <span class="keyword">long</span> *)fb_buffer;
+ <span class="keyword">unsigned</span> <span class="keyword">long</span> *from = (<span class="keyword">unsigned</span> <span class="keyword">long</span> *)dist; <span class="comment">//这个内存就是存储数据的，可以在这里对数据操作</span>
+
+<span class="keyword">unsigned</span> <span class="keyword">char</span> Y0;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> U0;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> Y1;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> V0;
+
+<span class="keyword">unsigned</span> <span class="keyword">char</span> R0;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> G0;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> B0;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> R1;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> G1;
+<span class="keyword">unsigned</span> <span class="keyword">char</span> B1;
+<span class="comment">//  为何要除以4????</span>
+size &gt;&gt;= <span class="number">2</span>;
+<span class="keyword">while</span>(size--)
+{    <span class="comment">//取出YUYV的值 这里是4:2:2的每个像素16位</span>
+    Y0 = (*from &amp; <span class="number">0x000000FF</span>) &gt;&gt; <span class="number">0</span>;
+    <span class="comment">//U0 = 128;                         //white and black</span>
+    U0=(*from &amp; <span class="number">0x0000FF00</span>)&gt;&gt;<span class="number">8</span>;   <span class="comment">//colorful</span>
+    Y1 = (*from &amp; <span class="number">0x00FF0000</span>) &gt;&gt; <span class="number">16</span>;
+    <span class="comment">//V0 = 128;                         //white and blcak</span>
+    V0=(*from &amp; <span class="number">0xFF000000</span>)&gt;&gt;<span class="number">24</span>;  <span class="comment">//colorful</span>
+    YUV2RGB(Y0, U0, V0, &amp;R0, &amp;G0, &amp;B0);
+    YUV2RGB(Y1, U0, V0, &amp;R1, &amp;G1, &amp;B1);
+    <span class="comment">//rgb565  16位</span>
+    *to = (R0 &amp; <span class="number">0x1F</span>) &lt;&lt; <span class="number">11</span> | (G0 &amp; <span class="number">0x3F</span>) &lt;&lt; <span class="number">5</span> | (B0 &amp; <span class="number">0x1F</span>) &lt;&lt; <span class="number">0</span>;
+    *to |= ((R1 &amp; <span class="number">0x1F</span>) &lt;&lt; <span class="number">11</span> | (G1 &amp; <span class="number">0x3F</span>) &lt;&lt; <span class="number">5</span> | (B1 &amp; <span class="number">0x1F</span>) &lt;&lt; <span class="number">0</span>) &lt;&lt; <span class="number">16</span>;
+
+    from++;
+    to++;
+    }
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/视频处理/">视频处理</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/04/29/YUV到RGB的转换/" data-title="YUV到RGB的转换 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/29/gcc编译代码报错及编译方式/" title="gcc编译代码报错及编译方式">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  gcc编译代码报错及编译方式</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/29/YUV和RGB格式分析/"  title="YUV和RGB格式分析">
+ <strong>NEXT:</strong><br/> 
+ <span>YUV和RGB格式分析
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>23</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>

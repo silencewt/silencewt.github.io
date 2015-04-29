@@ -1,0 +1,597 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="这段时间一直忙于手上的嵌入式项目，可以说自己从嵌入式的菜鸟一点点的入门了，关于嵌入式和imx6核心板的开发有了一点的了解，尤其是对于板子环境的搭建。硬件的开发，搭建环境，是一个很大的工程量，也是很重要的一步，环境没有搭好就无法进行下一步。当然这个前提是对项目所使用的硬件有一定的了解。对于嵌入式开发，">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/04/29/在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结/" title="在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结" itemprop="url">在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-04-29T12:08:40.000Z" itemprop="datePublished">4月 29 2015</time>
+    更新日期:<time datetime="2015-04-29T12:10:57.000Z" itemprop="dateModified">4月 29 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、环境配置"><span class="toc-number">1.</span> <span class="toc-text">一、环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1、什么是shell"><span class="toc-number">1.1.</span> <span class="toc-text">1.1、什么是shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2_环境的建立"><span class="toc-number">1.2.</span> <span class="toc-text">1.2  环境的建立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3_启动文件中有什么"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 启动文件中有什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4_修改环境"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 修改环境</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、交叉编译"><span class="toc-number">2.</span> <span class="toc-text">二、交叉编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、问题总结"><span class="toc-number">3.</span> <span class="toc-text">三、问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1、make命令简介"><span class="toc-number">3.1.</span> <span class="toc-text">3.1、make命令简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2、找不到zlib"><span class="toc-number">3.2.</span> <span class="toc-text">3.2、找不到zlib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3、-/ltib错误"><span class="toc-number">3.3.</span> <span class="toc-text">3.3、./ltib错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4、找不到文件目录"><span class="toc-number">3.4.</span> <span class="toc-text">3.4、找不到文件目录</span></a></li></ol></li></ol>
+		</div>
+		
+		<p>　　这段时间一直忙于手上的嵌入式项目，可以说自己从嵌入式的菜鸟一点点的入门了，关于嵌入式和imx6核心板的开发有了一点的了解，尤其是对于板子环境的搭建。硬件的开发，搭建环境，是一个很大的工程量，也是很重要的一步，环境没有搭好就无法进行下一步。当然这个前提是对项目所使用的硬件有一定的了解。对于嵌入式开发，项目进行到现在，从一个什么都不懂的到现在可以和大家讨论v4l2，framebuffer，讨论linux的视频开发，虽然还是菜鸟级别的，但这个月确实让自己掌握了一们知识。</p>
+<p>　　关于嵌入式的开发，网上有很多的教程和步骤，大概就是按照以下的步骤：确定需求、根据需求硬件选型、确定硬件并对硬件熟悉，搭建开发环境，软件部分，联机调试，各硬件间的联调，最后形成原型，裁剪系统，分装。这里的每一步都很重要，不能轻忽任何一步。下面总结了在搭建开发环境这块遇到的一些问题。不同的硬件有不同的要求，交叉编译的环境也不一样。</p>
+<p>　　在Linux下搭建开发环境，你必须对linux系统的环境配置要有所了解。</p>
+<hr>
+<h3 id="一、环境配置">一、环境配置</h3>
+<h4 id="1-1、什么是shell">1.1、什么是shell</h4>
+<p>Shell：又名壳层，是“提供用户使用界面”的软件，通常指的是命令行界面的解析器，在操作系统中，提供访问内核所提供的服务的程序。</p>
+<p>Shell：因为来自于操作系统（内核）与用户界面的外层界面，通常将壳层分为两类：命令行与图形界面。 命令行壳层提供一个命令行界面（CLI）； 而图形壳层提供一个图形用户界面（GUI）。</p>
+<p>bash 就是一个内置的shell程序，隶属于命令行壳层。简单的说，shell提供了一个接口，让用户输入命令，接收用户命令，然后调用相应的应用程序，就相当于dos的command。</p>
+<h4 id="1-2_环境的建立">1.2  环境的建立</h4>
+<p>　　用户登录系统后，会启动内置的bash程序，来读取启动文件的配置脚本，这些脚本定义了所有用户共享的默认环境。 针对不通的用户需求，会对操作系统的环境变 量进行修该，以满足用户需求，bash在读取系统默 认的环境便变量后，会自动读存储在主目录下用于定义个人环境的启动文件，建立所需的环境。</p>
+<h4 id="1-3_启动文件中有什么">1.3 启动文件中有什么</h4>
+<p>shell会话分两种：login shell 和 non-login shell 会话。</p>
+<p>login shell 的启动文件：</p>
+<p>/etc/profile ：适用于所有用户的全局配置脚本</p>
+<p>~./bash_profile ：个人启动文件，可扩展成全局配置脚本</p>
+<p>~/.bash_login ：</p>
+<p>~/.profile</p>
+<p>non-login shell：读取的启动文件</p>
+<p>/etc/bash.bashrc ：适用于所有用户的全局配置脚本</p>
+<p>~/.bashrc ：用户的个人启动文件，而后集成父类进程环境。其中父类进程通常是一个login shell。</p>
+<pre><code>eg :  .bash_profile:
+<span class="comment"># .bash_profile</span>
+<span class="comment"># cget the aliases and functions</span>
+<span class="keyword">if</span> [ <span class="operator">-f</span>  ~/.bashrc ] ; <span class="keyword">then</span>
+         .   ~/.bashrc
+<span class="keyword">fi</span>
+<span class="comment">#  user specific enviroment and startup  programs</span>
+PATH = <span class="variable">$PATH</span>:<span class="variable">$HOME</span> / bin
+<span class="keyword">export</span>  PATH      
+<span class="comment"># 开始的行是注释行，shell不会读取； 此段代码被称为 if 的复合命令</span>
+If the file “~/.bashrc ” exists , <span class="keyword">then</span> <span class="built_in">read</span> the <span class="string">"~/.bashrc"</span> file
+PATH=<span class="variable">$PATH</span>:<span class="variable">$HOME</span> /bin ： 将<span class="variable">$HOME</span>/bin添加到了PATH值的尾部
+<span class="keyword">export</span> 命令告诉shell，将shell的子进程使用PATH变量的内容。
+</code></pre><h4 id="1-4_修改环境">1.4 修改环境</h4>
+<p>　　以上是系统启动文件的位置和内容，可以通过修改系统启动文件，来自定义个体环境。 环境变量的修改或者增加PATH目录，需要在 .bash_profile 文件中操作，根据版本的不同而不同，比如Ubuntu使用的就是./profile文件。 其他的修改应该在 .bashrc 文件中 修改工具：vim</p>
+<p>　　文本编辑器分成两类：图形界面的和基于文本的 Ubuntu下常用的是基于文本的vim</p>
+<p>联网安装：sudo apt-get vim<br>卸 载：rm -Rf vim<br>打开文件：vim 文件名 (一定要进入当前路径)<br>修改文件： a —&gt;进入insert模式<br>退出文件：Esc + ：+ （w，q, wq , q! ,wq! 等）<br>printenv : 打印部分或全部的环境信息<br>set : 设置shell选项<br>export : 将环境导出到随后要运行的程序中<br>alias : 为命令创建一个别名<br>source：文件路径/文件名</p>
+<h3 id="二、交叉编译">二、交叉编译</h3>
+<p>　　嵌入式系统开发过程中，运行程序的目标平台通常 具有有限的存储空间和运算能力，比如常见的ARM 平台： 静态存储空间：16~32MB， CPU的主频：100MHz~500MHz 因此，在ARM平台上不可能进行本机编译，因为一般的编译工具链（compilation tool chain）需要很大的存储空间，并需要很强的CPU运算能力。 我们就可以在CPU能力很强、存储控件足够的主机平台 上（比如PC上）编译出针对其他平台的可执行程序。PC机 资源丰富，可以很方便地集成开发环境和调试工具。</p>
+<p>　　由于PC机与嵌入式系统环境的体系结构不同， 在PC机上可以运行的程序在目标机arm板上无法运 行，因此嵌入式开发必须采用交叉编译，以使PC机 可以生成在arm班上可以执行的代码。 编译的最主要的工作就是将程序转化成运行该程序的CPU所能识别的机器代码。此时就用到了交叉编译链。 要进行交叉编译，需要在主机平台上安装交叉编译工具链，然后用这个交叉编译工具链编译我们的源代码，最终生成可以在目标平台上运行的代码。</p>
+<p>　　<strong>什么是编译工具链</strong>： 编译工具链可简单理解为编译工具集： 编译器，汇编器，链接器，C标准库。 编译器负责将源代码转换为二进制机器码（或汇编代码），像gcc； 汇编器和链接器等则负责可执行文件的构建，像 binutils，中文为二进制工具集； C标准库是通用的机器码库，供链接器用，像 glibc。</p>
+<p><strong>大致流程</strong>：</p>
+<ol>
+<li>安装LTIB并编译BSP</li>
+<li>编译Qt 4.8.5 </li>
+<li>安装Qt 4.8.5 </li>
+<li>并配置ARM的交叉编译 </li>
+<li>ARM的交叉编译</li>
+</ol>
+<h3 id="三、问题总结">三、问题总结</h3>
+<p>关于环境配置时遇到的一些问题总结或者是知识梳理：</p>
+<h4 id="3-1、make命令简介">3.1、make命令简介</h4>
+<p>　　在开发一个系统时，一般是将一个系统分成几个模块， 这样做提高了系统的可维护性，但由于各个模块间不可避免 存在关联，所以当一个模块改动后，其他模块也许会有所更 。为此，在Linux系统中，专门提供了一个make命令来自动维护目标文件。</p>
+<p>　　优点：只更新修改过的文件（在Linux中，一个文件被创建或更新后有一个最后修改时间，make命令就是通过这个最后修改时间来判断此文件是否被修改），而对没修改的文 件则置之不理，并且make命令不会漏掉一个需要更新的文件。</p>
+<p>　　依赖关系的确定： make命令当然不会自己知道这些依赖关系，需要程序 员将这些依赖关系写入一个叫Makefile的文件中。 Makefile文件中包含着一些目标，通常目标就是文件名，对每一个目标，提供了实现这个目标的一组命令以及和这个目标有依赖关系的其他目标或文件名。</p>
+<h4 id="3-2、找不到zlib">3.2、找不到zlib</h4>
+<p>　　下面是涉及到的一点工具。</p>
+<p>　　LTIB(Linux Target Image Builder)工程是一个使用在不 同的目标平台下，用于开发和部署BSP(Board Support Packages)的简单工具。使用该工具，用户能够为其目标平 台开发符合GNU/Linux标准的映像。</p>
+<p>　　BSP(Board Support Package)是板级支持包，是介于主 板硬件和操作系统之间的一层，应该说是属于操作系统的一 部分,主要目的是为了支持操作系统，使之能够更好的运行于硬件主板。</p>
+<p><strong>问题描述</strong>：</p>
+<pre><code> 运行./ltib –m config 就出错了
+</code></pre><p>  　提示没安装zlib,其实系统已经安装了，也已是最新版本。</p>
+<p><strong>解决方法</strong>：</p>
+<p>　　Zlib是提供数据压缩用的函式库， 对自己的程序和文件进行程序内数据压缩、解压</p>
+<p>　　添加路径，打开目录/ltib/bin/Ltibutils.pm 文件，search for zlib部分代码；</p>
+<p>　　zlib         =&gt; sub { my @f = (glob(‘/usr/lib/libz.so*’),                                    </p>
+<p>　　　　　　　　　　　　glob(‘/lib/libz.so*’),                                    </p>
+<p>　　　　　　　　　　　　glob(‘/lib64/libz.so*’),+                                 </p>
+<p>　　　　　　　　　　　　 glob(‘/lib/i386-linux-gnu/libz.so*’),                               </p>
+<p>　　　　　　　　　　     <strong>glob(‘/usr/lib/i386-linux-gnu/libz.so*’),</strong>                                    </p>
+<p>　　　　　　　　　　　　glob(‘/usr/lib32/libz.so*’),                     </p>
+<p>　　　　　　　               glob(‘/usr/lib/x86_64-linux-gnu/libz.so*’) ); @f &gt; 1 ? 1 : 0 },</p>
+<p> glob() 函数返回匹配指定模式的文件名或目录。</p>
+<p>加粗那一行错误所在，添加进去后才可以运行。</p>
+<h4 id="3-3、-/ltib错误">3.3、./ltib错误</h4>
+<p><strong>问题描述：</strong></p>
+<pre><code>You don't have a working TeX binary installed, <span class="keyword">but</span> <span class="keyword">the</span> texi2dvi <span class="keyword">script</span>
+can't proceed <span class="keyword">without</span> <span class="keyword">it</span>. If you want <span class="keyword">to</span> use this <span class="keyword">script</span>, you have <span class="keyword">to</span> 
+install <span class="keyword">some</span> kind <span class="keyword">of</span> TeX, <span class="keyword">for</span> example TeX Live Debian packages. You can do
+<span class="keyword">that</span> <span class="keyword">with</span> this command:
+apt-<span class="keyword">get</span> install texlive
+make[<span class="number">2</span>]: *** [flex.pdf] Error <span class="number">1</span>
+make[<span class="number">2</span>]: Leaving directory `/opt/freescale/ltib/usr/src/rpm/BUILD/flex-<span class="number">2.5</span><span class="number">.37</span>/doc' 
+make[<span class="number">1</span>]: *** [install-recursive] Error <span class="number">1</span> 
+make[<span class="number">1</span>]: Leaving directory `/opt/freescale/ltib/usr/src/rpm/BUILD/flex-<span class="number">2.5</span><span class="number">.37</span>'
+make: *** [install] Error <span class="number">2</span>
+<span class="keyword">error</span>: Bad <span class="keyword">exit</span> status <span class="keyword">from</span> /home/cody/i.mx6/ltib/tmp/rpm-tmp<span class="number">.99407</span> (%install)
+RPM build errors:
+Bad <span class="keyword">exit</span> status <span class="keyword">from</span> /home/cody/i.mx6/ltib/tmp/rpm-tmp<span class="number">.99407</span> (%install)
+Build <span class="property">time</span> <span class="keyword">for</span> flex: <span class="number">27</span> seconds
+Failed building flex
+Died <span class="keyword">at</span> ./ltib line <span class="number">1392.</span>
+traceback:
+ main::build_host_rpms:<span class="number">1392</span>
+ main::host_checks:<span class="number">1447</span>
+ main:<span class="number">554</span>
+</code></pre><p><strong>解决方案：</strong><br>sudo apt-get install texinfo<br>sudo apt-get install texlive</p>
+<p><strong>原因：</strong><br>tex 是一个排版系统<br>texlive就是包含了编辑器、编译器、阅读器的一个tex套装；<br>texinfo软件依赖于bash，包含读取、写入和转换 Info 文档的程序，以提供系统文档</p>
+<h4 id="3-4、找不到文件目录">3.4、找不到文件目录</h4>
+<p><strong>问题描述：</strong></p>
+<pre><code> bash:<span class="command"><span class="keyword">command</span> <span class="title">not</span> <span class="title">found</span></span>
+</code></pre><p> 因为PATH变量的设置，导致系统原有的默认路径被覆盖，此时 sudo ,ls ,chmod等命令都不能用。</p>
+<p> <strong>解决方案：</strong></p>
+<p>　　1,/usr/bin/sudo  vi  /etc/profile          (由于你找不到sudo，所以必须写全路径，其他命令如果提示找不到，也需要写全路径)</p>
+<p>　　2.末尾添加以下内容后保存 </p>
+<pre><code>export <span class="constant">PATH</span>=<span class="variable">$PATH</span><span class="symbol">:/sbin</span><span class="symbol">:/usr/bin</span><span class="symbol">:/usr/sbin</span>
+</code></pre><p>　　/sbin一般是指超级用户指令，主要放置一些系统管理的必备程式；</p>
+<p> 　　/usr/bin　是你在后期安装的一些软件的运行脚本；</p>
+<p>　　/usr/sbin   放置一些用户安装的系统管理的必备程式；</p>
+<p>要考虑root 的\$PATH里是否已经包含了这些环境变量。可以查看PATH，如果是：PATH=\$PATH:\$HOME/bin则需要添加成如下：</p>
+<pre><code> PATH=$PATH:$HOME<span class="regexp">/bin:/</span>sbin:<span class="regexp">/usr/</span>bin:<span class="regexp">/usr/</span>sbin
+</code></pre><p>  3.重新启动系统或执行以下命令生效</p>
+<pre><code>   <span class="keyword">source</span> /etc/<span class="keyword">profile</span>
+</code></pre><hr>
+<hr>
+<p>　　<em>以上感谢小妍是师妹的整理和分享，这让我们大家又多学了一点东西。以后决定将周会的内容记录下来，学会分享和总结。</em></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/lab/">lab</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/04/29/在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结/" data-title="在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/04/29/v4l2的学习建议和流程解析/" title="v4l2的学习建议和流程解析">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  v4l2的学习建议和流程解析</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/07/《赢在测试2》-读书笔记/"  title="《赢在测试2》--读书笔记">
+ <strong>NEXT:</strong><br/> 
+ <span>《赢在测试2》--读书笔记
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一、环境配置"><span class="toc-number">1.</span> <span class="toc-text">一、环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1、什么是shell"><span class="toc-number">1.1.</span> <span class="toc-text">1.1、什么是shell</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2_环境的建立"><span class="toc-number">1.2.</span> <span class="toc-text">1.2  环境的建立</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3_启动文件中有什么"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 启动文件中有什么</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4_修改环境"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 修改环境</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二、交叉编译"><span class="toc-number">2.</span> <span class="toc-text">二、交叉编译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三、问题总结"><span class="toc-number">3.</span> <span class="toc-text">三、问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1、make命令简介"><span class="toc-number">3.1.</span> <span class="toc-text">3.1、make命令简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2、找不到zlib"><span class="toc-number">3.2.</span> <span class="toc-text">3.2、找不到zlib</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3、-/ltib错误"><span class="toc-number">3.3.</span> <span class="toc-text">3.3、./ltib错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4、找不到文件目录"><span class="toc-number">3.4.</span> <span class="toc-text">3.4、找不到文件目录</span></a></li></ol></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>7</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>23</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>3</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>
