@@ -134,7 +134,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-04-29T12:16:02.000Z" itemprop="datePublished">4月 29 2015</time>
-    更新日期:<time datetime="2015-04-29T12:18:04.000Z" itemprop="dateModified">4月 29 2015</time>
+    更新日期:<time datetime="2015-04-29T12:30:16.000Z" itemprop="dateModified">4月 29 2015</time>
     
   </p>
 </header>
@@ -170,28 +170,22 @@
 <p>test。-o选项用来指定输出文件的文件名。</p>
 <p><strong>3. 选项 -E</strong><br>用法：#gcc -E test.c -o test.i<br>作用：将test.c预处理输出test.i文件。</p>
 <p><strong>4. 选项 -S</strong><br>用法：#gcc -S test.i<br>作用：将预处理输出文件test.i汇编成test.s文件。</p>
-<p><strong>5. 选项 -c</strong><br>用法：#gcc -c test.s<br>作用：将汇编输</p>
-<p>出文件test.s编译输出test.o文件。</p>
-<p><strong>6. 无选项链接</strong><br>用法：#gcc test.o -o test<br>作用：将编译输出文件test.o链接成最终可执行文件test</p>
-<p>。</p>
-<p><strong>7. 选项-O</strong><br>用法：#gcc -O1 test.c -o test<br>作用：使用编译优化级别1编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长</p>
-<p>。</p>
+<p><strong>5. 选项 -c</strong><br>用法：#gcc -c test.s<br>作用：将汇编输出文件test.s编译输出test.o文件。</p>
+<p><strong>6. 无选项链接</strong><br>用法：#gcc test.o -o test<br>作用：将编译输出文件test.o链接成最终可执行文件test。</p>
+<p><strong>7. 选项-O</strong><br>用法：#gcc -O1 test.c -o test<br>作用：使用编译优化级别1编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长。</p>
 <p><strong>多源文件的编译方法</strong></p>
 <p>如果有多个源文件，基本上有两种编译方法：<br>假设有两个源文件为a.c和b.c，b.h，在a.c文件里调用b.c的函数</p>
 <p><strong>1. 多个文件一起编译</strong><br>用法：#gcc b.c a.c -o a<br>作用：将testfun.c和test.c分别编译后链接成test可执行文件。</p>
-<p>**2. 分别编译各个源文</p>
-<p>件，之后对编译后输出的目标文件链接。**<br>用法：</p>
+<p><strong>2. 分别编译各个源文件，之后对编译后输出的目标文件链接。</strong><br>用法：</p>
 <pre><code>#gcc -<span class="built_in">c</span> b.<span class="built_in">c</span> <span class="comment">//将b.c编译成b.o</span>
 #gcc -<span class="built_in">c</span> a.<span class="built_in">c</span> <span class="comment">//将a.c编译成a.o</span>
-#gcc -o b.o 
-</code></pre><p>a.o -o a //将b.o和a.o链接成a</p>
-<p>以上两种方法相比较，第一中方法编译时需要所有文件重新编译，而第二种方法可以只重新编译修改的文件，</p>
+#gcc -o b.o a.o -o a <span class="comment">//将b.o和a.o链接成a</span>
+</code></pre><p>以上两种方法相比较，第一中方法编译时需要所有文件重新编译，而第二种方法可以只重新编译修改的文件，</p>
 <p>未修改的文件不用重新编译。</p>
 <ol>
 <li>如果要编译的文件都在同一个目录下，可以用通配符gcc *.c -o 来进行编译。</li>
 </ol>
-<p>如果是有成千上万的项目文件</p>
-<p>，可以把上述的编译过程写进以下一个文本文件中：<br>Linux下称之为makefile</p>
+<p>如果是有成千上万的项目文件，可以把上述的编译过程写进以下一个文本文件中：<br>Linux下称之为makefile</p>
 <p>感谢各位网友的分享，仅作总结学习。</p>
   
 	</div>

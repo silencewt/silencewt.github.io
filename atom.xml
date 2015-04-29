@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-04-29T12:24:46.289Z</updated>
+  <updated>2015-04-29T12:32:14.482Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -55,7 +55,7 @@
     <link href="http://silencewt.github.io/2015/04/29/gcc%E7%BC%96%E8%AF%91%E4%BB%A3%E7%A0%81%E6%8A%A5%E9%94%99%E5%8F%8A%E7%BC%96%E8%AF%91%E6%96%B9%E5%BC%8F/"/>
     <id>http://silencewt.github.io/2015/04/29/gcc编译代码报错及编译方式/</id>
     <published>2015-04-29T12:16:02.000Z</published>
-    <updated>2015-04-29T12:18:04.000Z</updated>
+    <updated>2015-04-29T12:30:16.000Z</updated>
     <content type="html"><![CDATA[<p>一、error: ‘for’ loop initial declarations are only allowed in C99 mode</p>
 <p>前段时间写了一个小C程序，放在linux下用gcc编译出错，弹</p>
 <p>出以下错误：</p>
@@ -80,28 +80,22 @@
 <p>test。-o选项用来指定输出文件的文件名。</p>
 <p><strong>3. 选项 -E</strong><br>用法：#gcc -E test.c -o test.i<br>作用：将test.c预处理输出test.i文件。</p>
 <p><strong>4. 选项 -S</strong><br>用法：#gcc -S test.i<br>作用：将预处理输出文件test.i汇编成test.s文件。</p>
-<p><strong>5. 选项 -c</strong><br>用法：#gcc -c test.s<br>作用：将汇编输</p>
-<p>出文件test.s编译输出test.o文件。</p>
-<p><strong>6. 无选项链接</strong><br>用法：#gcc test.o -o test<br>作用：将编译输出文件test.o链接成最终可执行文件test</p>
-<p>。</p>
-<p><strong>7. 选项-O</strong><br>用法：#gcc -O1 test.c -o test<br>作用：使用编译优化级别1编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长</p>
-<p>。</p>
+<p><strong>5. 选项 -c</strong><br>用法：#gcc -c test.s<br>作用：将汇编输出文件test.s编译输出test.o文件。</p>
+<p><strong>6. 无选项链接</strong><br>用法：#gcc test.o -o test<br>作用：将编译输出文件test.o链接成最终可执行文件test。</p>
+<p><strong>7. 选项-O</strong><br>用法：#gcc -O1 test.c -o test<br>作用：使用编译优化级别1编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长。</p>
 <p><strong>多源文件的编译方法</strong></p>
 <p>如果有多个源文件，基本上有两种编译方法：<br>假设有两个源文件为a.c和b.c，b.h，在a.c文件里调用b.c的函数</p>
 <p><strong>1. 多个文件一起编译</strong><br>用法：#gcc b.c a.c -o a<br>作用：将testfun.c和test.c分别编译后链接成test可执行文件。</p>
-<p>**2. 分别编译各个源文</p>
-<p>件，之后对编译后输出的目标文件链接。**<br>用法：</p>
+<p><strong>2. 分别编译各个源文件，之后对编译后输出的目标文件链接。</strong><br>用法：</p>
 <pre><code>#gcc -<span class="built_in">c</span> b.<span class="built_in">c</span> <span class="comment">//将b.c编译成b.o</span>
 #gcc -<span class="built_in">c</span> a.<span class="built_in">c</span> <span class="comment">//将a.c编译成a.o</span>
-#gcc -o b.o 
-</code></pre><p>a.o -o a //将b.o和a.o链接成a</p>
-<p>以上两种方法相比较，第一中方法编译时需要所有文件重新编译，而第二种方法可以只重新编译修改的文件，</p>
+#gcc -o b.o a.o -o a <span class="comment">//将b.o和a.o链接成a</span>
+</code></pre><p>以上两种方法相比较，第一中方法编译时需要所有文件重新编译，而第二种方法可以只重新编译修改的文件，</p>
 <p>未修改的文件不用重新编译。</p>
 <ol>
 <li>如果要编译的文件都在同一个目录下，可以用通配符gcc *.c -o 来进行编译。</li>
 </ol>
-<p>如果是有成千上万的项目文件</p>
-<p>，可以把上述的编译过程写进以下一个文本文件中：<br>Linux下称之为makefile</p>
+<p>如果是有成千上万的项目文件，可以把上述的编译过程写进以下一个文本文件中：<br>Linux下称之为makefile</p>
 <p>感谢各位网友的分享，仅作总结学习。</p>
 ]]></content>
     <summary type="html">
@@ -637,7 +631,7 @@ capture_buf.memory = V4L2_MEMORY_MMAP;
     <link href="http://silencewt.github.io/2015/04/29/%E5%9C%A8Ubuntu%E4%B8%8B%E5%AE%89%E8%A3%85imx6linux%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%A4%E5%8F%89%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"/>
     <id>http://silencewt.github.io/2015/04/29/在Ubuntu下安装imx6linux系统的交叉编译环境遇到的问题总结/</id>
     <published>2015-04-29T12:08:40.000Z</published>
-    <updated>2015-04-29T12:10:57.000Z</updated>
+    <updated>2015-04-29T12:31:59.000Z</updated>
     <content type="html"><![CDATA[<p>　　这段时间一直忙于手上的嵌入式项目，可以说自己从嵌入式的菜鸟一点点的入门了，关于嵌入式和imx6核心板的开发有了一点的了解，尤其是对于板子环境的搭建。硬件的开发，搭建环境，是一个很大的工程量，也是很重要的一步，环境没有搭好就无法进行下一步。当然这个前提是对项目所使用的硬件有一定的了解。对于嵌入式开发，项目进行到现在，从一个什么都不懂的到现在可以和大家讨论v4l2，framebuffer，讨论linux的视频开发，虽然还是菜鸟级别的，但这个月确实让自己掌握了一们知识。</p>
 <p>　　关于嵌入式的开发，网上有很多的教程和步骤，大概就是按照以下的步骤：确定需求、根据需求硬件选型、确定硬件并对硬件熟悉，搭建开发环境，软件部分，联机调试，各硬件间的联调，最后形成原型，裁剪系统，分装。这里的每一步都很重要，不能轻忽任何一步。下面总结了在搭建开发环境这块遇到的一些问题。不同的硬件有不同的要求，交叉编译的环境也不一样。</p>
 <p>　　在Linux下搭建开发环境，你必须对linux系统的环境配置要有所了解。</p>
@@ -754,7 +748,7 @@ traceback:
 <pre><code>   <span class="keyword">source</span> /etc/<span class="keyword">profile</span>
 </code></pre><hr>
 <hr>
-<p>　　<em>以上感谢小妍是师妹的整理和分享，这让我们大家又多学了一点东西。以后决定将周会的内容记录下来，学会分享和总结。</em></p>
+<p>　　<em>以上感谢小妍师妹的整理和分享，这让我们大家又多学了一点东西。以后决定将周会的内容记录下来，学会分享和总结。</em></p>
 ]]></content>
     <summary type="html">
     <![CDATA[<p>　　这段时间一直忙于手上的嵌入式项目，可以说自己从嵌入式的菜鸟一点点的入门了，关于嵌入式和imx6核心板的开发有了一点的了解，尤其是对于板子环境的搭建。硬件的开发，搭建环境，是一个很大的工程量，也是很重要的一步，环境没有搭好就无法进行下一步。当然这个前提是对项目所使用的硬件]]>
