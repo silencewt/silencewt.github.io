@@ -130,7 +130,7 @@
     </p>
   <p class="article-time">
     <time datetime="2015-05-11T01:57:10.000Z" itemprop="datePublished">5月 11 2015</time>
-    更新日期:<time datetime="2015-05-11T01:59:04.000Z" itemprop="dateModified">5月 11 2015</time>
+    更新日期:<time datetime="2015-05-11T02:08:24.000Z" itemprop="dateModified">5月 11 2015</time>
     
   </p>
 </header>
@@ -170,7 +170,7 @@ On Unix-like operating systems, <span class="operator">a</span> <span class="bui
      <span class="keyword">char</span> *c = <span class="string">"hello world"</span>;
      c[<span class="number">1</span>] = <span class="string">'H'</span>;
 }
-</code></pre><p>　　上述程序编译没有问题，但是运行时弹出SIGSEGV。此例中，”hello world”作为一个常量字符串，在编译后会被放在.rodata节（GCC），最后链接生成目标程序时.rodata节会被合并到text segment与代码段放在一起，故其所处内存区域是只读的。这就是错误的访问类型引起的SIGSEGV。</p>
+</code></pre><p>　　上述程序编译没有问题，但是运行时弹出SIGSEGV。此例中，”hello world”作为一个常量字符串，在编译后会被放在rodata节（GCC），最后链接生成目标程序时.rodata节会被合并到text segment与代码段放在一起，故其所处内存区域是只读的。这就是错误的访问类型引起的SIGSEGV。</p>
 <p><strong>（2）访问了不属于进程地址空间的内存</strong></p>
 <pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
 <span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span>

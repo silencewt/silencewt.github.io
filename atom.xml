@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-05-11T02:02:29.451Z</updated>
+  <updated>2015-05-11T02:08:54.199Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -19,75 +19,74 @@
     <link href="http://silencewt.github.io/2015/05/11/%E3%80%90%E8%BD%AC%E8%BD%BD%E3%80%91String%E3%80%81StringBuffer%E4%B8%8EStringBuilder%E4%B9%8B%E9%97%B4%E5%8C%BA%E5%88%AB/"/>
     <id>http://silencewt.github.io/2015/05/11/【转载】String、StringBuffer与StringBuilder之间区别/</id>
     <published>2015-05-11T01:59:40.000Z</published>
-    <updated>2015-05-11T02:01:11.000Z</updated>
+    <updated>2015-05-11T02:06:35.000Z</updated>
     <content type="html"><![CDATA[<p>文章来源：<a href="http://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html" target="_blank" rel="external">http://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html</a></p>
 <p>　　这两天在看Java编程的书，看到String的时候将之前没</p>
-<p>有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添</p>
-<p>一点自己的理解了。原文地址在上面。</p>
-<p>　　关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁</p>
-<p>呢？下面我们从以下几点说明一下</p>
+<p>有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。</p>
+<p>　　关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几点说明一下</p>
 <p>　　1.三者在执行速度方面的比较：StringBuilder &gt;  StringBuffer  &gt;  String</p>
-<p>　　2.String &lt;</p>
-<p>（StringBuffer，StringBuilder）的原因</p>
+<p>　　2.String &lt;（StringBuffer，StringBuilder）的原因</p>
 <p>　　　　String：字符串常量</p>
 <p>　　　　StringBuffer：字符串变量</p>
-<p>　　　　StringBuilder：字符串</p>
-<p>变量</p>
-<p>　　从上面的名字可以看到，String是“字符串常量”，也就是不可改变的对象。对于这句话的理解你可能会产生这样一个疑问  ，比如</p>
+<p>　　　　StringBuilder：字符串变量</p>
+<p>　　从上面的名字可以看到，String是“字符串常量”，也就是不可改变的对象。对于这句话的理解你可能会产生这样一个疑问，比如</p>
 <p>这段代码：</p>
 <pre><code> 　<span class="type">String</span> s = <span class="string">"abcd"</span>;
   s = s+<span class="number">1</span>;
   <span class="type">System</span>.<span class="keyword">out</span>.print(s);// <span class="literal">result</span> : abcd1
-</code></pre><p>　　我们明明就是改变了String型的</p>
-<p>变量s的，为什么说是没有改变呢? 其实这是一种欺骗，JVM是这样解析这段代码的：首先创建对象s，赋予一个abcd，然后再创建一个新的对</p>
-<p>象s用来执行第二行代码，也就是说我们之前对象s并没有变化，所以我们说String类型是不可改变的对象了，由于这种机制，每当用String操</p>
-<p>作字符串时，实际上是在不断的创建新的对象，而原来的对象就会变为垃圾被ＧＣ回收掉，可想而知这样执行效率会有多底。String类中每一</p>
-<p>个看起来会修改String值的方法，实际上都是创建一个全新的String对象，已包含修改后的字符串，而最初的String对象则丝毫未动。</p>
-<p>　　而</p>
-<p>StringBuffer与StringBuilder就不一样了，他们是字符串变量，是可改变的对象，每当我们用它们对字符串做操作时，实际上是在一个对象</p>
-<p>上操作的，这样就不会像String一样创建一些而外的对象进行操作了，当然速度就快了。StringBuffer和String有很多相似之处，但是其内部</p>
-<p>的实现却有很大的差别，StringBuffer其实是一个分装一个字符数组，同时提供了对这个字符数组的相关操作。StringBuffer（）构造一个字</p>
-<p>符缓冲区，其初始容量为16个字符。</p>
+</code></pre><p>　　我们明明就是改变了String型的变量s的，为什么说是没有改变呢? 其实这是一种欺骗，JVM是这样解析这段代码的：首先创建对象s，赋予一个abcd，然后再创建一个新的对象s用来执行第二行代码，也就是说我们之前对象s并没有变化，所以我们说String类型是不可改变的对象了，由于这种机制，每当用String操作字符串时，实际上是在不断的创建新的对象，而原来的对象就会变为垃圾被ＧＣ回收掉，可想而知这样执行效率会有多底。String类中每一个看起来会修改String值的方法，实际上都是创建一个全新的String对象，已包含修改后的字符串，而最初的String对象则丝毫未动。</p>
+<p>　　而StringBuffer与StringBuilder就不一样了，他们是字符串变量，是可改变的对象，每当我们用它们对字符串做操作时，实际上是在一个对象上操作的，这样就不会像String一样创建一些而外的对象进行操作了，当然速度就快了。StringBuffer和String有很多相似之处，但是其内部的实现却有很大的差别，StringBuffer其实是一个分装一个字符数组，同时提供了对这个字符数组的相关操作。StringBuffer（）构造一个字符缓冲区，其初始容量为16个字符。</p>
 <p>　　3.一个特殊的例子：</p>
 <pre><code>String str = “This <span class="keyword">is</span> <span class="keyword">only</span> <span class="keyword">a</span>” + “ simple” + “ test”;
 </code></pre><p>StringBuffer builder = new StringBuilder(“This is only a”).append(“ simple”).append(“ test”);</p>
-<p>　　你会很惊讶的发现，生</p>
-<p>成str对象的速度简直太快了，而这个时候StringBuffer居然速度上根本一点都不占优势。其实这是JVM的一个把戏，实际上：<br>String str = </p>
-<p>“This is only a” + “ simple” + “test”;<br>其实就是：<br>String str = “This is only a simple test”;</p>
-<p>　　所以不需要太多的时间了</p>
-<p>。但大家这里要注意的是，如果你的字符串是来自另外的String对象的话，速度就没那么快了，譬如：</p>
-<p>　　String str2 = “This is only a</p>
-<p>”;<br>　　String str3 = “ simple”;<br>　　String str4 = “ test”;<br>　　String str1 = str2 +str3 + str4;</p>
-<p>　这时候JVM会规规矩矩的按照</p>
-<p>原来的方式去做。</p>
+<p>　　你会很惊讶的发现，生成str对象的速度简直太快了，而这个时候StringBuffer居然速度上根本一点都不占优势。其实这是JVM的一个把戏，实际上：<br>String str = “This is only a” + “ simple” + “test”;<br>其实就是：<br>String str = “This is only a simple test”;</p>
+<p>　　所以不需要太多的时间了。但大家这里要注意的是，如果你的字符串是来自另外的String对象的话，速度就没那么快了，譬如：</p>
+<p>　　String str2 = “This is only a”;<br>　　String str3 = “ simple”;<br>　　String str4 = “ test”;<br>　　String str1 = str2 +str3 + str4;</p>
+<p>　这时候JVM会规规矩矩的按照原来的方式去做。</p>
 <p>　　4.StringBuilder与 StringBuffer</p>
 <p>　　　StringBuilder：线程非安全的</p>
 <p>　　　StringBuffer：线程安全的</p>
-<p>　　 当我们</p>
-<p>在字符串缓冲区被多个线程使用时，JVM不能保证StringBuilder的操作是安全的，虽然他的速度最快，但是可以保证StringBuffer是可以正确</p>
-<p>操作的。当然大多数情况下就是我们是在单线程下进行的操作，所以大多数情况下是建议用StringBuilder而不用StringBuffer的，就是速度</p>
-<p>的原因。</p>
+<p>　　 当我们在字符串缓冲区被多个线程使用时，JVM不能保证StringBuilder的操作是安全的，虽然他的速度最快，但是可以保证StringBuffer是可以正确操作的。当然大多数情况下就是我们是在单线程下进行的操作，所以大多数情况下是建议用StringBuilder而不用StringBuffer的，就是速度的原因。</p>
 <p> 对于三者使用的总结：</p>
 <blockquote>
 <p>1.如果要操作少量的数据用 = String</p>
 <p>2.单线程操作字符串缓冲区下操作大量数据 = StringBuilder</p>
-</blockquote>
 <p>3.多线程操作字符串缓冲区下操作大量数据 = StringBuffer</p>
+</blockquote>
 <p>关于三者的速度，自己写了个测试代码：</p>
-<pre><code><span class="keyword">package</span> com.wt.<span class="keyword">others</span>;
-</code></pre><p>public class StringCompare {</p>
-<pre><code>public <span class="keyword">static</span> <span class="type">void</span> main(<span class="type">String</span>[] args) {
-    // <span class="type">TODO</span> <span class="type">Auto</span>-generated <span class="keyword">method</span> stub
-</code></pre><p>String text = “”;<br>        long beginTime = 0l;<br>        long endTime = 0l;<br>        StringBuffer buffer = new StringBuffer();</p>
-<p>   StringBuilder builder = new StringBuilder();<br>        beginTime = System.currentTimeMillis();<br>        for(int i=0; i&lt;20000; </p>
-<p>i++){<br>            buffer.append(String.valueOf(i));<br>        }<br>        endTime = System.currentTimeMillis();</p>
-<p>System.out.println(“StringBuffer time is : “+ (endTime - beginTime));</p>
-<pre><code><span class="attribute">    beginTime </span>=<span class="string"> System.currentTimeMillis</span>
-</code></pre><p>();<br>        for(int i=0; i&lt;20000; i++){<br>            builder.append(String.valueOf(i));<br>        }<br>        endTime = </p>
-<p>System.currentTimeMillis();<br>        System.out.println(“StringBuilder time is : “+ (endTime - beginTime));</p>
-<p>beginTime = System.currentTimeMillis();<br>        for(int i=0; i&lt;20000; i++){<br>            text = text + i;<br>        }</p>
-<p>endTime = System.currentTimeMillis();<br>        System.out.println(“String time is : “+ (endTime - beginTime));<br>    }<br>     }</p>
-<p>　</p>
+<pre><code>package com.wt.others;
+<span class="keyword">public</span> <span class="keyword">class</span> StringCompare {
+
+<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {
+    <span class="comment">// TODO Auto-generated method stub</span>
+    String text = <span class="string">""</span>;
+    <span class="keyword">long</span> beginTime = <span class="number">0</span>l;
+    <span class="keyword">long</span> endTime = <span class="number">0</span>l;
+    StringBuffer buffer = <span class="keyword">new</span> StringBuffer();
+ StringBuilder builder = <span class="keyword">new</span> StringBuilder();
+    beginTime = System.currentTimeMillis();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">20000</span>; i++){
+        buffer.append(String.valueOf(i));
+    }
+    endTime = System.currentTimeMillis();
+    System.<span class="keyword">out</span>.println(<span class="string">"StringBuffer time is : "</span>+ (endTime - beginTime));
+
+    beginTime = System.currentTimeMillis();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">20000</span>; i++){
+        builder.append(String.valueOf(i));
+    }
+    endTime = System.currentTimeMillis();
+    System.<span class="keyword">out</span>.println(<span class="string">"StringBuilder time is : "</span>+ (endTime - beginTime));
+
+    beginTime = System.currentTimeMillis();
+    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">20000</span>; i++){
+        text = text + i;
+    }
+    endTime = System.currentTimeMillis();
+    System.<span class="keyword">out</span>.println(<span class="string">"String time is : "</span>+ (endTime - beginTime));
+}
+}
+</code></pre><p>　</p>
 <p>　运行结果可以直观的看出：</p>
 <p>　　StringBuffer time is : 5<br>　　StringBuilder time is : 3<br>　　String time is : 1550</p>
 <p>　　如果将20000</p>
@@ -267,7 +266,7 @@ e.getMessage(e);
     <link href="http://silencewt.github.io/2015/05/11/Segmentation-Fault%E9%94%99%E8%AF%AF%E5%8E%9F%E5%9B%A0%E6%80%BB%E7%BB%93/"/>
     <id>http://silencewt.github.io/2015/05/11/Segmentation-Fault错误原因总结/</id>
     <published>2015-05-11T01:57:10.000Z</published>
-    <updated>2015-05-11T01:59:04.000Z</updated>
+    <updated>2015-05-11T02:08:24.000Z</updated>
     <content type="html"><![CDATA[<p>　　最近在项目上遇到了Segmentation Fault的错误，一直调试不出来是哪里出了问题，对于刚接触嵌入式的，也不知道该如何去调试一个项目，定位内存问题，纠结了好几天，好阿红整理下自己的思路。从头开始。</p>
 <p>　　以下内容只为整理来自己使用的，大多来源于网络，感谢大家的分享：</p>
 <p>　　<a href="http://www.cnblogs.com/no7dw/archive/2013/02/20/2918372.html" target="_blank" rel="external">http://www.cnblogs.com/no7dw/archive/2013/02/20/2918372.html</a></p>
@@ -296,7 +295,7 @@ On Unix-like operating systems, <span class="operator">a</span> <span class="bui
      <span class="keyword">char</span> *c = <span class="string">"hello world"</span>;
      c[<span class="number">1</span>] = <span class="string">'H'</span>;
 }
-</code></pre><p>　　上述程序编译没有问题，但是运行时弹出SIGSEGV。此例中，”hello world”作为一个常量字符串，在编译后会被放在.rodata节（GCC），最后链接生成目标程序时.rodata节会被合并到text segment与代码段放在一起，故其所处内存区域是只读的。这就是错误的访问类型引起的SIGSEGV。</p>
+</code></pre><p>　　上述程序编译没有问题，但是运行时弹出SIGSEGV。此例中，”hello world”作为一个常量字符串，在编译后会被放在rodata节（GCC），最后链接生成目标程序时.rodata节会被合并到text segment与代码段放在一起，故其所处内存区域是只读的。这就是错误的访问类型引起的SIGSEGV。</p>
 <p><strong>（2）访问了不属于进程地址空间的内存</strong></p>
 <pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
 <span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span>
