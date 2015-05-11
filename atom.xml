@@ -4,7 +4,7 @@
   <subtitle><![CDATA[既然选择远方，便风雨兼程]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://silencewt.github.io/"/>
-  <updated>2015-05-11T02:08:54.199Z</updated>
+  <updated>2015-05-11T02:11:27.937Z</updated>
   <id>http://silencewt.github.io/</id>
   
   <author>
@@ -19,18 +19,16 @@
     <link href="http://silencewt.github.io/2015/05/11/%E3%80%90%E8%BD%AC%E8%BD%BD%E3%80%91String%E3%80%81StringBuffer%E4%B8%8EStringBuilder%E4%B9%8B%E9%97%B4%E5%8C%BA%E5%88%AB/"/>
     <id>http://silencewt.github.io/2015/05/11/【转载】String、StringBuffer与StringBuilder之间区别/</id>
     <published>2015-05-11T01:59:40.000Z</published>
-    <updated>2015-05-11T02:06:35.000Z</updated>
+    <updated>2015-05-11T02:11:19.000Z</updated>
     <content type="html"><![CDATA[<p>文章来源：<a href="http://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html" target="_blank" rel="external">http://www.cnblogs.com/A_ming/archive/2010/04/13/1711395.html</a></p>
-<p>　　这两天在看Java编程的书，看到String的时候将之前没</p>
-<p>有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。</p>
-<p>　　关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几点说明一下</p>
+<p>　　这两天在看Java编程的书，看到String的时候将之前没有弄懂的都理清了一遍，本来想将String之间的区别记录下来的，在找资料的时候发现这位网友整理的很不错，值得借鉴。我就在这个上面添一点自己的理解了。原文地址在上面。</p>
+<p>　　关于这三个类在字符串处理中的位置不言而喻，那么他们到底有什么优缺点，到底什么时候该用谁呢？下面我们从以下几点说明一下:</p>
 <p>　　1.三者在执行速度方面的比较：StringBuilder &gt;  StringBuffer  &gt;  String</p>
 <p>　　2.String &lt;（StringBuffer，StringBuilder）的原因</p>
 <p>　　　　String：字符串常量</p>
 <p>　　　　StringBuffer：字符串变量</p>
 <p>　　　　StringBuilder：字符串变量</p>
-<p>　　从上面的名字可以看到，String是“字符串常量”，也就是不可改变的对象。对于这句话的理解你可能会产生这样一个疑问，比如</p>
-<p>这段代码：</p>
+<p>　　从上面的名字可以看到，String是“字符串常量”，也就是不可改变的对象。对于这句话的理解你可能会产生这样一个疑问，比如这段代码：</p>
 <pre><code> 　<span class="type">String</span> s = <span class="string">"abcd"</span>;
   s = s+<span class="number">1</span>;
   <span class="type">System</span>.<span class="keyword">out</span>.print(s);// <span class="literal">result</span> : abcd1
@@ -38,8 +36,8 @@
 <p>　　而StringBuffer与StringBuilder就不一样了，他们是字符串变量，是可改变的对象，每当我们用它们对字符串做操作时，实际上是在一个对象上操作的，这样就不会像String一样创建一些而外的对象进行操作了，当然速度就快了。StringBuffer和String有很多相似之处，但是其内部的实现却有很大的差别，StringBuffer其实是一个分装一个字符数组，同时提供了对这个字符数组的相关操作。StringBuffer（）构造一个字符缓冲区，其初始容量为16个字符。</p>
 <p>　　3.一个特殊的例子：</p>
 <pre><code>String str = “This <span class="keyword">is</span> <span class="keyword">only</span> <span class="keyword">a</span>” + “ simple” + “ test”;
-</code></pre><p>StringBuffer builder = new StringBuilder(“This is only a”).append(“ simple”).append(“ test”);</p>
-<p>　　你会很惊讶的发现，生成str对象的速度简直太快了，而这个时候StringBuffer居然速度上根本一点都不占优势。其实这是JVM的一个把戏，实际上：<br>String str = “This is only a” + “ simple” + “test”;<br>其实就是：<br>String str = “This is only a simple test”;</p>
+StringBuffer builder = <span class="keyword">new</span> StringBuilder(“This <span class="keyword">is</span> <span class="keyword">only</span> <span class="keyword">a</span>”).<span class="built_in">append</span>(“ simple”).<span class="built_in">append</span>(“ test”);
+</code></pre><p>　　你会很惊讶的发现，生成str对象的速度简直太快了，而这个时候StringBuffer居然速度上根本一点都不占优势。其实这是JVM的一个把戏，实际上：<br>String str = “This is only a” + “ simple” + “test”;<br>其实就是：<br>String str = “This is only a simple test”;</p>
 <p>　　所以不需要太多的时间了。但大家这里要注意的是，如果你的字符串是来自另外的String对象的话，速度就没那么快了，譬如：</p>
 <p>　　String str2 = “This is only a”;<br>　　String str3 = “ simple”;<br>　　String str4 = “ test”;<br>　　String str1 = str2 +str3 + str4;</p>
 <p>　这时候JVM会规规矩矩的按照原来的方式去做。</p>
