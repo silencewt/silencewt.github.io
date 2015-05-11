@@ -1,0 +1,592 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>Segmentation Fault错误原因总结 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="最近在项目上遇到了Segmentation Fault的错误，一直调试不出来是哪里出了问题，对于刚接触嵌入式的，也不知道该如何去调试一个项目，定位内存问题，纠结了好几天，好阿红整理下自己的思路。从头开始。
+　　以下内容只为整理来自己使用的，大多来源于网络，感谢大家的分享：
+　　http://www.">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/05/11/Segmentation-Fault错误原因总结/" title="Segmentation Fault错误原因总结" itemprop="url">Segmentation Fault错误原因总结</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-05-11T01:57:10.000Z" itemprop="datePublished">5月 11 2015</time>
+    更新日期:<time datetime="2015-05-11T01:59:04.000Z" itemprop="dateModified">5月 11 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是“Segmentation_fault_in_Linux”"><span class="toc-number">1.</span> <span class="toc-text">一、什么是“Segmentation fault in Linux”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、SIGSEGV产生的可能情况"><span class="toc-number">2.</span> <span class="toc-text">二、SIGSEGV产生的可能情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、调试定位SIGSEGV"><span class="toc-number">3.</span> <span class="toc-text">三、调试定位SIGSEGV</span></a></li></ol>
+		</div>
+		
+		<p>　　最近在项目上遇到了Segmentation Fault的错误，一直调试不出来是哪里出了问题，对于刚接触嵌入式的，也不知道该如何去调试一个项目，定位内存问题，纠结了好几天，好阿红整理下自己的思路。从头开始。</p>
+<p>　　以下内容只为整理来自己使用的，大多来源于网络，感谢大家的分享：</p>
+<p>　　<a href="http://www.cnblogs.com/no7dw/archive/2013/02/20/2918372.html" target="_blank" rel="external">http://www.cnblogs.com/no7dw/archive/2013/02/20/2918372.html</a></p>
+<p>　　<a href="http://blog.chinaunix.net/uid-20780355-id-538814.html" target="_blank" rel="external">http://blog.chinaunix.net/uid-20780355-id-538814.html</a></p>
+<h2 id="一、什么是“Segmentation_fault_in_Linux”">一、什么是“Segmentation fault in Linux”</h2>
+<pre><code>A segmentation fault (often shortened <span class="built_in">to</span> SIGSEGV) is <span class="operator">a</span> particular error condition that can occur during <span class="operator">the</span> operation <span class="operator">of</span> computer software. A segmentation fault occurs when <span class="operator">a</span> program attempts <span class="built_in">to</span> access <span class="operator">a</span> memory location that <span class="keyword">it</span> is <span class="operator">not</span> allowed <span class="built_in">to</span> access, <span class="operator">or</span> attempts <span class="built_in">to</span> access <span class="operator">a</span> memory location <span class="operator">in</span> <span class="operator">a</span> way that is <span class="operator">not</span> allowed (<span class="keyword">for</span> example, attempting <span class="built_in">to</span> <span class="built_in">write</span> <span class="built_in">to</span> <span class="operator">a</span> <span class="built_in">read</span>-only location, <span class="operator">or</span> <span class="built_in">to</span> overwrite part <span class="operator">of</span> <span class="operator">the</span> operating <span class="keyword">system</span>).
+
+Segmentation is <span class="constant">one</span> approach <span class="built_in">to</span> memory management <span class="operator">and</span> protection <span class="operator">in</span> <span class="operator">the</span> operating <span class="keyword">system</span>. It has been superseded <span class="keyword">by</span> paging <span class="keyword">for</span> most purposes, but much <span class="operator">of</span> <span class="operator">the</span> terminology <span class="operator">of</span> segmentation is still used, <span class="string">"segmentation fault"</span> being <span class="operator">an</span> example. Some operating systems still have segmentation <span class="keyword">at</span> some logical level although paging is used <span class="keyword">as</span> <span class="operator">the</span> main memory management policy.
+
+On Unix-like operating systems, <span class="operator">a</span> <span class="built_in">process</span> that accesses <span class="operator">an</span> invalid memory address receives <span class="operator">the</span> SIGSEGV signal. On Microsoft Windows, <span class="operator">a</span> <span class="built_in">process</span> that accesses invalid memory receives <span class="operator">the</span> STATUS_ACCESS_VIOLATION exception.
+</code></pre><p>　　就是：所谓的段错误就是指访问的内存超出了系统所给这个程序的内存空间，通常这个值是由gdtr来保存的，他是一个48位的寄存器，其中的32位是保存由它指向的gdt表，后13位保存相应于gdt的下标，最后3位包括了程序是否在内存中以及程序的在cpu中的运行级别,指向的gdt是由以64位为一个单位的表，在这张表中就保存着程序运行的代码段以及数据段的起始地址以及与此相应的段限和页面交换还有程序运行级别还有内存粒度等等的信息。一旦一个程序发生了越界访问，cpu就会产生相应的异常保护，于是segmentation fault就出现了。</p>
+<p>　　即“当程序试图访问不被允许访问的内存区域（比如，尝试写一块属于操作系统的内存），或以错误的类型访问内存区域（比如，尝试写一块只读内存）。这个描述是准确的。为了加深理解，我们再更加详细的概括一下SIGSEGV。段错误应该就是访问了不可访问的内存，这个内存区要么是不存在的，要么是受到系统保护的。</p>
+<blockquote>
+<p>SIGSEGV是在访问内存时发生的错误，它属于内存管理的范畴</p>
+<p>SIGSEGV是一个用户态的概念，是操作系统在用户态程序错误访问内存时所做出的处理。</p>
+<p>当用户态程序访问（访问表示读、写或执行）不允许访问的内存时，产生SIGSEGV。</p>
+<p>当用户态程序以错误的方式访问允许访问的内存时，产生SIGSEGV。</p>
+</blockquote>
+<p>　　用户态程序地址空间，特指程序可以访问的地址空间范围。如果广义的说，一个进程的地址空间应该包括内核空间部分，只是它不能访问而已</p>
+<h2 id="二、SIGSEGV产生的可能情况">二、SIGSEGV产生的可能情况</h2>
+<p>　　指针越界和SIGSEGV是最常出现的情况，经常看到有帖子把两者混淆，而这两者的关系也确实微妙。在此，我们把指针运算（加减）引起的越界、野指针、空指针都归为指针越界。SIGSEGV在很多时候是由于指针越界引起的，但并不是所有的指针越界都会引发SIGSEGV。一个越界的指针，如果不解引用它，是不会引起SIGSEGV的。而即使解引用了一个越界的指针，也不一定会引起SIGSEGV。这听上去让人发疯，而实际情况确实如此。SIGSEGV涉及到操作系统、C库、编译器、链接器各方面的内容，我们以一些具体的例子来说明。</p>
+<p><strong>（1）错误的访问类型引起</strong></p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span>
+<span class="keyword">int</span> main()
+{
+     <span class="keyword">char</span> *c = <span class="string">"hello world"</span>;
+     c[<span class="number">1</span>] = <span class="string">'H'</span>;
+}
+</code></pre><p>　　上述程序编译没有问题，但是运行时弹出SIGSEGV。此例中，”hello world”作为一个常量字符串，在编译后会被放在.rodata节（GCC），最后链接生成目标程序时.rodata节会被合并到text segment与代码段放在一起，故其所处内存区域是只读的。这就是错误的访问类型引起的SIGSEGV。</p>
+<p><strong>（2）访问了不属于进程地址空间的内存</strong></p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;stdlib.h&gt;</span>
+<span class="keyword">int</span> main()
+{
+    <span class="keyword">int</span>* p = (<span class="keyword">int</span>*)<span class="number">0xC0000fff</span>;
+     *p = <span class="number">10</span>;
+}　
+</code></pre><p>还有另一种可能，往受到系统保护的内存地址写数据，最常见就是给一个指针以0地址：</p>
+<pre><code><span class="keyword">int</span>  i=<span class="number">0</span>;
+<span class="built_in">scanf</span> (<span class="string">"%d"</span>, i);  <span class="comment">/* should have used &amp;i */</span>
+<span class="built_in">printf</span> (<span class="string">"%d\n"</span>, i);
+<span class="keyword">return</span> <span class="number">0</span>;　
+</code></pre><p><strong>（3）访问了不存在的内存</strong></p>
+<p> 最常见的情况不外乎解引用空指针了，如：</p>
+<p>int <em>p = null;
+</em>p = 1;</p>
+<p>在实际情况中，此例中的空指针可能指向用户态地址空间，但其所指向的页面实际不存在。</p>
+<p><strong>（4）内存越界，数组越界，变量类型不一致等</strong></p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="keyword">int</span>  main()
+{
+    <span class="keyword">char</span> test[<span class="number">1</span>];
+    <span class="built_in">printf</span>(<span class="string">"%c"</span>, test[<span class="number">10</span>]);
+    <span class="keyword">return</span> <span class="number">0</span>;
+}　
+</code></pre><p>这就是明显的数组越界了，或者这个地址根本不存在。</p>
+<p><strong>（5）试图把一个整数按照字符串的方式输出</strong></p>
+<pre><code>    <span class="keyword">int</span>  main()
+    {
+        <span class="keyword">int</span> b = <span class="number">10</span>;
+        <span class="keyword">printf</span>(<span class="string">"<span class="variable">%s</span>\n"</span>, b);
+        <span class="keyword">return</span> <span class="number">0</span>;
+    }
+</code></pre><p>这是什么问题呢？由于还不熟悉调试动态链接库，所以我只是找到了printf的源代码的这里。</p>
+<pre><code>声明部分：
+int pos =<span class="number">0</span> ,cnt_printed_chars =<span class="number">0</span> ,i ;
+unsigned char *chptr ;
+va_list ap ;
+%s格式控制部分：
+case <span class="string">'s'</span>:
+    chptr =va_arg (ap ,unsigned char *);
+    i =<span class="number">0</span> ;
+    <span class="keyword">while</span> (chptr [i ])
+    {<span class="keyword">...</span>
+        cnt_printed_chars ++;
+        putchar (chptr [i ++]);
+　　}
+</code></pre><p>　　仔细看看，发现了这样一个问题，在打印字符串的时候，实际上是打印某个地址开始的所有字符，但是当你想把整数当字符串打印的时候，这个整数被当成了一个地址，然后printf从这个地址开始去打印字符，直到某个位置上的值为\0。所以，如果这个整数代表的地址不存在或者不可访问，自然也是访问了不该访问的内存——segmentation fault。<br>　　类似的，还有诸如：sprintf等的格式控制问题，比如，试图把char型或者是int的按照%s输出或存放起来，如：</p>
+<pre><code><span class="preprocessor">#<span class="keyword">include</span> &lt;stdio.h&gt;</span>
+<span class="preprocessor">#<span class="keyword">include</span> &lt;string.h&gt;</span>
+<span class="keyword">char</span> c=<span class="string">'c'</span>;
+<span class="keyword">int</span> i=<span class="number">10</span>;
+<span class="keyword">char</span> buf[<span class="number">100</span>];
+<span class="built_in">printf</span>(<span class="string">"%s"</span>, c);        <span class="comment">//试图把char型按照字符串格式输出，这里</span>
+字符会解释成整数，再解释成地址，所以原因同上面那个例子
+<span class="built_in">printf</span>(<span class="string">"%s"</span>, i);            <span class="comment">//试图把int型按照字符串输出</span>
+<span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">100</span>);
+<span class="built_in">sprintf</span>(buf, <span class="string">"%s"</span>, c);    <span class="comment">//试图把char型按照字符串格式转换</span>
+<span class="built_in">memset</span>(buf, <span class="number">0</span>, <span class="number">100</span>);
+<span class="built_in">sprintf</span>(buf, <span class="string">"%s"</span>, i);   <span class="comment">//试图把int型按照字符串转换</span>
+</code></pre><p><strong>（6）栈溢出了，有时SIGSEGV，有时却啥都没发生</strong></p>
+<p>　　大部分C语言教材都会告诉你，当从一个函数返回后，该函数栈上的内容会被自动“释放”。“释放”给大多数初学者的印象是free()，似乎这块内存不存在了，于是当他访问这块应该不存在的内存时，发现一切都好，便陷入了深深的疑惑。</p>
+<h2 id="三、调试定位SIGSEGV">三、调试定位SIGSEGV</h2>
+<p>　　在用C/C++语言写程序的时侯，内存管理的绝大部分工作都是需要我们来做的。实际上，内存管理是一个比较繁琐的工作，无论你多高明，经验多丰富，难免会在此处犯些小错误，而通常这些错误又是那么的浅显而易于消除。但是手工“除虫”（debug），往往是效率低下且让人厌烦的，使用gdb来快速定位这些”段错误”的语句。其实还有很多其他的方法。对于一些大型一点的程序，如何跟踪并找到程序中的段错误位置就是需要掌握的一门技巧拉。</p>
+<p>　　1）在程序内部的关键部位输出(printf)信息，那样可以跟踪段错误在代码中可能的位置</p>
+<p>　　为了方便使用这种调试方法，可以用条件编译指令#ifdef DEBUG和#endif把printf函数给包含起来，编译的时候加上-DDEBUG参数就可以查看调试信息。反之，不加上该参数进行调试就可以。</p>
+<p>　　2）用gdb来调试，在运行到段错误的地方，会自动停下来并显示出错的行和行号<br>　　这个应该是很常用的，如果需要用gdb调试，记得在编译的时候加上-g参数，用来显示调试信息。gcc应该都有安装的。</p>
+<p>　　首先安装gdb: sudo aot-get install gdb</p>
+<p>下面是对某个小程序的的调试过程截图：</p>
+<p>　　运行gcc的时候加上-g这个参数查看调试信息，</p>
+<p>　　l：(list)显示我们的源代码</p>
+<p>　　b 行号：在相应的行上设置断点，我在第六行设置</p>
+<p>　　r : run 运行程序至断点</p>
+<p>　　p：p(print)打印变量的值</p>
+<p>　　n：n(next)执行下一步 出现错误信息了</p>
+<p>　　c : continue 继续执行</p>
+<p>　　quit ： 退出gdb</p>
+<p><img src="http://7te8s4.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20150508103418.jpg" alt="ｇｃｃ"><br><img src="http://7te8s4.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20150508103445.jpg" alt="ggc"></p>
+<p>防止segmentation fault的出现就要注意：</p>
+<p>　　1、定义了指针后记得初始化，在使用的时候记得判断是否为NULL<br>　　2、在使用数组的时候是否被初始化，数组下标是否越界，数组元素是否存在等<br>　　3、在变量处理的时候变量的格式控制是否合理等</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Linux/">Linux</a><a href="/tags/lab/">lab</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Linux/">Linux</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/05/11/Segmentation-Fault错误原因总结/" data-title="Segmentation Fault错误原因总结 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/05/11/Java异常处理机制/" title="Java异常处理机制">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Java异常处理机制</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/04/29/纪念汪国真-那些曾经伴我度过岁月的诗/"  title="纪念汪国真--那些曾经伴我度过岁月的诗">
+ <strong>NEXT:</strong><br/> 
+ <span>纪念汪国真--那些曾经伴我度过岁月的诗
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、什么是“Segmentation_fault_in_Linux”"><span class="toc-number">1.</span> <span class="toc-text">一、什么是“Segmentation fault in Linux”</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、SIGSEGV产生的可能情况"><span class="toc-number">2.</span> <span class="toc-text">二、SIGSEGV产生的可能情况</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、调试定位SIGSEGV"><span class="toc-number">3.</span> <span class="toc-text">三、调试定位SIGSEGV</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>9</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>24</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+			<li><a href="/tags/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>3</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>
