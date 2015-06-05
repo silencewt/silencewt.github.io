@@ -1,0 +1,618 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>《Google软件测试之道》摘录 | Sissy 婷婷 Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="Wangt">
+    
+    <meta name="description" content="以下是最近看的一本书《Google软件测试之道》里的一些摘录，收获很多。
+1、讨论测试开发比并没有什么意义，如果你是一名开发人员，同时也是一名测试人员，如果你的职位头衔上有测试的字样，你的任务就是使那些头衔上没有测试的人可以更好的去做测试。
+2、只有在软件产品变得重要的时候质量才显得重要。
+3、假如">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml## RSS address." title="Sissy 婷婷 Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+
+    <script type="text/javascript" src="/js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="/js/autocomplete.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    
+    <style type="text/css">
+      .ac_results {
+        padding: 0px;
+        border: 1px solid black;
+        background-color: white;
+        overflow: hidden;
+        z-index: 99999;
+      }
+      .ac_results ul {
+        width: 100%;
+        list-style-position: outside;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .ac_results li {
+        margin: 0px;
+        padding: 2px 5px;
+        cursor: default;
+        display: block;
+        font: menu;
+        font-size: 12px;
+        line-height: 16px;
+        overflow: hidden;
+      }
+      .ac_loading {
+        background: #FFF;
+      }
+      .ac_odd {
+        background-color: #EEE;
+      }
+      .ac_over {
+        background-color: #AAA;
+        color: #FFF;
+      }
+      
+    </style>
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.svg" alt="Sissy 婷婷 Blog" title="Sissy 婷婷 Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Sissy 婷婷 Blog">Sissy 婷婷 Blog</a></h1>
+				<h2 class="blog-motto">既然选择远方，便风雨兼程</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/categories/lab">实验室</a></li>
+					
+						<li><a href="/about">ME</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						
+					</form>
+					
+					</li>
+					
+				</ul>
+			</nav>			
+</div>
+
+
+
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/06/05/《Google软件测试之道》摘录/" title="《Google软件测试之道》摘录" itemprop="url">《Google软件测试之道》摘录</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="http://silencewt.github.io" title="Wangt">Wangt</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2015-06-05T07:50:06.000Z" itemprop="datePublished">6月 5 2015</time>
+    更新日期:<time datetime="2015-06-05T07:52:37.000Z" itemprop="dateModified">6月 5 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+		</div>
+		
+		<p>以下是最近看的一本书《Google软件测试之道》里的一些摘录，收获很多。</p>
+<p>1、讨论测试开发比并没有什么意义，如果你是一名开发人员，同时也是一名测试人员，如果你的职位头衔上有测试的字样，你的任务就是使那些头衔上没有测试的人可以更好的去做测试。</p>
+<p>2、只有在软件产品变得重要的时候质量才显得重要。</p>
+<p>3、假如你被要求去实现一个函数account（void *）返回一个字符串中大写字母A出现的次数。如果候选人上来就直接开始写代码，这无非在传递一个强烈的信息，只有一件事情需要去做而我正在做这个事情，这个事情就是写代码。SET不会遵循这样的世界观，他们会先把问题搞清楚。</p>
+<p>　　这个函数是用来做什么的?我们为什么要构建它？这个函数的原型看起来正确吗？我们期望候选人可以关心函数的正确性以及如何验证期望的行为。一个问题值得更多的关注!候选人如果没头没脑地就跳进来编码，试图解决问题，在对待测试问题上他同样会没头没脑。如果我们提出一个问题是给模块增加测试场景，我们不希望候选人上就直接开始罗列所有可能的测试用例，直到我们强迫他停下来。其实我们只是希望他先执行最佳的测试用例。</p>
+<p>　　SET的时间是有限的。我们希望候选人能够回过头来寻找最有效的解决问题的方法，为先前的函数定义可以做一些改进。优秀的SET在面对拙劣的API定义的情况下，在测试的过程中也可以把这个API定义变得更漂亮些。</p>
+<p><strong>普通的候选人</strong>会花几分钟通过提问题和陈述的方式来理解需求文档，例如以下几点。</p>
+<ul>
+<li><p>传入的字符串编码是什么：ASCII,  UTF-8或其他的编码方式?</p>
+</li>
+<li><p>函数名字比较槽糕，应该是驼峰式(CamelCased)的?需要更多说明描述，还是这里应该遵循其他的什么命名规范?</p>
+</li>
+<li><p>返回值类型是什么(或许面试官忘记了，所以我会增加一个int类型的返回值在函数原型之前)?</p>
+</li>
+<li><p>如果只有一个A的情况，计数结果是多少?它对小写字母a也计数吗?　</p>
+</li>
+<li><p>在标准库中不是已经有这样的函数了吗(为了面试的目的，假装你是第一个实现这个函数功能的人)?</p>
+</li>
+</ul>
+<p><strong>更好的候选人</strong>则会考虑的更多一些。</p>
+<ul>
+<li><p>考虑下扩展性：或许返回值的类型应该是1个64位的整形，因为Google经常涉及海量数据。　</p>
+</li>
+<li><p>考虑下复用性：为什么这个函数是针对大写字母A进行计数的?一个好的办法是参数化，使得任意的字符都可以被计数，而不是使用不同的函数来实现。　</p>
+</li>
+<li><p>考虑下安全性：这此指针都是来自于可信任的地址吗?</p>
+</li>
+</ul>
+<p><strong>最佳的候选人</strong>会这样考虑。</p>
+<ul>
+<li>考虑扩展</li>
+</ul>
+<blockquote>
+<p> 　　这个函数会在Shared data(译注:数据分区，是数据库存储分割(<br> partition)的一种方式。水平分割是一个数据库的设计一准则，数据以记录行的方式存储在不同的物理位置，而不是通过不同列的方式存储。或许这才是调用这个函数最有用的形式。在这个场景需要考虑一些什么问题吗?针对整个互联网的所有文档运行这个函数，该如何考虑性能和正确性?</p>
+<p>　　如果这个子程序被每一个Google查询所调用，而且由于外部的封装层面已经对参数做了验证，传递的指针是安全的，或许减少1个空指针的检查会每天节省上亿次的cpu调用周期，井缩短用户的响应时间。最少要理解全部参数验证所带来的潜在影响。</p>
+</blockquote>
+<ul>
+<li>考虑基于常量的优化</li>
+</ul>
+<blockquote>
+<p>　　我们可以假设输入的数据是已经排好顺序的吗？如果是那样，我们或许可以在找到第个大写字母B之后就快速退出。输入的数据是什么结构?多数情况下都是A吗?多数是字符的混合，还是只包含字毋A和空格？如果那样，在我们比较指令的地方或许可以做些优化。当在处理大数据，甚至小数据的时候，在代码执行的时候对于真实的计算延迟也会有比较显著的亚线性变化。</p>
+</blockquote>
+<ul>
+<li>考虑安全性</li>
+</ul>
+<blockquote>
+<p>　　在许多系统上，如果这是一段对于安全敏感的代码，可以考虑更多的非空的指针做测试，在某些系统上，1是一个非法指针。</p>
+<p>　　增加一个字符长度的参数，用以保证代码不会运行到指定字符串之外的部分。检查字符串长度，这个参数的值是否正常。那些不是以null结尾的字符串是黑客们的最爱。</p>
+<p>　　如果指针指向的数据能被其他的线程修改，这里就有潜在的线程安全问题。</p>
+<p>　　我们是否应该使用try/catch来捕获异常的发生？或者如果未能如预期那样正常的调用代码，我们或许应该返回错误代码给调用者。如果有错误代码的话，这些代码经过良好的定义并有文档吗？这意味着候选人在思考大型代码库和运行时刻的上下文环境方面的问题，这样的思索可以避免错误代码的重复和遗漏。</p>
+</blockquote>
+<p>4、在Google，<strong>如果测试运行失败需要清除的知道测试代码在做什么，否则这个测试就应该被禁止掉，</strong>或者被标记为怪异的测试，或是忽略这个测试的运行失败，这个问题如果发生了，这是编写出坏代码的SWE的责任，或是代码审查时给予通过的投票的SWE或SET的责任。</p>
+<p>5、使用白盒测试知道哪些用例是无效的：</p>
+<p>通常情况下，<strong>普通的候选人</strong>会这样做。</p>
+<ul>
+<li><p>他们会比较有条理地或体系化地提供特定的字符串(如不同的字符串大小)而不是随机的字符串。</p>
+</li>
+<li><p>专注于产生有意义的测试数据。考虑如何去运行大型测试和使用真实环境的数据做测试。</p>
+</li>
+</ul>
+<p><strong>更优秀的候选人</strong>会这样做的更多一些。</p>
+<ul>
+<li><p>在并发线程中调用这个函数，去查看在串扰(cross talk )、死锁和内存泄露方面是否存在问题。　</p>
+</li>
+<li><p>构建长时间持续运行的测试场景。例如在一个while(true)循环中调用函数，并确保他们在不间断地长时间运行过程中保持功能正常。</p>
+</li>
+<li><p>在构建测试用例、测试数据的产生方法、验证和执行上保持浓厚的兴趣。</p>
+</li>
+</ul>
+<p>6、Selenium在浏览器内部使用JavaScript实现，而WebDriver使用浏览器本身的API集成到浏览器内部。两种方法各有优劣。例如，Selenium可以在瞬间打开一个新的Chrome浏览器，但却不能上传文件或者很好地处理用户交互，因为它是JavaScript实现，必须限定在JS沙箱之内。由于WebDriver构建在浏览器里面，它可以突破这些限制，但打开个新的浏览器却比较痛苦。在我们都开始为Google工作的时候，我们决定把这两个集成到一起。</p>
+<p>7、风险分析</p>
+<ul>
+<li><p>哪些事件需要担心</p>
+</li>
+<li><p>这些事件发生的可能性有多大?</p>
+</li>
+<li><p>一旦发生，对公司产生多大影响?</p>
+</li>
+<li><p>一旦发生，对客户产生多大影响?</p>
+</li>
+<li><p>产品具备什么缓解措施?</p>
+</li>
+<li><p>这些缓解措施有多大可能会失败?</p>
+</li>
+<li><p>处理这些失败的成本有哪些？</p>
+</li>
+<li><p>恢复过程有多困难?</p>
+</li>
+<li><p>事件是一次性问题，还是会再次发生?</p>
+</li>
+</ul>
+<p>8、对于一个web测试页面，一个文本输入框，一个计数按钮，用于计算一个字符串中大写字母A出现的个数。请设计出一系列字符串来测试这个web页面。</p>
+<p>　　一些候选人头扎进去开始罗列测试用例，这往往是一个危险的信号，说明他们还没有充分思考这个问题。根据我们的经验，追求数量而非质量的倾向，是一种低效的工作方式，因此会给负面评价。通过观察候选人在找到答案之前思考和解决问题的方式，能了解他们很多东西。</p>
+<p>　　更好的是那些会提出一些问题，<strong>来做进一步澄清的候选人</strong>：大写还是小写？只是英语吗？计算完成后文本会被清除吗？多次按下按钮会发生什么事情？诸如此类。在问题被澄清之后，候选人开始列举测试用例。重点观察他们是否使用一些疯狂的做法。他们只是在试图破坏软件，还是同时在验证它能正常工作？他们知道这两者的区别吗？他们是否能从最显而易见的简单的输入开始，尽快地发现大bug?他们能清晰地列出测试计划或数据吗?在白板上随机摆放字符串不能反映出思路的清晰性，他们很可能毫无测试计划，或者只有很粗糙很随意的测试计划。</p>
+<p>一个典型的列表如下：<br><img src="http://7te8s4.com1.z0.glb.clouddn.com/QQ%E6%88%AA%E5%9B%BE20150601170520.jpg" alt="liebiao"></p>
+<p>无论丢失上述测试和总结哪几个都是一个不好的征兆。</p>
+<p><strong>更好的候选人会</strong>超越输入选择，讨论更加高级的测试问题。他们可能会做以下的事情。</p>
+<ul>
+<li>质疑界面的外观、调色板和对比度。如“这些与相关应用风格一致吗?”，“视力困难的人能使用么？“等</li>
+<li>担心文本框太小了，建议加长以便显示更长的输入字符串。</li>
+<li>考虑这个应用能否在同一台服务器运行多个实例。会发生多个用户的串扰吗？</li>
+<li>提出疑问“数据会被记录吗”，输入串可能包含地址或其他身份信息。</li>
+<li>建议使用真实数据进行自动化测试，如从词典或书本里选择。</li>
+<li>提出疑问，“计算足够快吗?在大负载下呢?”</li>
+<li>提出疑问，“该页是可发现的吗？用户怎么能找到该页面呢？”</li>
+<li>输入HTML和JavaScript，看是否会破坏页面渲染。</li>
+<li>询问是对大写还是小写的A计数，还是都包括。</li>
+<li>尝试复制和粘贴字符串。</li>
+</ul>
+<p>还有一些想法更加高级，反映了富有经验的、宝贵的测试思维，能够比问题走的更远。他们可能会这样做。</p>
+<ul>
+<li>意识到计算会通过URL-encoded HTTP GET请求传递到服务器，字符串可能会在穿越网络时被截断。因此，无法保证支持多长的URL</li>
+<li>建议将此应用参数化。为何只对字母A一计数呢?</li>
+<li>考虑计算其他语台中的A(如埃A或变音符号)。</li>
+<li>考虑该应用是否可以被国际化。</li>
+<li>考虑编写脚本或者手工采样来探知字符串长度的上限(例如，通过2的指数递进算法)，然后确保在此区间内功能正常。</li>
+<li>考虑背后的实现和代码。也许有一个计数器遍历该字符串，另外一个跟踪已经遇到了多少个A累加器)。因此，可以在边界值附近变化A的个数和字符串的长度来进行测试。</li>
+<li>提出疑问，”HTTP POST方法和参数会被黑掉吗?也许有安全漏洞?”</li>
+<li>用脚本创建各种有趣的排列组合和字符串特性如长度、A的个数等的组合，自动生成测试输入和验证。</li>
+</ul>
+<p>　　</p>
+<p>了解候选人使用多长的字符串做为测试用例，这通常能暗示他们工作时的表现。如果候选人只是一般性的知道使用“长字符串”(最常见的答案)，但却无法就特定场景进行技术性的分析，这是一种糟糕的迹象。更懂技术的候选人，会询问字符串的规格说明，进而围绕极限点进行边界值测试。例如，当极限点是1000的时候，他们会尝试999. 1000和10010最好的候选人还会尝试2^32，以及许多其他有趣的值，例如2和10的次方。重点在于候选人表现出对真正重要的数字值的理解，而不只是使用随机数值——他们需要对底层的算法、语言、运行时和硬件都有所了解，因为这些正是错误最经常出现的地方。他们还应当基于可能的实现细节尝试不同的长度，并考虑到计数器、指针及抓环的边界错误。最优秀的候选人还会意识到系统可能是有状态的，测试必须将先前的输入考虑在内。因此，多次输入同一字符串，或者在长度为1000的字符串之后输入一个长度为0的，这些就属于重要的使用情形。</p>
+<p>　　在Google，鉴于快节奏的发布周期，规格说明经常变来变去，可以有不同的理解和修改。如果候选人能指出“5个字符的最大长度”这种描述是有点奇怪的，有可能会使用户感到疑惑，这正反映了他们能从用户角度思考。如果候选人不假思索地接受了这个描述并匆忙动手，那他们在实际工作中也很有可能如此，结果是自费力气验证了错误的行为。那些能反驳或者质疑规格说明的候选人，往往在工作中有优异的表现。当然，也要注意反驳或者质疑的方式。</p>
+<p>9、加入一个新项目的头几个星期，<strong>我主要用来倾听而不是发表意见，深入理解团队非常重要，要学习产品的架构，了解团队的最新动态。</strong>我不能接受一位医生在观察我不到五分钟的时间就给我开乓抗生素类的药诗之:。同样地，我也不期望个测试团队可以接受，我一开始就提出的什么解决方案。在进行诊断之前你必须先要学习。</p>
+<p>　　我感觉人们有时候做事只是因为看到别人这么做，或者他们测试某个特性的时候只是做那些他们知道怎么做的东西。如果你不问他们为什么，他们自己也不会费心思考这事儿，因为他们已经把那些作为了一种习惯。</p>
+<p>10、我们做的每件事都有明确的目的。我们质疑所有的事情：测试用例、每项自动化测试。其实我们正在做的很多事情就通不过这种审视。如果自动化不能带来明确的价值，我们就废弃它。所有的事情都是价值驱动的，这才能成就团队。如果要我给新晋测试经理什么建议，我会告诉他们：你们做的每一件事都要创造价值，能够持续地创造价值。</p>
+<p> 11、<strong>我的测试人员个个都是通才</strong>。具体来说，每个人都能做手工测试，真的是每个人都能。探索式测试足深入学习理解一个产品的最佳途径。我永远不会让  一个测试开发工程师成为一个框架开发者。我希望他们深入产品并了解如何使用它。每个测试人员都必须强调用户。他们必须是专家级的用户，通晓整个产品的每个细节。在我的团队，我们把如稳定性测试、电源管理、性能测试、压力测试和第三方应用程序的快速检查都留给自动化测试完成。举个例子，没有人能够手动发现相机的内存泄露或在各个平台下验证一个单一特性的功能——这丝都需要自动化。大量重复性的工作不适合手工测试，或者一些需要机器才能达到的高精度测试就必须通过自动化测试来完成。</p>
+<p>12、<strong>Google的测试流程可以非常简练地概括为：让每个工程师都注重质量。</strong>只要大家诚实认真地这么做，质量就会提高。代码质量从一开始就能更好，早期构建版本的质量会更高，集成也不再是必须的，系统测试可以关注于真正面向用户的问题。所有的工程师和项目都能从堆积如山的bug中解脱出来。</p>
+<p>13、<strong>Google在测试方面的秘方：</strong>（James）那就是测试人员所拥有的技术能力(包括计算机科学的专业文凭)、测试资源的稀缺从而获得开发人员帮助和不断进行测试优化、优先考虑自动化(这样才能让人去做那些计算机做不好的事情)，以及快速迭代、集成和获得用户反馈的能力。其他公司要想效仿Google的做法，<strong>应该从这四个方面做起：技能、稀缺性、自动化和迭代集成。这就是Google测试的“秘方”，照方抓药吧！</strong></p>
+<p>14、任何角色都不应被过分强调。团队的每个人都是在为产品工作，而不是为了开发过程中的某个部分。开发过程本身就是为产品服务的。除了做出更好的产品，流程的存在还有其他的目的吗？用户爱上的是产品，而不是开发产品流程。</p>
+<p>15、<strong>测试的价值是在于测试的动作，而不是测试产物。</strong></p>
+<p>　　相对于被测代码来说，测试工程师生成的测试产物都是次要的：测试用例是次要的：测试计划是次要的：bug报告是次要的。这些产物都需要通过测试活动才能体现价值。不幸的是，我们过分称赞这此产物(比如在年度评估时，统计测试上程师提交的bug数量) ,而忘记了被测的软件。所有测试产物的价值，在于它们对代码的影响，进而通过产品来体现。</p>
+<p>　　独立的测试团队，倾向于把重点放在建设和维护测试产物上。如果把测试的目标定位在产品的源码上，整个产品都将受益。因此，测试人员必须把产品放在第一位。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/读书笔记/">读书笔记</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/读书笔记/">读书笔记</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="http://silencewt.github.io/2015/06/05/《Google软件测试之道》摘录/" data-title="《Google软件测试之道》摘录 | Sissy 婷婷 Blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2015/06/05/5月日志汇总/" title="5月日志汇总">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  5月日志汇总</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/05/11/【转载】String、StringBuffer与StringBuilder之间区别/"  title="【转载】String、StringBuffer与StringBuilder之间区别">
+ <strong>NEXT:</strong><br/> 
+ <span>【转载】String、StringBuffer与StringBuilder之间区别
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/Design-pattern/" title="Design pattern">Design pattern<sup>4</sup></a></li>
+		
+			<li><a href="/tags/JUnit/" title="JUnit">JUnit<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Java/" title="Java">Java<sup>9</sup></a></li>
+		
+			<li><a href="/tags/LPR/" title="LPR">LPR<sup>9</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>5</sup></a></li>
+		
+			<li><a href="/tags/lab/" title="lab">lab<sup>24</sup></a></li>
+		
+			<li><a href="/tags/maven/" title="maven">maven<sup>5</sup></a></li>
+		
+			<li><a href="/tags/opencv/" title="opencv">opencv<sup>1</sup></a></li>
+		
+			<li><a href="/tags/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/tags/selenium/" title="selenium">selenium<sup>2</sup></a></li>
+		
+			<li><a href="/tags/testNG/" title="testNG">testNG<sup>1</sup></a></li>
+		
+			<li><a href="/tags/图像融合/" title="图像融合">图像融合<sup>7</sup></a></li>
+		
+			<li><a href="/tags/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/tags/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/tags/总结/" title="总结">总结<sup>1</sup></a></li>
+		
+			<li><a href="/tags/日志汇总/" title="日志汇总">日志汇总<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试/" title="测试">测试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/测试杂感/" title="测试杂感">测试杂感<sup>1</sup></a></li>
+		
+			<li><a href="/tags/测试用例/" title="测试用例">测试用例<sup>2</sup></a></li>
+		
+			<li><a href="/tags/瑜伽/" title="瑜伽">瑜伽<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>5</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/categories/lab/" title="lab">lab<sup>22</sup></a></li>
+		
+			<li><a href="/categories/python/" title="python">python<sup>6</sup></a></li>
+		
+			<li><a href="/categories/心路历程/" title="心路历程">心路历程<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/性能测试/" title="性能测试">性能测试<sup>4</sup></a></li>
+		
+			<li><a href="/categories/日志汇总/" title="日志汇总">日志汇总<sup>1</sup></a></li>
+		
+			<li><a href="/categories/测试/" title="测试">测试<sup>1</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/笔记/" title="笔记">笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>5</sup></a></li>
+		
+			<li><a href="/categories/读书笔记/" title="读书笔记">读书笔记<sup>4</sup></a></li>
+		
+			<li><a href="/categories/软件测试/" title="软件测试">软件测试<sup>15</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+  <div class="archiveslist">
+    <p class="asidetitle"><a href="/archives">归档</a></p>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">January 2015</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/12/">December 2014</a><span class="archive-list-count">38</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/09/">September 2014</a><span class="archive-list-count">2</span></li></ul>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://github.com/silencewt" target="_blank" title="silence"> Github </a></li>
+      <li><a href="http://hexo.io" target="_blank" title="Hexo">Hexo</a></li>
+      <li><a href="http://www.tuicool.com/" target="_blank" title="tuicool"> tuicool </a></li>
+      <li><a href="http://www.cnblogs.com/silence-hust/" target="_blank" title="cnblog"> cnblog </a></li>
+      <li><a href="http://www.taobaotest.com/" target="_blank" title="taobaotest"> 淘测试 </a></li>
+      <li><a href="http://qa.baidu.com/index.php" target="_blank" title="baiduqa"> 百度QA </a></li>
+      <li><a href="http://www.51testing.com/html/index.html" target="_blank" title="51testing"> 51testing </a></li>
+      <li><a href="http://www.cnblogs.com/fnng/" target="_blank" title="51testing">虫师 </a></li>
+      <li><a href="http://www.hustonline.net/" target="_blank" title="hustonline">华中大在线</a></li>
+      
+    </ul>
+</div>
+
+
+  <div class="rsspart">
+	<a href="/atom.xml## RSS address." target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello,  I am a master at hust. <br/>
+			This is my blog,  believe you will love it.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		<a href="https://github.com/https://github.com/silencewt" target="_blank" title="github"></a>
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2015 
+		
+		<a href="http://silencewt.github.io" target="_blank" title="Wangt">Wangt</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"silencewt"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+<div id="totop" style="position:fixed;bottom:150px;right:50px;cursor: pointer;">
+<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+</div>
+
+<script src="/js/totop.js"></script>
+  </body>
+</html>
